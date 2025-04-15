@@ -76,6 +76,51 @@ const DeleteMerchandise = () => {
             setSelectedItems((prev) => prev.filter((selected) => selected.codigoProducto !== item.codigoProducto));
         }
     };
+    // Elimina el producto seleccionado
+    const handleDeleteItems = async () => {
+        if (selectedItems.length === 0) {
+            alert('Por favor, selecciona al menos un registro para eliminar.');
+            return;
+        }
+
+        try {
+            const idProducto = selectedItems[0].idProducto;
+            const confirm = window.confirm('¿Estás seguro que deseas eliminar el producto seleccionado?');
+            if (!confirm) return;
+
+            await axios.delete(`http://localhost:8080/api/productos/${idProducto}`);
+
+            closeDeleteConfirmationModal(); // Cierra el modal de confirmación
+
+            // Limpiar estados filtros e inputs
+            setSelectedItems([]);
+            setFilters({ codigo: '' });
+            setDisabledInputs({
+                categoria: '',
+                nombre: '',
+                existencias: '',
+                valorUnitario: '',
+                valorTotal: '',
+                proveedor: '',
+                nitProveedor: '',
+            });
+
+            // Limpiar la lista de productos y el estado de búsqueda
+            setData([]);
+            setIsSearching(false);
+
+            fetchProducts();
+
+            // Mostrar mensaje de éxito después de un breve retraso
+            setTimeout(() => {
+                alert('Producto eliminado exitosamente');
+            }, 150);
+
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error);
+            alert('Hubo un error al intentar eliminar el producto.');
+        }
+    };
 
     return (
         <div>
