@@ -51,5 +51,16 @@ const Header = ({ title, subtitle, showLogo = true, showHelp = true }) => {
     </header>
   );
 };
+Header.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    showLogo: PropTypes.bool,
+    showHelp: PropTypes.bool,
+  };
+  
+  Header.defaultProps = {
+    showLogo: true,
+    showHelp: true,
+  };
 
 export default Header;
