@@ -38,4 +38,7 @@ const MerchandiseQuery = () => {
 
      // Estado para controlar apertura/cierre del modal de búsqueda avanzada
     const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+
+    // Estado que indica si el usuario ha iniciado una búsqueda
+    onst [isSearching, setIsSearching] = useState(false);
 }
