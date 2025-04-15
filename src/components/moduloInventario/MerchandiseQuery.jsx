@@ -17,4 +17,7 @@ const MerchandiseQuery = () => {
 
     // Estado para controlar la pestaña activa
     const [activeTab, setActiveTab] = useState('consulta');
+
+    // Estado que contiene los datos obtenidos desde el backend
+    const [data, setData] = useState([]);
 }
