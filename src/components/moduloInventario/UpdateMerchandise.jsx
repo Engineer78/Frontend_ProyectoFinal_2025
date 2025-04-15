@@ -272,4 +272,215 @@ const UpdateMerchandise = () => {
     useEffect(() => {
         setActiveTab('actualizar');
     }, []);
-}  
+
+     // Componente para actualizar productos del inventario.
+    // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
+    // carga de imagen, y botones para guardar, limpiar o salir.
+    return (
+        <>
+            <Header
+                title="Módulo registro de inventario"
+                subtitle="Hardware Store Inventory FFIG"
+                showLogo={true}
+                showHelp={true}
+            />
+
+            <div className={styles.tabs}>
+                <Link
+                    to="/inventory-registration"
+                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("registro")}
+                >
+                    Registro de Producto
+                </Link>
+
+                <Link
+                    to="/merchandise-query"
+                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("consulta")}
+                >
+                    Consulta de Producto
+                </Link>
+
+                <Link
+                    to="/update-merchandise"
+                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("actualizar")}
+                >
+                    Actualizar Producto
+                </Link>
+
+                <Link
+                    to="/delete-merchandise"
+                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("eliminar")}
+                >
+                    Eliminar Producto
+                </Link>
+            </div>
+
+            {activeTab === "actualizar" && (
+                <div className={styles.container}>
+                    <h2 className={styles.title}>
+                        Ingrese el Código del Producto para buscar y actualizar el registro
+                    </h2>
+
+                    <div className={styles.formContainer}>
+                        <form className={styles.formLeft}>
+                            <label className={styles.inputLabel}>Código del Producto:</label>
+                            <input
+                                type="text"
+                                placeholder="Código del producto (Obligatorio)"
+                                value={productCode}
+                                onChange={(e) => setProductCode(e.target.value)}
+                                required
+                                className={styles.input}
+                                disabled={isCodeDisabled} // Deshabilita el input si se busca un producto
+                            />
+
+                            <button
+                                type="button"
+                                onClick={handleSearch}
+                                className={styles.searchButton}
+                            >
+                                Buscar <SearchIcon style={{ marginLeft: 5 }} />
+                            </button>
+
+                            <label className={styles.inputLabel}>Nombre del Proveedor:</label>
+                            <select
+                                value={supplierId}
+                                onChange={(e) => setSupplierId(Number(e.target.value))} //Con esto se asegura que el valor sea un númer
+                                className={styles.input}
+                                style={{ fontStyle: 'italic' }}
+                            >
+                                <option value="">Seleccione un proveedor</option>
+                                {suppliers.map((proveedor) => (
+                                <option key={proveedor.idProveedor} value={proveedor.idProveedor}>
+                                    {proveedor.nombreProveedor}
+                                </option>
+                                ))}
+                            </select>
+
+                            <label className={styles.inputLabel}>NIT:</label>
+                            <input
+                                type="text"
+                                placeholder="NIT"
+                                value={supplierNIT}
+                                onChange={(e) => setSupplierNIT(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Teléfono:</label>
+                            <input
+                                type="text"
+                                placeholder="Teléfono"
+                                value={supplierPhone}
+                                onChange={(e) => setSupplierPhone(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Dirección:</label>
+                            <input
+                                type="text"
+                                placeholder="Dirección"
+                                value={supplierAddress}
+                                onChange={(e) => setSupplierAddress(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Categoría:</label>
+                            <select
+                                className={styles.input}
+                                value={selectedCategoryId}
+                                onChange={(e) => setSelectedCategoryId(number(e.target.value))}
+                                style={{ fontStyle: 'italic' }}
+                            >
+                                <option value="">Seleccione una categoría</option>
+                                {categories.map((cat) => (
+                                <option key={cat.idCategoria} value={cat.idCategoria}>
+                                    {cat.nombreCategoria}
+                                </option>
+                                ))}
+                            </select>
+
+                            <label className={styles.inputLabel}>Nombre del Producto:</label>
+                            <input
+                                type="text"
+                                placeholder="Nombre del Producto"
+                                value={productName}
+                                onChange={(e) => setProductName(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Cantidad:</label>
+                            <input
+                                type="number"
+                                placeholder="Cantidad"
+                                value={productQuantity}
+                                onChange={(e) => setProductQuantity(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Valor Unitario:</label>
+                            <input
+                                type="number"
+                                placeholder="Valor Unitario"
+                                value={unitValue}
+                                onChange={(e) => setUnitValue(e.target.value)}
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Valor Total:</label>
+                            <input
+                                type="text"
+                                value={totalValue}
+                                className={styles.input}
+                                disabled
+                            />
+                        </form>
+
+                        <form className={styles.formRight}>
+                            <label id="productImageLabel" className={styles.imageLabel}>
+                                Imagen del Producto
+                            </label>
+                            <div className={styles.imageWrapper}>
+                                {getImageSource() && (
+                                    <img
+                                        src={getImageSource()}
+                                        alt="Vista previa"
+                                        className={styles.image}
+                                    />
+                                )}
+                                <input
+                                    type="file"
+                                    onChange={(e) => setProductImage(e.target.files[0])}
+                                    className={styles.fileInput}
+                                    id="fileInput"
+                                />
+                                <label htmlFor="fileInput" className={styles.customFileInput}>
+                                    Cargar Imagen <UploadFileIcon style={{ marginLeft: 5 }} />
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div className={styles.actionButtons}>
+                        <button className={styles.saveButton} onClick={handleSave}>
+                            Guardar <SaveIcon />
+                        </button>
+                        <button className={styles.clearButton} onClick={handleClear}>
+                            Limpiar <CleaningServicesIcon />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => (window.location.href = "/menu-principal")}
+                            className={styles.exitButton} >
+                            Salir <ExitToAppIcon /> </button>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
+    export default UpdateMerchandise;
