@@ -17,6 +17,21 @@ const InventoryRegistration = () => {
         baseURL: 'http://localhost:8080/api'
       });
 
+    // Se definen los estados para los campos del formulario
+      const [supplierName, setSupplierName] = useState("");
+      const [supplierNIT, setSupplierNIT] = useState("");
+      const [supplierPhone, setSupplierPhone] = useState("");
+      const [supplierAddress, setSupplierAddress] = useState("");
+      const [productCategory, setProductCategory] = useState("");
+      const [productCode, setProductCode] = useState("");
+      const [productName, setProductName] = useState("");
+      const [productQuantity, setProductQuantity] = useState("");
+      const [unitValue, setUnitValue] = useState("");
+      const [totalValue, setTotalValue] = useState("");
+      const [productImage, setProductImage] = useState(null);
+      const [activeTab, setActiveTab] = useState("registro");
+    
+
 
 
   return (
