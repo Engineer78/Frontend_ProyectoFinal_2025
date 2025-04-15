@@ -22,7 +22,34 @@ const Header = ({ title, subtitle, showLogo = true, showHelp = true }) => {
     showLogo,
     showHelp,
   }); // Para verificar las props
-  return <header></header>;
+  return (
+    <header className={styles.header}>
+      {showLogo && (
+        <div className={styles["header-left"]}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </div>
+      )}
+      <div className={styles["header-center"]}>
+        <h1>{title}</h1>
+        {subtitle && <h2>{subtitle}</h2>}
+      </div>
+      {showHelp && (
+        <div className={styles["header-right"]}>
+          <div className={styles.dropdown}>
+            <button className={styles["help-button"]} onClick={toggleMenu}>
+              Ayuda
+            </button>
+            {isMenuOpen && (
+              <ul className={styles["dropdown-menu"]}>
+                <li><a href="#faq">Acerca de</a></li>
+                <li><a href="#contact">Manual de usuario</a></li>
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default Header;
