@@ -41,4 +41,7 @@ const MerchandiseQuery = () => {
 
     // Estado que indica si el usuario ha iniciado una búsqueda
     onst [isSearching, setIsSearching] = useState(false);
+
+    // Estado para almacenar el producto seleccionado (cuando hay solo un resultado)
+    const [selectedProduct, setSelectedProduct] = useState(null);
 }
