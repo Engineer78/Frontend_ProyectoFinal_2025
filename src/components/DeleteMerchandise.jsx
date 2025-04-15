@@ -36,6 +36,18 @@ const DeleteMerchandise = () => {
 
     const [visibleItems, setVisibleItems] = useState(10); // Control paginado de productos
     const [isLoadingMore, setIsLoadingMore] = useState(false); // Indicador de carga
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
+    const openDeleteConfirmationModal = () => {
+        setIsDeleteConfirmationOpen(true);
+    };
+
+    const closeDeleteConfirmationModal = () => {
+        setIsDeleteConfirmationOpen(false);
+    };
     
     return (
         <div>
