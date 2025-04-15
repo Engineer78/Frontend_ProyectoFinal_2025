@@ -128,6 +128,9 @@ const DeleteMerchandise = () => {
             setIsLoadingMore(false);
         }
     };
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     return (
         <div>
