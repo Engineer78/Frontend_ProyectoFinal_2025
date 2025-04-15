@@ -47,4 +47,22 @@ const UpdateMerchandise = () => {
             setTotalValue(total.toFixed(2));
         }
     }, [productQuantity, unitValue]);
+
+     // Función para obtener la fuente de la imagen
+    // Esta función se encarga de determinar la fuente de la imagen a mostrar
+    const getImageSource = () => {
+        if (productImage) {
+            return URL.createObjectURL(productImage);
+        }
+
+        if (
+            productImageUrl &&
+            productImageUrl.startsWith("data:image/") &&
+            productImageUrl.includes("base64")
+        ) {
+            return productImageUrl;
+        }
+
+        return "src/assets/placeholder-image.png";
+    };
 }  
