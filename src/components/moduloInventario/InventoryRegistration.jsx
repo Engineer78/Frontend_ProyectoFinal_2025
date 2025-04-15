@@ -46,6 +46,21 @@ const InventoryRegistration = () => {
         }
     }, [productQuantity, unitValue]);
 
+    // Se define una función para validar los campos vacios del formulario.
+    const validateFields = () => {
+        return (
+            supplierName &&
+            supplierNIT &&
+            supplierPhone &&
+            supplierAddress &&
+            productCategory &&
+            productCode &&
+            productName &&
+            productQuantity &&
+            unitValue
+        );
+    };
+
 
     return (
         <div>InventoryRegistration</div>
