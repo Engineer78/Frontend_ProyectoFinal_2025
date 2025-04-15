@@ -1,0 +1,124 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+  }
+  
+  /* Centrar el formulario */
+  .form-wrapper {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    height: calc(100vh - 250px); /* Resta la altura del header */
+    justify-content: center;
+  }
+  
+  .login-form {
+    background: none;
+    font-size: 1.5rem;
+    max-width: 400px;
+    padding: 2rem;
+    width: 90%;
+    text-align: left;
+  }
+  
+  .login-form h2,
+  .login-form p {
+    margin-bottom: 0.2rem;
+  }
+  
+  .login-form p {
+    color: #565557;
+    font-size: 1.2rem;
+  }
+  
+  /* Ajuste de los labels sobre los inputs */
+  .login-form label {
+    /* background-color: #e9f1f4; Color de fondo del label */
+    border-radius: 4px;
+    display: inline-block;
+    filter: alpha(opacity=70);
+    font-size: 0.9rem;
+    font-weight: bold;
+    /* left: 5px; */
+    line-height: 1.1;
+    margin-bottom: 5px;
+    opacity: 0.7;
+    padding: 0 5px;
+    position: relative;
+    top: 19px; /* Ajusta la posición vertical del label */
+    z-index: 2;
+  }
+  
+  /* Input con padding y posicionamiento */
+  input {
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    height: 38px;
+    margin-top: 1rem; /* Añade espacio entre inputs */
+    padding: 0.5rem;
+    position: relative;
+    width: 100%;
+  }
+  
+  /* Ajuste para contenedor de contraseña */
+  .password-container {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .password-container input {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    padding-right: 2rem; /* Deja espacio para el icono */
+    width: 100%;
+  }
+  
+  /* Estilos para el icono del ojo */
+  .toggle-password {
+    color: #959596;
+    cursor: pointer;
+    font-size: 0.8rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 68%; /* Obliga a cebtrar el ícono verticalmente */
+    transform: translateY(-50%); /* Centra el ícono verticalmente */
+  }
+  
+  /* Estilo para el icono dentro del botón */
+  .submit-button .material-icons {
+    font-size: 1.2rem; /* Tamaño del icono */
+    margin-left: 0.5rem; /* Espacio entre el texto y el icono */
+  }
+  
+  .submit-button {
+    align-items: center;
+    background-color: #333233;
+    border: none;
+    border-radius: 7px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: #565557;
+  }
+  
+  .forgot-password {
+    color: #000000;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-decoration: none;
+  }
+  
+  .forgot-password span {
+    color: blue;
+    text-decoration: underline;
+  }
