@@ -44,4 +44,15 @@ const MerchandiseQuery = () => {
 
     // Estado para almacenar el producto seleccionado (cuando hay solo un resultado)
     const [selectedProduct, setSelectedProduct] = useState(null);
+
+    // Estado para mostrar los datos del producto seleccionado en los inputs deshabilitados
+    const [headerInputs, setHeaderInputs] = useState({
+        nombreCategoria: '',
+        nombreProducto: '',
+        cantidad: '',
+        valorUnitarioProducto: '',
+        valorTotalProducto: '',
+        nombreProveedor: '',
+        nitProveedor: '',
+    });
 }
