@@ -35,4 +35,7 @@ const MerchandiseQuery = () => {
 
     // Estado para controlar la imagen mostrada en modal
     const [modalImage, setModalImage] = useState(null);
+
+     // Estado para controlar apertura/cierre del modal de búsqueda avanzada
+    const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
 }
