@@ -64,6 +64,7 @@ const UpdateMerchandise = () => {
         }
 
         return "src/assets/placeholder-image.png";
+    };
 
     // Carga la lista de proveedores al montar el componentee
     useEffect(() => {
@@ -71,7 +72,6 @@ const UpdateMerchandise = () => {
             .then(res => setSuppliers(res.data))  // ✅ Asegúrate que sea setSuppliers
             .catch(err => console.error("Error cargando proveedores", err));
     }, []);
-    };
 
     // Cargar categorías al iniciar el componente
     useEffect(() => {
@@ -140,6 +140,83 @@ const UpdateMerchandise = () => {
             alert("Hubo un error al buscar el producto. Por favor, inténtelo de nuevo.");
             setOriginalProductIndex(-1);
             handleClear();
+        }
+    };
+
+    // Tareas clave relacionadas con la actualización de un producto en el sistema
+    const handleSave = async () => {
+        if (!validateFields()) {
+            alert("Por favor, complete todos los campos obligatorios.");
+            return;
+        }
+    
+        if (originalProductIndex === -1) {
+            alert("No se encontró el producto para actualizar. Realice una búsqueda primero.");
+            return;
+        }
+    
+        try {
+            // Procesar la imagen si se ha cargado una nueva imagen
+            let productImageBase64 = productImageUrl; // Inicializar con el valor actual de la URL
+            if (productImage) { // Solo procesar si hay una nueva imagen
+                productImageBase64 = await procesarImagen(productImage);
+                console.log("Imagen procesada en Base64:", productImageBase64);
+            }
+    
+            const categoriaSeleccionada = categories.find(cat => cat.idCategoria === parseInt(selectedCategoryId));
+            const nombreCategoria = categoriaSeleccionada ? categoriaSeleccionada.nombreCategoria : "";
+        
+            // Construir el objeto con los datos actualizados del producto
+            const updatedProduct = {
+                idProducto: originalProductIndex,
+                codigoProducto: parseInt(productCode),
+                nombreProducto: productName,
+                cantidad: parseInt(productQuantity),
+                valorUnitarioProducto: parseFloat(unitValue),
+                imagen: productImageBase64,
+                nombreCategoria: nombreCategoria,
+                idProveedor: supplierId, // ya es número, no necesitas parseInt
+                nitProveedor: supplierNIT,
+                direccionProveedor: supplierAddress,
+                telefonoProveedor: supplierPhone
+            };
+        
+            console.log("Datos a enviar:", updatedProduct);
+        
+            // Hacer la llamada a la API para actualizar el producto
+            const response = await api.put(`/productos/${originalProductIndex}`, updatedProduct);
+        
+            if (response.status === 200) {
+                alert("Producto actualizado exitosamente.");
+        
+            // Actualizar la interfaz con los datos nuevos que retorna el backend
+                const updated = response.data;
+                setSupplierName(updated.nombreProveedor || "");
+                setSupplierNIT(updated.nitProveedor || "");
+                setSupplierPhone(updated.telefonoProveedor || "");
+                setSupplierAddress(updated.direccionProveedor || "");
+                setProductCategory(updated.nombreCategoria || "");
+                setProductName(updated.nombreProducto || "");
+                setProductQuantity(updated.cantidad || "");
+                setUnitValue(updated.valorUnitarioProducto || "");
+                setTotalValue((updated.cantidad * updated.valorUnitarioProducto).toFixed(2));
+                setProductImageUrl(updated.imagen || "");
+        
+                // Limpiar solo el estado de imagen si se desea
+                setProductImage(null);
+        
+                handleClear(); // Limpiar los campos del formulario
+            }
+            else {
+                alert("Hubo un error al actualizar el producto. Por favor, inténtelo de nuevo.");
+            }
+        
+        } catch (error) {
+            console.error("Error al actualizar el producto:", error);
+            if (error.response) {
+                console.log("Respuesta del servidor:", error.response.data);
+            }
+            alert("Hubo un error al actualizar el producto. Por favor, inténtelo de nuevo.");
         }
     };
 }  
