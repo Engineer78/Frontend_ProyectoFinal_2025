@@ -208,12 +208,207 @@ const InventoryRegistration = () => {
     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
     useEffect(() => {
         setActiveTab("registro");
-      }, []);
+    }, []);
 
-
+    // Se renderiza el componente
     return (
-        <div>InventoryRegistration</div>
-    )
-}
+        <>
+            <Header
+                title="Módulo registro de inventario"
+                subtitle="Hardware Store Inventory FFIG"
+                showLogo={true}
+                showHelp={true}
+            />
 
-export default InventoryRegistration
+            {/* Pestañas debajo del header */}
+            <div className={styles.tabs}>
+                <Link
+                    to="/inventory-registration"
+                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("registro")}
+                >
+                    Registro de Producto
+                </Link>
+
+                <Link
+                    to="/merchandise-query"
+                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("consulta")}
+                >
+                    Consulta de Producto
+                </Link>
+
+                <Link
+                    to="/update-merchandise"
+                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("actualizar")}
+                >
+                    Actualizar Producto
+                </Link>
+
+                <Link
+                    to="/delete-merchandise"
+                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
+                    onClick={() => handleTabClick("eliminar")}
+                >
+                    Eliminar Producto
+                </Link>
+            </div>
+
+            {/* Contenido dependiendo de la pestaña activa */}
+            {activeTab === "registro" && (
+                <div className={styles.container}>
+                    <h2 className={styles.title}>
+                        Ingrese la información solicitada para crear el registro
+                    </h2>
+
+                    <div className={styles.formContainer}>
+                        <form className={styles.formLeft}>
+                            <label className={styles.inputLabel}>Nombre del Proveedor:</label>
+                            <input
+                                type="text"
+                                placeholder="Nombre del Proveedor (Obligatorio)"
+                                value={supplierName}
+                                onChange={(e) => setSupplierName(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>NIT:</label>
+                            <input
+                                type="text"
+                                placeholder="NIT (Obligatorio)"
+                                value={supplierNIT}
+                                onChange={(e) => setSupplierNIT(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Teléfono:</label>
+                            <input
+                                type="text"
+                                placeholder="Teléfono (Obligatorio)"
+                                value={supplierPhone}
+                                onChange={(e) => setSupplierPhone(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Dirección:</label>
+                            <input
+                                type="text"
+                                placeholder="Dirección (Obligatorio)"
+                                value={supplierAddress}
+                                onChange={(e) => setSupplierAddress(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Crear categoría de la mercancía:</label>
+                            <input
+                                type="text"
+                                placeholder="Categoría de la mercancía (Obligatorio)"
+                                value={productCategory}
+                                onChange={(e) => setProductCategory(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Crear código del producto:</label>
+                            <input
+                                type="text"
+                                placeholder="Código del producto (Obligatorio)"
+                                value={productCode}
+                                onChange={(e) => setProductCode(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Nombre del Producto:</label>
+                            <input
+                                type="text"
+                                placeholder="Nombre del Producto (Obligatorio)"
+                                value={productName}
+                                onChange={(e) => setProductName(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Cantidad:</label>
+                            <input
+                                type="number"
+                                placeholder="Cantidad (Obligatorio)"
+                                value={productQuantity}
+                                onChange={(e) => setProductQuantity(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Valor Unitario:</label>
+                            <input
+                                type="number"
+                                placeholder="Valor Unitario (Obligatorio)"
+                                value={unitValue}
+                                onChange={(e) => setUnitValue(e.target.value)}
+                                required
+                                className={styles.input}
+                            />
+
+                            <label className={styles.inputLabel}>Valor total:</label>
+                            <input
+                                type="number"
+                                placeholder="Valor total"
+                                value={totalValue}
+                                disabled
+                                className={styles.inputValorTotal}
+                            />
+                        </form>
+
+                        <form className={styles.formRight}>
+                            <label id="productImageLabel" className={styles.imageLabel}>
+                                Imagen del producto
+                            </label>
+                            <div className={styles.imageWrapper}>
+                                <img
+                                    src={
+                                        productImage
+                                            ? URL.createObjectURL(productImage)
+                                            : "src/assets/placeholder-image.png" // Ruta relativa de la imagen local
+                                    }
+                                    alt="Vista previa"
+                                    className={styles.image}
+                                />
+                                <input
+                                    type="file"
+                                    onChange={(e) => setProductImage(e.target.files[0])}
+                                    className={styles.fileInput}
+                                    id="fileInput"
+                                />
+                                <label htmlFor="fileInput" className={styles.customFileInput}>
+                                    Cargar Imagen <UploadFileIcon />
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div className={styles.buttons}>
+                        <button type="button" onClick={handleSave} className={styles.button}>
+                            Guardar <SaveIcon />
+                        </button>
+                        <button type="button" onClick={handleClear} className={styles.button}>
+                            Limpiar <CleaningServicesIcon />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => (window.location.href = "/menu-principal")}
+                            className={styles.button}
+                        >
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                        </button>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
+export default InventoryRegistration;
