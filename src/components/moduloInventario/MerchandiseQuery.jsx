@@ -6,3 +6,8 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import SearchIcon from '@mui/icons-material/Search';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import axios from 'axios';
+
+// Configura instancia de axios para conectarse al backend
+const api = axios.create({
+    baseURL: 'http://localhost:8080/api'
+});
