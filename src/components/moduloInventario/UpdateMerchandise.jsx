@@ -143,7 +143,7 @@ const UpdateMerchandise = () => {
         }
     };
 
-    // Tareas clave relacionadas con la actualización de un producto en el sistema
+    // Maneja la actualización del producto tras validar los campos, procesar la imagen y enviar los datos al backend
     const handleSave = async () => {
         if (!validateFields()) {
             alert("Por favor, complete todos los campos obligatorios.");
@@ -218,5 +218,19 @@ const UpdateMerchandise = () => {
             }
             alert("Hubo un error al actualizar el producto. Por favor, inténtelo de nuevo.");
         }
+    };
+
+    // Función para procesar la imagen y convertirla a Base64
+    const procesarImagen = (file) => {
+        return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64String = reader.result;
+            console.log("Cadena Base64:", base64String); // Agrega esto
+            resolve(base64String);
+        };
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+        });
     };
 }  
