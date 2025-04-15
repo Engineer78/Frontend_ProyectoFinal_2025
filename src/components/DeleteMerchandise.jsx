@@ -48,7 +48,16 @@ const DeleteMerchandise = () => {
     const closeDeleteConfirmationModal = () => {
         setIsDeleteConfirmationOpen(false);
     };
-    
+     // Función para cargar los productos desde la API
+     const fetchProducts = async () => {
+        try {
+            const response = await api.get('/productos');
+            setFullProductList(response.data);
+        } catch (error) {
+            console.error('Error al cargar los productos:', error);
+        }
+    };
+
     return (
         <div>
 
