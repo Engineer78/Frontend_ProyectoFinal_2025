@@ -131,7 +131,102 @@ const DeleteMerchandise = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
+    // Aplica el filtro por código dinámicamente
+    useEffect(() => {
+        const hasActiveFilters = filters.codigo.trim() !== '';
 
+        if (!hasActiveFilters) {
+            setData([]); // ✅ Evita mostrar toda la BD si no hay filtro
+            setDisabledInputs({
+                categoria: '',
+                nombre: '',
+                existencias: '',
+                valorUnitario: '',
+                valorTotal: '',
+                proveedor: '',
+                nitProveedor: '',
+            });
+            return; // No sigas con filtrado
+        }
+
+        const filtered = fullProductList.filter((item) =>
+            item.codigoProducto.toString().includes(filters.codigo)
+        );
+
+        const itemsToShow = filtered.slice(0, visibleItems);
+        setData(itemsToShow);
+
+        if (hasActiveFilters && itemsToShow.length > 0) {
+            const firstItem = itemsToShow[0];
+            setDisabledInputs({
+                categoria: firstItem.nombreCategoria || '',
+                nombre: firstItem.nombreProducto || '',
+                existencias: firstItem.cantidad || '',
+                valorUnitario: firstItem.valorUnitarioProducto || '',
+                valorTotal: firstItem.valorTotalProducto || '',
+                proveedor: firstItem.nombreProveedor || '',
+                nitProveedor: firstItem.nitProveedor || '',
+            });
+        } else {
+            setDisabledInputs({
+                categoria: '',
+                nombre: '',
+                existencias: '',
+                valorUnitario: '',
+                valorTotal: '',
+                proveedor: '',
+                nitProveedor: '',
+            });
+        }
+        // Si hay filtros activos y hay elementos para mostrar, activa la búsqueda
+        // y establece el estado de búsqueda en verdadero
+        if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
+            setIsSearching(true);
+        }
+    }, [filters, visibleItems, fullProductList]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+
+        if (name === 'codigo' && value === '') {
+            setData([]);
+            setDisabledInputs({
+                categoria: '',
+                nombre: '',
+                existencias: '',
+                valorUnitario: '',
+                valorTotal: '',
+                proveedor: '',
+                nitProveedor: '',
+            });
+        }
+
+        if (!isSearching) setIsSearching(true);
+    };
+
+    const handleClear = () => {
+        setFilters({ codigo: '' });
+        setDisabledInputs({
+            categoria: '',
+            nombre: '',
+            existencias: '',
+            valorUnitario: '',
+            valorTotal: '',
+            proveedor: '',
+            nitProveedor: '',
+        });
+        setData([]);
+        setIsSearching(false);
+    };
+
+    const handleImageClick = (imageUrl) => {
+        setModalImage(imageUrl);
+    };
+
+    const closeModal = () => {
+        setModalImage(null);
+    };
     return (
         <div>
 
