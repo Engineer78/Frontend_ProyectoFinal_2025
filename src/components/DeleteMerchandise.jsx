@@ -6,11 +6,11 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import axios from "axios"; // Importa axios
-import { divide } from 'lodash';
 
 const api = axios.create({ // Crea una instancia de axios
     baseURL: 'http://localhost:8080/api'
 });
+
 const DeleteMerchandise = () => {
     const [activeTab, setActiveTab] = useState('eliminar');
     const [data, setData] = useState([]); // Almacena los datos combinados y filtrados
