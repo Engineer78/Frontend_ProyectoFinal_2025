@@ -20,6 +20,21 @@ const LoginForm = () => {
         setPasswordVisible(!passwordVisible);
       };
 
+      // se define la función para manejar el almacenamiento de los datos
+      // y se guardan los datos en el almacenamiento local (localstorage)
+      const handleLogin = (event) => {
+        event.preventDefault();
+    
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+    
+        if (savedUser && username === savedUser.username && password === savedUser.password) {
+          console.log("¡Inicio de sesión exitoso! Bienvenido:", username);
+          navigate('/menu-principal');
+        } else {
+          console.error("Nombre de usuario o contraseña incorrectos.");
+        }
+      };
+
     return (
         <div>LoginForm</div>
     )
