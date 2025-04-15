@@ -55,4 +55,9 @@ const MerchandiseQuery = () => {
         nombreProveedor: '',
         nitProveedor: '',
     });
+
+    // Cambia la pestaña activa al hacer clic en una opción
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
 }
