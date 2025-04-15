@@ -64,5 +64,12 @@ const UpdateMerchandise = () => {
         }
 
         return "src/assets/placeholder-image.png";
+
+    // Carga la lista de proveedores al montar el componentee
+    useEffect(() => {
+        api.get('/proveedores')
+            .then(res => setSuppliers(res.data))  // ✅ Asegúrate que sea setSuppliers
+            .catch(err => console.error("Error cargando proveedores", err));
+    }, []);
     };
 }  
