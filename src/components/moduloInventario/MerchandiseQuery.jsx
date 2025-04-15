@@ -20,4 +20,16 @@ const MerchandiseQuery = () => {
 
     // Estado que contiene los datos obtenidos desde el backend
     const [data, setData] = useState([]);
+
+    // Estado con los filtros de búsqueda ingresados por el usuario
+    const [filters, setFilters] = useState({
+        codigoProducto: '',
+        nombreCategoria: '',
+        nombreProducto: '',
+        nitProveedor: '',
+        nombreProveedor: '',
+        cantidad: '',
+        valorUnitarioProducto: '',
+        valorTotalProducto: '',
+    });
 }
