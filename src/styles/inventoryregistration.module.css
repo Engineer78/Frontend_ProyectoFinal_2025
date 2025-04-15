@@ -311,3 +311,131 @@ body {
   .button svg {
     margin-left: 0;
   }
+
+  /* ------------------------ @Media Queries --------------------- */
+
+@media (max-width: 480px) {
+    .container {
+      padding: 15px 10px;
+      max-width: 100%;
+    }
+  
+    .formContainer {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .formLeft, .formRight {
+      flex: none;
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .tabs {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .tabButton {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .image {
+      width: 100%;
+      height: auto;
+    }
+  
+    .buttons {
+      flex-direction: column;
+      align-items: stretch;
+      margin-right: 0;
+    }
+  
+    .button {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 481px) and (max-width: 600px) {
+    .container {
+      padding: 20px;
+      max-width: 90%;
+    }
+  
+    .formContainer {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .formLeft, .formRight {
+      flex: none;
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .tabs {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .tabButton {
+      flex: 1;
+      text-align: center;
+    }
+  
+    .image {
+      width: 250px;
+      height: auto;
+    }
+  
+    .buttons {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    .button {
+      width: auto;
+      padding: 10px 20px;
+    }
+  }
+  
+  @media (min-width: 601px) and (max-width: 900px) {
+    .container {
+      padding: 25px;
+      max-width: 100%;
+    }
+  
+    .formContainer {
+      gap: 25px;
+    }
+  
+    .formLeft, .formRight {
+      flex: 1;
+      padding: 20px;
+    }
+  
+    .tabs {
+      justify-content: space-around;
+    }
+  
+    .tabButton {
+      padding: 10px 15px;
+    }
+  
+    .image {
+      width: 300px;
+      height: auto;
+    }
+  
+    .buttons {
+      justify-content: space-between;
+      margin-right: 20px;
+    }
+  
+    .button {
+      width: 150px;
+    }
+  }
+  
