@@ -233,4 +233,19 @@ const UpdateMerchandise = () => {
         reader.readAsDataURL(file);
         });
     };
+
+      // Valida que todos los campos obligatorios del formulario estén completos antes de guardar
+    const validateFields = () => {
+        return (
+        supplierName &&
+        supplierNIT &&
+        supplierPhone &&
+        supplierAddress &&
+        productCategory &&
+        productCode &&
+        productName &&
+        productQuantity &&
+        unitValue
+        );
+    };
 }  
