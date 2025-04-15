@@ -9,6 +9,15 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import axios from "axios";
 
 function InventoryRegistration() {
+
+    // Se instancia axios para realizar las peticiones a la API
+    // Se define la URL base de la API
+    const api = axios.create({
+        baseURL: 'http://localhost:8080/api'
+      });
+
+
+      
   return (
     <div>InventoryRegistration</div>
   )
