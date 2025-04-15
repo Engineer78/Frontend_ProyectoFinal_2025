@@ -176,6 +176,20 @@ const InventoryRegistration = () => {
         }
     };
 
+    // Función para procesar la imagen y convertirla a Base64
+    const procesarImagen = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64String = reader.result;
+                console.log("Cadena Base64:", base64String); // Agrega esto
+                resolve(base64String);
+            };
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    };
+
 
     return (
         <div>InventoryRegistration</div>
