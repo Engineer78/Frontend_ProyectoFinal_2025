@@ -34,4 +34,17 @@ const UpdateMerchandise = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState(""); // ID de la categoría seleccionada
     const [categories, setCategories] = useState([]); // Lista completa de categorías
     const [isCodeDisabled, setIsCodeDisabled] = useState(false);
+
+     // Cambia la pestaña activa del componente según la opción seleccionada
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
+  // Calcula el valor total automáticamente cuando cambian la cantidad o el valor unitario
+    useEffect(() => {
+        if (productQuantity && unitValue) {
+            const total = parseFloat(productQuantity) * parseFloat(unitValue);
+            setTotalValue(total.toFixed(2));
+        }
+    }, [productQuantity, unitValue]);
 }  
