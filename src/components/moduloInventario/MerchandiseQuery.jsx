@@ -32,4 +32,7 @@ const MerchandiseQuery = () => {
         valorUnitarioProducto: '',
         valorTotalProducto: '',
     });
+
+    // Estado para controlar la imagen mostrada en modal
+    const [modalImage, setModalImage] = useState(null);
 }
