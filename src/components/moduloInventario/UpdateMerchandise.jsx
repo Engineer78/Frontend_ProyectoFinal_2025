@@ -72,4 +72,11 @@ const UpdateMerchandise = () => {
             .catch(err => console.error("Error cargando proveedores", err));
     }, []);
     };
+
+    // Cargar categorías al iniciar el componente
+    useEffect(() => {
+        api.get('/categorias')
+        .then(res => setCategories(res.data))
+        .catch(err => console.error("Error cargando categorías", err));
+    }, []);
 }  
