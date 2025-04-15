@@ -1,0 +1,92 @@
+/* Estilos generales del header */
+.header {
+  align-items: center;
+  color: #000; /* Color del texto */
+  display: flex;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100px; /* Altura fija para uniformidad */
+  justify-content: space-between;
+  padding: 0.5rem 2rem; /* Ajusta el espaciado */
+}
+
+/* Sección izquierda (Logo) */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio de 1rem entre elementos */
+}
+
+.logo {
+  display: block !important;
+  height: auto;
+  /*margin-left: -1rem; /* Corre el logo hacia la izquierda */
+  object-fit: contain; /* Evita deformaciones */
+  width: 230px; /* Ajusta el tamaño del logo */
+}
+
+/* Sección central (Título principal) */
+.header-center {
+  flex: 1; /* Hace que esta sección ocupe el espacio central */
+  margin-left: -9rem; /* Corre el titulo hacia la izquierda */
+  text-align: center;
+}
+
+.header-center h1,
+.header-center h2 {
+  font-size: 1.8rem; /* Tamaño del texto */
+  font-weight: bold;
+  margin: 0;
+  white-space: nowrap; /* Evita saltos de línea en el texto */
+}
+
+/* Sección derecha (Ayuda) */
+.header-right {
+  position: relative;
+}
+
+.help-button {
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  display: inline-block !important;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 1.2rem; /* Corre el boton hacia la izquierda */
+  padding: 0.5rem;
+}
+
+/* Estilos del menú desplegable */
+.dropdown-menu {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /*filter: alpha(opacity=50);*/
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  /*opacity: 0.5;*/
+  right: 18px;
+  top: calc(100% + 5px); /* Se coloca justo debajo del botón */
+  width: 170px; /* Ancho del menú */
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+  white-space: nowrap; /* Evita que los textos se partan */
+}
+
+.dropdown-menu li a {
+  color: #000;
+  display: block;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #565557;
+  color: #ffffff;
+}
