@@ -1,0 +1,16 @@
+/* styles/footer.module.css */
+
+.footer {
+    background-color: #F2DB36; /* Color de fondo del footer, puedes modificarlo */
+    bottom: 0;
+    color: #000000; /* Color del texto, también puedes ajustarlo */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10px; /* Puedes ajustar el tamaño según lo que prefieras */
+    font-weight: bolder;
+    left: 0;
+    padding: 10px 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 1000; /* Asegura que el footer esté por encima de otros elementos */
+}
