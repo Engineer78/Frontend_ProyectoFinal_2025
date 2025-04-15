@@ -8,7 +8,8 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import axios from "axios";
 
-function InventoryRegistration() {
+// se crea el componente InventoryRegistration
+const InventoryRegistration = () => {
 
     // Se instancia axios para realizar las peticiones a la API
     // Se define la URL base de la API
@@ -17,7 +18,7 @@ function InventoryRegistration() {
       });
 
 
-      
+
   return (
     <div>InventoryRegistration</div>
   )
