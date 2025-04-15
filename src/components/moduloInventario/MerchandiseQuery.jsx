@@ -11,3 +11,7 @@ import axios from 'axios';
 const api = axios.create({
     baseURL: 'http://localhost:8080/api'
 });
+
+// Componente principal del módulo de consulta de productos
+const MerchandiseQuery = () => {
+}
