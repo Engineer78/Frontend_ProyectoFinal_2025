@@ -205,6 +205,11 @@ const InventoryRegistration = () => {
         setProductImage(null);
     };
 
+    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+    useEffect(() => {
+        setActiveTab("registro");
+      }, []);
+
 
     return (
         <div>InventoryRegistration</div>
