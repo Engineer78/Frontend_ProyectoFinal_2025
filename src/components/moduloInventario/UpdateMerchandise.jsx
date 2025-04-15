@@ -248,4 +248,23 @@ const UpdateMerchandise = () => {
         unitValue
         );
     };
+
+     // Limpia todos los campos del formulario y restablece el estado inicial
+    const handleClear = () => {
+        setSupplierId("");
+        setSupplierName("");
+        setSupplierNIT("");
+        setSupplierPhone("");
+        setSupplierAddress("");
+        setSelectedCategoryId("");
+        setProductCategory("");
+        setProductCode("");
+        setProductName("");
+        setProductQuantity("");
+        setUnitValue("");
+        setTotalValue("");
+        setProductImage(null);
+        setProductImageUrl("");
+        setIsCodeDisabled(false); // Permite volver a escribir otro código
+    };
 }  
