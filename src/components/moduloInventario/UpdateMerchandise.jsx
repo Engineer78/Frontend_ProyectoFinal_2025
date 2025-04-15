@@ -79,4 +79,67 @@ const UpdateMerchandise = () => {
         .then(res => setCategories(res.data))
         .catch(err => console.error("Error cargando categorías", err));
     }, []);
+
+    // Busca un producto por su código y llena el formulario con los datos del producto encontrado
+    const handleSearch = async () => {
+        const trimmedProductCode = productCode.trim();
+    
+        if (!trimmedProductCode) {
+            alert("Por favor, ingrese el Código del Producto para buscar.");
+            return;
+        }
+    
+        try {
+            const response = await api.get(`/productos/codigo/${trimmedProductCode}`);
+    
+            if (!response.data) {
+                alert("No se encontraron datos para el Código del Producto proporcionado.");
+                setOriginalProductIndex(-1);
+                handleClear();
+                return;
+            }
+    
+            // Si se encuentra el producto, llenar el formulario con los datos
+            const product = response.data;
+            setOriginalProductIndex(product.idProducto);
+            setSupplierId(Number(product.idProveedor) || "");
+            setSupplierName(product.nombreProveedor || "");
+            setSupplierNIT(product.nitProveedor || "");
+            setSupplierPhone(product.telefonoProveedor || "");
+            setSupplierAddress(product.direccionProveedor || "");
+            setProductCategory(product.nombreCategoria || "");
+    
+            // Buscar el ID de la categoría basado en el nombre
+            const categoriaEncontrada = categories.find(
+                (cat) => cat.nombreCategoria === product.nombreCategoria
+            );
+            if (categoriaEncontrada) {
+                setSelectedCategoryId(categoriaEncontrada.idCategoria);
+            }
+        
+            setProductCode(product.codigoProducto || "");
+            setIsCodeDisabled(true);
+            setProductName(product.nombreProducto || "");
+            setProductQuantity(product.cantidad || "");
+            setUnitValue(product.valorUnitarioProducto || "");
+    
+            // Validar y asignar correctamente la imagen
+            console.log("Imagen recibida:", product.imagen);
+            const imagenConPrefijo =
+                product.imagen && !product.imagen.startsWith("data:image")
+                ? `data:image/png;base64,${product.imagen}`
+                : product.imagen || "";
+        
+            setProductImageUrl(imagenConPrefijo);
+
+            console.log("Producto recibido:", response.data);
+        
+            alert("Datos encontrados. Puede actualizarlos ahora.");
+        } catch (error) {
+            console.error("Error al buscar el producto:", error);
+            alert("Hubo un error al buscar el producto. Por favor, inténtelo de nuevo.");
+            setOriginalProductIndex(-1);
+            handleClear();
+        }
+    };
 }  
