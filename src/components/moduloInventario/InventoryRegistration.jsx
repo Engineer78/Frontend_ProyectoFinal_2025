@@ -36,6 +36,16 @@ const InventoryRegistration = () => {
         setActiveTab(tab);
     };
 
+    // Calcular valor total automáticamente
+    // cuando cambian la cantidad del producto o el valor unitario
+    // Se utiliza el hook useEffect para calcular el valor total.
+    useEffect(() => {
+        if (productQuantity && unitValue) {
+            const total = parseFloat(productQuantity) * parseFloat(unitValue);
+            setTotalValue(total.toFixed(2));
+        }
+    }, [productQuantity, unitValue]);
+
 
     return (
         <div>InventoryRegistration</div>
