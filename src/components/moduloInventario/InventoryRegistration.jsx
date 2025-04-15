@@ -182,12 +182,27 @@ const InventoryRegistration = () => {
             const reader = new FileReader();
             reader.onload = () => {
                 const base64String = reader.result;
-                console.log("Cadena Base64:", base64String); // Agrega esto
+                console.log("Cadena Base64:", base64String);
                 resolve(base64String);
             };
             reader.onerror = (error) => reject(error);
             reader.readAsDataURL(file);
         });
+    };
+
+    // Limpiar el formulario
+    const handleClear = () => {
+        setSupplierName("");
+        setSupplierNIT("");
+        setSupplierPhone("");
+        setSupplierAddress("");
+        setProductCategory("");
+        setProductCode("");
+        setProductName("");
+        setProductQuantity("");
+        setUnitValue("");
+        setTotalValue("");
+        setProductImage(null);
     };
 
 
