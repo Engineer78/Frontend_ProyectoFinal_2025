@@ -14,4 +14,7 @@ const api = axios.create({
 
 // Componente principal del módulo de consulta de productos
 const MerchandiseQuery = () => {
+
+    // Estado para controlar la pestaña activa
+    const [activeTab, setActiveTab] = useState('consulta');
 }
