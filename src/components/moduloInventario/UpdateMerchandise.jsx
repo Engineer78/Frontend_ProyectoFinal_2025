@@ -267,4 +267,9 @@ const UpdateMerchandise = () => {
         setProductImageUrl("");
         setIsCodeDisabled(false); // Permite volver a escribir otro código
     };
+
+    // Establece la pestaña activa en 'actualizar' al cargar el componente
+    useEffect(() => {
+        setActiveTab('actualizar');
+    }, []);
 }  
