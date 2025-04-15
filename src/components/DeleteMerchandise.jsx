@@ -228,8 +228,258 @@ const DeleteMerchandise = () => {
         setModalImage(null);
     };
     return (
-        <div>
+        <div className={styles.scrollContainer}>
+            <Header
+                title="Módulo registro de inventario"
+                subtitle="Hardware Store Inventory FFIG"
+                showLogo={true}
+                showHelp={true}
+            />
 
+            <div className={styles.tabs}>
+                <Link
+                    to="/inventory-registration"
+                    className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''
+                        }`}
+                    onClick={() => handleTabClick('registro')}
+                >
+                    Registro de Producto
+                </Link>
+                <Link
+                    to="/merchandise-query"
+                    className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''
+                        }`}
+                    onClick={() => handleTabClick('consulta')}
+                >
+                    Consulta de Producto
+                </Link>
+                <Link
+                    to="/update-merchandise"
+                    className={`${styles.tabButton} ${activeTab === 'actualizar' ? styles.active : ''
+                        }`}
+                    onClick={() => handleTabClick('actualizar')}
+                >
+                    Actualizar Producto
+                </Link>
+                <Link
+                    to="/delete-merchandise"
+                    className={`${styles.tabButton} ${activeTab === 'eliminar' ? styles.active : ''
+                        }`}
+                    onClick={() => handleTabClick('eliminar')}
+                >
+                    Eliminar Producto
+                </Link>
+            </div>
+
+            <div className={styles.container}>
+                <h2 className={styles.title}>
+                    Ingrese un código de producto para realizar la búsqueda, luego seleccione la casilla que contiene el registro que desea eliminar.
+                </h2>
+            </div>
+
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Selección
+                            <input
+                                type="checkbox"
+                                disabled />
+                        </th>
+                        <th>Código
+                            <input
+                                type="text"
+                                name="codigo"
+                                value={filters.codigo}
+                                onChange={handleInputChange}
+                                placeholder="Buscar"
+                                style={{ fontStyle: 'italic' }} />
+                        </th>
+                        <th>Categoría
+                            <input
+                                type="text"
+                                name="categoria"
+                                value={disabledInputs.categoria}
+                                disabled />
+                        </th>
+                        <th>Nom. del producto
+                            <input
+                                type="text"
+                                name="nombre"
+                                value={disabledInputs.nombre}
+                                disabled />
+                        </th>
+                        <th>Existencias
+                            <input
+                                type="text"
+                                name="existencia"
+                                value={disabledInputs.existencias}
+                                disabled /></th>
+                        <th>Valor Unitario
+                            <input
+                                type="text"
+                                name="valorUnitario"
+                                value={disabledInputs.valorUnitario}
+                                disabled />
+                        </th>
+                        <th>Valor Total prod.
+                            <input
+                                type="text"
+                                name="valorTotal"
+                                value={disabledInputs.valorTotal}
+                                disabled /></th>
+                        <th>Proveedor
+                            <input
+                                type="text"
+                                name="proveedor"
+                                value={disabledInputs.proveedor}
+                                disabled />
+                        </th>
+                        <th>NIT Proveedor
+                            <input
+                                type="text"
+                                name="nitProveedor"
+                                value={disabledInputs.nitProveedor}
+                                disabled />
+                        </th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {isSearching ? (
+                        data.length > 0 ? (
+                            data.map((item, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            onChange={(e) => handleCheckboxChange(e, item)}
+                                        />
+                                    </td>
+                                    <td>{item.codigoProducto}</td>
+                                    <td>{item.nombreCategoria}</td>
+                                    <td>{item.nombreProducto}</td>
+                                    <td>{item.cantidad}</td>
+                                    <td>{item.valorUnitarioProducto}</td>
+                                    <td>{item.valorTotalProducto}</td>
+                                    <td>{item.nombreProveedor}</td>
+                                    <td>{item.nitProveedor}</td>
+                                    <td>
+                                        {item.imagen && item.imagen.length > "data:image/png;base64,".length ? (
+                                            <a href="#" onClick={() => handleImageClick(item.imagen)}>
+                                                Ver Imagen
+                                            </a>
+                                        ) : (
+                                            'No disponible'
+                                        )}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="10">No se encontraron resultados</td>
+                            </tr>
+                        )
+                    ) : (
+                        <tr>
+                            <td colSpan="10">Realiza una búsqueda para ver los registros</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            {/* Botón "Cargar más" */}
+            {data.length > visibleItems && !isLoadingMore && (
+                <div className={styles['load-more-container']}>
+                    <button
+                        className={styles['load-more-button']}
+                        onClick={handleLoadMore}
+                    >
+                        Cargar más
+                    </button>
+                </div>
+            )}
+
+            {/* Mostrar indicador de carga */}
+            {isLoadingMore && (
+                <div className={styles['loading-spinner']}>
+                    <p>Cargando más productos...</p>
+                </div>
+            )}
+
+            {/* Modal para mostrar la imagen */}
+            {modalImage && (
+                <div className={styles.modal} onClick={closeModal}>
+                    <div
+                        className={styles.modalContent}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {modalImage.startsWith('data:image') ? (
+                            <img
+                                src={modalImage}
+                                alt="Producto"
+                                className={styles.modalImage}
+                            />
+                        ) : (
+                            <p>Imagen no disponible</p>
+                        )}
+                        <button className={styles.closeButton} onClick={closeModal}>
+                            Cerrar X
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de confirmación de eliminación */}
+            {isDeleteConfirmationOpen && (
+                <div
+                    className={styles['delete-confirmation-modal']}
+                    onClick={closeDeleteConfirmationModal}
+                >
+                    <div
+                        className={styles['modalContent-delete']}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3>Confirmar Eliminación</h3>
+                        <p>¿Estás seguro de que desea eliminar los registros seleccionados?</p>
+
+                        <div className={styles['delete-confirmation-modal-controls']}>
+                            <button
+                                onClick={handleDeleteItems}
+                                className={styles['delete-button']}
+                            >
+                                Eliminar <DeleteOutlineIcon style={{ marginLeft: 1 }} />
+                            </button>
+                            <button
+                                onClick={closeDeleteConfirmationModal}
+                                className={styles['close-button']}
+                            >
+                                Cancelar X
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Botones de acción */}
+            <div className={styles.buttons}>
+                <button
+                    type="button"
+                    onClick={openDeleteConfirmationModal} // Abre el modal de confirmación de eliminación
+                    className={styles.buttonEliminar}
+                >
+                    Eliminar <DeleteOutlineIcon style={{ marginLeft: 8 }} />
+                </button>
+
+                <button type="button" onClick={handleClear} className={styles.button}>
+                    Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => (window.location.href = '/menu-principal')}
+                    className={styles.button}
+                >
+                    Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                </button>
+            </div>
         </div>
     );
 };
