@@ -163,4 +163,29 @@ const MerchandiseQuery = () => {
         fetchFilteredData();
     }, [filters]);
 
+    // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
+    // También reinicia el estado de búsqueda.
+    const handleClear = () => {
+        setFilters({
+            codigoProducto: '',
+            nombreCategoria: '',
+            nombreProducto: '',
+            nitProveedor: '',
+            nombreProveedor: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+        });
+        setIsSearching(false);
+        setHeaderInputs({
+            nombreCategoria: '',
+            nombreProducto: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+            nombreProveedor: '',
+            nitProveedor: '',
+        });
+    };
+
 }
