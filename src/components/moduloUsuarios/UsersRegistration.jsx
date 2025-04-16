@@ -120,7 +120,7 @@ const UsersRegistration = () => {
                             <label className={styles.inputLabel}>Número de Documento:</label>
                             <input
                                 type="text"
-                                placeholder="Número de Documentor (Obligatorio)"
+                                placeholder="Número de Documento (Obligatorio)"
                                 value={userID}
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
