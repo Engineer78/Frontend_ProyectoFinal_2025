@@ -8,7 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 
 // se crea el componente UsersRegistration
-const InventoryRegistration = () => {
+const UsersRegistration = () => {
 
     // Se definen los estados para los campos del formulario
     const [userID, setUserID] = useState("");
