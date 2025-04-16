@@ -46,6 +46,67 @@ const DeleteUsers = () => {
         }
     };
 
+    // Cargar usuarios una vez al montar el componente
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    // Filtrar usuarios por número de documento
+    useEffect(() => {
+        const hasActiveFilters = filters.numeroDocumento.trim() !== ''; // Verificar si hay filtros activos
+
+        // Si no hay filtro, limpiar los datos y los campos visibles
+        if (!hasActiveFilters) {
+            setData([]);
+            setDisabledInputs({ 
+                correo: '',
+                rol: '',
+                nombresCompletos: '',
+                telefono: '',
+                direccion: '',
+                contactoEmergencia: '',
+                telefonoContacto: '',
+            }); // Vaciar todos los campos
+            return;
+        }
+
+        // Filtrar usuarios que coincidan con el número de documento
+        const filtered = fullUserList.filter((item) =>
+            item.numeroDocumento.toString().includes(filters.numeroDocumento)
+        );
+
+        const itemsToShow = filtered.slice(0, visibleItems); // Aplicar paginación
+        setData(itemsToShow); // Guardar datos filtrados
+
+        // Si hay resultados, mostrar el primero en los campos deshabilitados
+        if (hasActiveFilters && itemsToShow.length > 0) {
+            const firstItem = itemsToShow[0];
+            setDisabledInputs({
+                correo: firstItem.correo || '',
+                rol: firstItem.rol || '',
+                nombresCompletos: firstItem.nombresCompletos || '',
+                telefono: firstItem.telefono || '',
+                direccion: firstItem.direccion || '',
+                contactoEmergencia: firstItem.contactoEmergencia || '',
+                telefonoContacto: firstItem.telefonoContacto || '',
+            });
+        } else {
+            setDisabledInputs({
+                correo: '',
+                rol: '',
+                nombresCompletos: '',
+                telefono: '',
+                direccion: '',
+                contactoEmergencia: '',
+                telefonoContacto: '',
+            }); // Limpiar si no hay coincidencias
+        }
+
+        if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
+            setIsSearching(true); // Activar estado de búsqueda
+        }
+    }, [filters, visibleItems, fullUserList]);
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
