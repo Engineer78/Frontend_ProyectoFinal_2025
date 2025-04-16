@@ -60,4 +60,107 @@ const MerchandiseQuery = () => {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    // useEffect que se activa al cambiar los filtros de búsqueda.
+    // Realiza una consulta al backend (excepto por código de producto, que se filtra en frontend),
+    // actualiza los datos de la tabla y muestra automáticamente la información si hay un solo resultado.
+    useEffect(() => {
+        const fetchFilteredData = async () => {
+        const {
+            codigoProducto,
+            nombreProducto,
+            nombreCategoria,
+            nitProveedor,
+            nombreProveedor,
+            cantidad,
+            valorUnitarioProducto,
+            valorTotalProducto,
+        } = filters;
+
+        setSelectedProduct(null);
+
+        // Verifica si todos los filtros están vacíos
+        const noFilters =
+            !codigoProducto &&
+            !nombreProducto &&
+            !nombreCategoria &&
+            !nitProveedor &&
+            !nombreProveedor &&
+            !cantidad &&
+            !valorUnitarioProducto &&
+            !valorTotalProducto;
+
+        // Si no hay filtros, limpia la tabla y los inputs superiores
+        if (noFilters) {
+            setData([]);
+            setHeaderInputs({
+            nombreCategoria: '',
+            nombreProducto: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+            nombreProveedor: '',
+            nitProveedor: '',
+            });
+            return;
+        }
+
+        try {
+            // Llama al backend con los filtros (excepto códigoProducto)
+            const response = await api.get('/productos/buscar', {
+            params: {
+                // codigoProducto se filtra en frontend, no se envía
+                nombreProducto: nombreProducto || null,
+                nombreCategoria: nombreCategoria || null,
+                nitProveedor: nitProveedor || null,
+                nombreProveedor: nombreProveedor || null,
+                cantidad: cantidad || null,
+                valorUnitarioProducto: valorUnitarioProducto || null,
+                valorTotalProducto: valorTotalProducto || null,
+            },
+            });
+
+            // Resultado de la API
+            let filteredData = response.data;
+
+            // Filtro parcial por código de producto (solo frontend)
+            if (codigoProducto) {
+            filteredData = filteredData.filter((producto) =>
+                producto.codigoProducto.toString().includes(codigoProducto)
+            );
+            }
+
+            setData(filteredData);
+
+            // Si solo hay un resultado, mostrarlo en los inputs superiores
+            if (filteredData.length === 1) {
+            setSelectedProduct(filteredData[0]);
+            setHeaderInputs({
+                nombreCategoria: filteredData[0].nombreCategoria || '',
+                nombreProducto: filteredData[0].nombreProducto || '',
+                cantidad: filteredData[0].cantidad || '',
+                valorUnitarioProducto: filteredData[0].valorUnitarioProducto || '',
+                valorTotalProducto: filteredData[0].valorTotalProducto || '',
+                nombreProveedor: filteredData[0].nombreProveedor || '',
+                nitProveedor: filteredData[0].nitProveedor || '',
+            });
+            }
+        } catch (error) {
+            console.error('Error al obtener datos filtrados:', error);
+            setData([]);
+            setHeaderInputs({
+            nombreCategoria: '',
+            nombreProducto: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+            nombreProveedor: '',
+            nitProveedor: '',
+            });
+        }
+        };
+
+        fetchFilteredData();
+    }, [filters]);
+
 }
