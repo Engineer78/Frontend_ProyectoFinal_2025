@@ -58,6 +58,11 @@ const InventoryRegistration = () => {
         setUserContactPhone("");
     };
 
+    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+    useEffect(() => {
+        setActiveTab("registro");
+    }, []);
+
     // Se renderiza el componente
     return (
         <>
