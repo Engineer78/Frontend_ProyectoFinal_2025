@@ -44,7 +44,19 @@ const InventoryRegistration = () => {
         );
     };
 
-
+    // Limpiar el formulario
+    const handleClear = () => {
+        setUserID("");
+        setUserNames("");
+        setUserLastName("");
+        setUserSecondLastName("");
+        setUserAlias("");
+        setUserPassword("");
+        setUserPhone("");
+        setUserAddress("");
+        setUserEmergencyContact("");
+        setUserContactPhone("");
+    };
 
     // Se renderiza el componente
     return (
