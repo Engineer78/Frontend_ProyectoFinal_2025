@@ -199,7 +199,7 @@ const UsersRegistration = () => {
 
                             <label className={styles.inputLabel}>Contacto de Emergencia:</label>
                             <input
-                                type="number"
+                                type="text"
                                 placeholder="Contacto de Emergencia (Obligatorio)"
                                 value={userEmergencyContact}
                                 onChange={(e) => setUserEmergencyContact(e.target.value)}
