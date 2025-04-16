@@ -168,6 +168,21 @@ function UsersQuery() {
                 </thead>
             </table>
             </div>
+            {/* Botones de acción */}
+            <div className={styles.buttons}>
+                {/*Botón para limpiar los inputs */}
+                <button type="button"  className={styles.button}>
+                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                </button>
+                {/*Botón para salir al modulo principal */}
+                <button
+                type="button"
+                onClick={() => (window.location.href = '/menu-principal')}
+                className={styles.button}
+                >
+                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                </button>
+        </div>
     </div>
   )
 }
