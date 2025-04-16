@@ -42,7 +42,9 @@ const UsersRegistration = () => {
             userPhone &&
             userAddress &&
             userEmergencyContact &&
-            userContactPhone
+            userContactPhone &&
+            documentType &&
+            rolType
         );
     };
 
