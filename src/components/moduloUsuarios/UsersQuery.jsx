@@ -63,7 +63,14 @@ function UsersQuery() {
                 onClick={() => handleTabClick('eliminar')}
                 >
                 Eliminar Usuarios
-                </Link> 
+                </Link>
+                {/* Contenido dependiendo de la pestaña activa */}
+                <div className={styles.container}>
+                    <h2 className={styles.title}>
+                    Ingrese un dato en la casilla correspondiente para realizar la
+                    consulta
+                    </h2>
+                </div> 
             </div>
     </div>
   )
