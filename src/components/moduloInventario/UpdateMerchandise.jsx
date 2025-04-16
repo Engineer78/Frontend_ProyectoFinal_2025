@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "./Header";
+import Header from "../Header";
 import styles from "../styles/updatemerchandise.module.css";
 import SaveIcon from "@mui/icons-material/Save";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
