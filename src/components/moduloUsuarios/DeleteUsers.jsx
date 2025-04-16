@@ -224,6 +224,11 @@ const DeleteUsers = () => {
         setIsSearching(false);
     };
 
+    // Manejo del clic en pestañas
+    const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
