@@ -41,8 +41,12 @@ const Header = ({ title, subtitle, showLogo = true, showHelp = true }) => {
             </button>
             {isMenuOpen && (
               <ul className={styles["dropdown-menu"]}>
-                <li><a href="#faq">Acerca de</a></li>
-                <li><a href="#contact">Manual de usuario</a></li>
+                <li>
+                  <a href="#faq">Acerca de</a>
+                </li>
+                <li>
+                  <a href="#contact">Manual de usuario</a>
+                </li>
               </ul>
             )}
           </div>
@@ -52,15 +56,15 @@ const Header = ({ title, subtitle, showLogo = true, showHelp = true }) => {
   );
 };
 Header.propTypes = {
-    title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string,
-    showLogo: PropTypes.bool,
-    showHelp: PropTypes.bool,
-  };
-  
-  Header.defaultProps = {
-    showLogo: true,
-    showHelp: true,
-  };
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+  showLogo: PropTypes.bool,
+  showHelp: PropTypes.bool,
+};
+
+Header.defaultProps = {
+  showLogo: true,
+  showHelp: true,
+};
 
 export default Header;

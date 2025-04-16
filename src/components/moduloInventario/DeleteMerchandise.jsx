@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Header from './Header';
+import Header from '../Header';
 import styles from '../styles/deletemerchandise.module.css';
 import { Link } from 'react-router-dom';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
