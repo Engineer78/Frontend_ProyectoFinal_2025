@@ -150,6 +150,15 @@ const DeleteUsers = () => {
         }
     };
 
+    // Lógica para mostrar u ocultar el modal de confirmación
+    const openDeleteConfirmationModal = () => {
+        setIsDeleteConfirmationOpen(true);
+    };
+
+    const closeDeleteConfirmationModal = () => {
+        setIsDeleteConfirmationOpen(false);
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
