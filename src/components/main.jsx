@@ -81,10 +81,10 @@ createRoot(document.getElementById('root')).render(
           element={<DeleteMerchandise />}
         />
         {/* Ruta para el registro de usuarios */}
-        <Route
+        {/*<Route
           path="/users-registration"
           element={<UsersRegistration />}
-        />
+        />*/}
         {/* Ruta para la consulta de usuarios */}
         {/*<Route
           path="/users-query"
