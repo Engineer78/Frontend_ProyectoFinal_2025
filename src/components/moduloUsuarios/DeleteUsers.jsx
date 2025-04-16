@@ -199,6 +199,15 @@ const DeleteUsers = () => {
         }
     };
 
+    // Cargar más resultados (paginación)
+    const handleLoadMore = () => {
+        if (!isLoadingMore) {
+            setIsLoadingMore(true);
+            setVisibleItems((prev) => prev + 30);
+            setIsLoadingMore(false);
+        }
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
