@@ -179,7 +179,7 @@ const UsersRegistration = () => {
 
                             <label className={styles.inputLabel}>Teléfono Móvil:</label>
                             <input
-                                type="number"
+                                type="text"
                                 placeholder="Teléfono Móvil (Obligatorio)"
                                 value={userPhone}
                                 onChange={(e) => setUserPhone(e.target.value)}
