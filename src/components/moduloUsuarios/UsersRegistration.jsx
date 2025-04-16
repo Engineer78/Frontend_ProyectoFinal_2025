@@ -21,6 +21,8 @@ const UsersRegistration = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
+    const [documentType, setDocumentType] = useState("");
+    const [rolType, setRolType] = useState("");
     const [activeTab, setActiveTab] = useState("registro");
 
     // Manejar cambio de pestaña
