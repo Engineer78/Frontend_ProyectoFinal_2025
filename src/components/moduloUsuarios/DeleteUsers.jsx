@@ -7,7 +7,8 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import axios from "axios"; // Importa axios
 
-
+// Componente principal para eliminar usuarios
+const DeleteUsers = () => {
 
 // Contenedor principal con scroll y cabecera   
 return (
