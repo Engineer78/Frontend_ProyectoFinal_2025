@@ -204,7 +204,7 @@ const UsersRegistration = () => {
                                 value={userEmergencyContact}
                                 onChange={(e) => setUserEmergencyContact(e.target.value)}
                                 required
-                                className={styles.inputValorTotal}
+                                className={styles.input}
                             />
 
                             <label className={styles.inputLabel}>Teléfono de Contacto:</label>
