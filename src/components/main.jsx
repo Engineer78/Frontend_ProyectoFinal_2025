@@ -10,6 +10,7 @@ import InventoryRegistration from '../components/moduloInventario/InventoryRegis
 import MerchandiseQuery from '../components/moduloInventario/MerchandiseQuery'; // Componente de consulta de mercancía
 import UpdateMerchandise from '../components/moduloInventario/UpdateMerchandise'; // Componente de actualización de mercancía
 import DeleteMerchandise from '../components/moduloInventario/DeleteMerchandise'; // Componente de eliminación de mercancancia
+import UsersRegistration from '../components/moduloUsuarios/UsersRegistration'; // Componente de registro de usuarios
 
 // Inicializa un usuario predeterminado en el localStorage
 const initializeDefaultUser = () => {
@@ -81,10 +82,10 @@ createRoot(document.getElementById('root')).render(
           element={<DeleteMerchandise />}
         />
         {/* Ruta para el registro de usuarios */}
-        {/*<Route
+        *<Route
           path="/users-registration"
           element={<UsersRegistration />}
-        />*/}
+        />
         {/* Ruta para la consulta de usuarios */}
         {/*<Route
           path="/users-query"
