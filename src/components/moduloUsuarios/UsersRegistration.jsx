@@ -223,7 +223,12 @@ const UsersRegistration = () => {
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Documento</label>
                                     <div className={styles.selectWrapper}>
-                                        <select id="tipoDocumento" className={styles.select} required>
+                                        <select id="tipoDocumento"
+                                            className={styles.select}
+                                            value={documentType}                             
+                                            onChange={(e) => setDocumentType(e.target.value)} 
+                                            required
+                                        >
                                             <option value=""> Seleccione un tipo de documento </option>
                                             <option value="CC">Cédula de Ciudadanía (CC)</option>
                                             <option value="CE">Cédula de Extranjería (CE)</option>
@@ -236,7 +241,12 @@ const UsersRegistration = () => {
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
-                                        <select id="tipoRol" className={styles.select} required>
+                                        <select id="tipoRol" 
+                                            className={styles.select}
+                                            value={rolType}                             
+                                            onChange={(e) => setRolType(e.target.value)} 
+                                            required
+                                        >
                                             <option value=""> Seleccione un rol </option>
                                             <option value="administrador">Administrador</option>
                                             <option value="almacenista">Almacenista</option>
