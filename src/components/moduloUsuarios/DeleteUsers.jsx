@@ -107,6 +107,28 @@ const DeleteUsers = () => {
         }
     }, [filters, visibleItems, fullUserList]);
 
+    // Manejo del cambio en el input de búsqueda
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+
+        // Si se limpia el campo, reiniciar datos y campos visibles
+        if (name === 'numeroDocumento' && value === '') {
+            setData([]);
+            setDisabledInputs({
+                correo: '',
+                rol: '',
+                nombresCompletos: '',
+                telefono: '',
+                direccion: '',
+                contactoEmergencia: '',
+                telefonoContacto: '',
+            });
+        }
+
+        if (!isSearching) setIsSearching(true);
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
