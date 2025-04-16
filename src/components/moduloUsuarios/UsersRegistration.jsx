@@ -60,6 +60,8 @@ const UsersRegistration = () => {
         setUserAddress("");
         setUserEmergencyContact("");
         setUserContactPhone("");
+        setDocumentType("");
+        setRolType("");
     };
 
     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
