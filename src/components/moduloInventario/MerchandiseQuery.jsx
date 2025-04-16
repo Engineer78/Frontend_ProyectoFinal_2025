@@ -215,4 +215,27 @@ const MerchandiseQuery = () => {
         setIsAdvancedSearchOpen(false);
     };
 
+     // Limpia los filtros aplicados desde el modal de búsqueda avanzada y reinicia los estados relacionados.
+    const handleClearModalFilters = () => {
+        setFilters({
+            codigoProducto: '',
+            nombreCategoria: '',
+            nombreProducto: '',
+            nitProveedor: '',
+            nombreProveedor: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+        });
+        setIsSearching(false);
+        setHeaderInputs({
+            nombreCategoria: '',
+            nombreProducto: '',
+            cantidad: '',
+            valorUnitarioProducto: '',
+            valorTotalProducto: '',
+            nombreProveedor: '',
+            nitProveedor: '',
+        });
+    };
 }
