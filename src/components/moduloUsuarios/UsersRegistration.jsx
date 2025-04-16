@@ -23,7 +23,10 @@ const InventoryRegistration = () => {
     const [userContactPhone, setUserContactPhone] = useState("");
     const [activeTab, setActiveTab] = useState("registro");
 
-
+    // Manejar cambio de pestaña
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
 
 
 
