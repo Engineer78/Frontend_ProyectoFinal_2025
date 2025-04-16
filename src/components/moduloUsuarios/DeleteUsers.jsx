@@ -10,6 +10,9 @@ import axios from "axios"; // Importa axios
 // Componente principal para eliminar usuarios
 const DeleteUsers = () => {
 
+    // Crear instancia de Axios con la base URL de la API
+    const api = axios.create({ baseURL: 'http://localhost:8080/api' });
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
