@@ -129,6 +129,27 @@ const DeleteUsers = () => {
         if (!isSearching) setIsSearching(true);
     };
 
+    // Manejo del checkbox de selección
+    const handleCheckboxChange = (e, item) => {
+        if (e.target.checked) {
+            setSelectedItems((prev) => [...prev, item]); // Agregar usuario seleccionado
+            setDisabledInputs({ // Mostrar info del usuario seleccionado
+                correo: item.correo || '',
+                rol: item.rol || '',
+                nombresCompletos: item.nombresCompletos || '',
+                telefono: item.telefono || '',
+                direccion: item.direccion || '',
+                contactoEmergencia: item.contactoEmergencia || '',
+                telefonoContacto: item.telefonoContacto || '',
+            });
+        } else {
+             // Eliminar de la lista de seleccionados si se desmarca
+            setSelectedItems((prev) =>
+                prev.filter((selected) => selected.idUsuario !== item.idUsuario)
+            );
+        }
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
