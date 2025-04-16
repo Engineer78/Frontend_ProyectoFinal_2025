@@ -188,4 +188,11 @@ const MerchandiseQuery = () => {
         });
     };
 
+     // Actualiza los filtros al escribir en los inputs
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+        if (!isSearching) setIsSearching(true);
+    };
+
 }
