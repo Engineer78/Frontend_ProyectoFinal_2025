@@ -36,6 +36,16 @@ const DeleteUsers = () => {
     const [visibleItems, setVisibleItems] = useState(10); // Cantidad de usuarios visibles
     const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
 
+    // Cargar usuarios desde la API
+    const fetchUsers = async () => {
+        try {
+            const response = await api.get('/usuarios'); // Petición GET a la API
+            setFullUserList(response.data); // Guardar respuesta en el estado
+        } catch (error) {
+            console.error('Error al cargar los usuarios:', error); // Manejo de errores
+        }
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
