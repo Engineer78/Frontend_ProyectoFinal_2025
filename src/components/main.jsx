@@ -3,7 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Usamos Routes en lugar de Switch
 import Header from '../components/Header'; // Importación del componente Header
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/moduloInventario/LoginForm';
 import MenuPcpal from '../components/MenuPcpal';
 import Footer from '../components/Footer';
 import InventoryRegistration from '../components/InventoryRegistration'; // Componente de registro de inventario
