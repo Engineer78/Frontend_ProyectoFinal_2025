@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState} from 'react';
 import Header from '../Header';
 import styles from '../../styles/usersquery.module.css';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 function UsersQuery() {
+
+    // Estado para controlar la pestaña activa
+    const [activeTab, setActiveTab] = useState('consulta');
+    // Cambia la pestaña activa al hacer clic en una opción
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
     // Renderiza la vista principal del módulo de consulta de usuarios:
   // Incluye el header reutilizable, pestañas de navegación, tabla con filtros,
   return (
@@ -20,7 +28,7 @@ function UsersQuery() {
         />
         {/* Pestañas debajo del header */}
         <div className={styles.tabs}>
-                {/*
+                
                 <Link
                 to="/users-registration"
                 className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''
@@ -56,7 +64,6 @@ function UsersQuery() {
                 >
                 Eliminar Usuarios
                 </Link> 
-                */}
             </div>
     </div>
   )
