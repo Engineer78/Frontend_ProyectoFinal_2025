@@ -14,6 +14,51 @@ function UsersQuery() {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+    // Estado que indica si el usuario ha iniciado una búsqueda
+    const [setIsSearching] = useState(false);
+    // Estado con los filtros de búsqueda ingresados por el usuario
+    const [setFilters] = useState({
+        numeroDocumento: '',
+        rol: '',
+        nombreCompletos: '',
+        telefono: '',
+        direccion: '',
+        contactoEmergencia: '',
+        telefonoContacto: '',
+    });
+    // Estado para mostrar los datos del producto seleccionado en los inputs deshabilitados
+    const [HeaderInputs, setHeaderInputs] = useState({
+            numeroDocumento: '',
+            rol: '',
+            nombreCompletos: '',
+            telefono: '',
+            direccion: '',
+            contactoEmergencia: '',
+            telefonoContacto: '',
+    });
+    // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
+    // También reinicia el estado de búsqueda.
+    const handleClear = () => {
+        setFilters({
+            numeroDocumento: '',
+            rol: '',
+            nombreCompletos: '',
+            telefono: '',
+            direccion: '',
+            contactoEmergencia: '',
+            telefonoContacto: '',
+        });
+        setIsSearching(false);
+        setHeaderInputs({
+            numeroDocumento: '',
+            rol: '',
+            nombreCompletos: '',
+            telefono: '',
+            direccion: '',
+            contactoEmergencia: '',
+            telefonoContacto: '',
+        });
+    };
 
     // Renderiza la vista principal del módulo de consulta de usuarios:
   // Incluye el header reutilizable, pestañas de navegación, tabla con filtros,
@@ -171,7 +216,7 @@ function UsersQuery() {
             {/* Botones de acción */}
             <div className={styles.buttons}>
                 {/*Botón para limpiar los inputs */}
-                <button type="button"  className={styles.button}>
+                <button type="button" onClick={handleClear} className={styles.button}>
                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                 </button>
                 {/*Botón para salir al modulo principal */}
