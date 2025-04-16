@@ -238,4 +238,28 @@ const MerchandiseQuery = () => {
             nitProveedor: '',
         });
     };
+
+    // Carga los datos del producto seleccionado en los filtros e inputs
+    const handleRowClick = (producto) => {
+        setFilters({
+            codigoProducto: producto.codigoProducto || '',
+            nombreCategoria: producto.nombreCategoria || '',
+            nombreProducto: producto.nombreProducto || '',
+            nitProveedor: producto.nitProveedor || '',
+            nombreProveedor: producto.nombreProveedor || '',
+            cantidad: producto.cantidad || '',
+            valorUnitarioProducto: producto.valorUnitarioProducto || '',
+            valorTotalProducto: producto.valorTotalProducto || '',
+        });
+
+        setHeaderInputs({
+            nombreCategoria: producto.nombreCategoria || '',
+            nombreProducto: producto.nombreProducto || '',
+            cantidad: producto.cantidad || '',
+            valorUnitarioProducto: producto.valorUnitarioProducto || '',
+            valorTotalProducto: producto.valorTotalProducto || '',
+            nombreProveedor: producto.nombreProveedor || '',
+            nitProveedor: producto.nitProveedor || '',
+        });
+    };
 }
