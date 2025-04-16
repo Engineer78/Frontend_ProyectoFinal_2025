@@ -8,8 +8,8 @@ import MenuPcpal from '../components/MenuPcpal';
 import Footer from '../components/Footer';
 import InventoryRegistration from '../components/moduloInventario/InventoryRegistration'; // Componente de registro de inventario
 import MerchandiseQuery from '../components/moduloInventario/MerchandiseQuery'; // Componente de consulta de mercancía
-import UpdateMerchandise from '../components/UpdateMerchandise'; // Componente de actualización de mercancía
-import DeleteMerchandise from '../components/DeleteMerchandise'; // Componente de eliminación de mercancancia
+import UpdateMerchandise from '../components/moduloInventario/UpdateMerchandise'; // Componente de actualización de mercancía
+import DeleteMerchandise from '../components/moduloInventario/DeleteMerchandise'; // Componente de eliminación de mercancancia
 
 // Inicializa un usuario predeterminado en el localStorage
 const initializeDefaultUser = () => {
