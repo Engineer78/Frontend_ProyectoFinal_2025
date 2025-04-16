@@ -208,6 +208,22 @@ const DeleteUsers = () => {
         }
     };
 
+    // Limpiar búsqueda y estados
+    const handleClear = () => {
+        setFilters({ numeroDocumento: '' });
+        setDisabledInputs({
+            correo: '',
+            rol: '',
+            nombresCompletos: '',
+            telefono: '',
+            direccion: '',
+            contactoEmergencia: '',
+            telefonoContacto: '',
+        });
+        setData([]);
+        setIsSearching(false);
+    };
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
