@@ -13,6 +13,29 @@ const DeleteUsers = () => {
     // Crear instancia de Axios con la base URL de la API
     const api = axios.create({ baseURL: 'http://localhost:8080/api' });
 
+    // Estados para manejar pestañas, datos, filtros, selección y carga
+    const [activeTab, setActiveTab] = useState('eliminar'); // Pestaña activa
+    const [data, setData] = useState([]); // Datos filtrados para mostrar en la tabla
+    const [fullUserList, setFullUserList] = useState([]); // Lista completa de usuarios desde el backend
+    const [filters, setFilters] = useState({ numeroDocumento: '' }); // Filtros de búsqueda
+
+    // Campos mostrados en los inputs deshabilitados al seleccionar un usuario
+    const [disabledInputs, setDisabledInputs] = useState({
+        correo: '',
+        rol: '',
+        nombresCompletos: '',
+        telefono: '',
+        direccion: '',
+        contactoEmergencia: '',
+        telefonoContacto: '',
+    });
+
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false); // Modal de confirmación
+    const [isSearching, setIsSearching] = useState(false); // Estado de búsqueda activa
+    const [selectedItems, setSelectedItems] = useState([]); // Usuario seleccionado para eliminar
+    const [visibleItems, setVisibleItems] = useState(10); // Cantidad de usuarios visibles
+    const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
+
 // Contenedor principal con scroll y cabecera   
 return (
     <div className={styles.scrollContainer}>
