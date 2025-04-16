@@ -205,4 +205,14 @@ const MerchandiseQuery = () => {
         setModalImage(null);
     };
 
+    // Controla la visibilidad del modal de búsqueda avanzada: abrir y cerrar mediante el estado correspondiente.
+    const openAdvancedSearchModal = () => {
+        setIsAdvancedSearchOpen(true);
+    };
+
+    // Cierra el modal de búsqueda avanzada
+    const closeAdvancedSearchModal = () => {
+        setIsAdvancedSearchOpen(false);
+    };
+
 }
