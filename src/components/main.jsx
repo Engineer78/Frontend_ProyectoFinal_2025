@@ -6,7 +6,7 @@ import Header from '../components/Header'; // Importación del componente Header
 import LoginForm from '../components/moduloInventario/LoginForm';
 import MenuPcpal from '../components/MenuPcpal';
 import Footer from '../components/Footer';
-import InventoryRegistration from '../components/InventoryRegistration'; // Componente de registro de inventario
+import InventoryRegistration from '../components/moduloInventario/InventoryRegistration'; // Componente de registro de inventario
 import MerchandiseQuery from '../components/MerchandiseQuery'; // Componente de consulta de mercancía
 import UpdateMerchandise from '../components/UpdateMerchandise'; // Componente de actualización de mercancía
 import DeleteMerchandise from '../components/DeleteMerchandise'; // Componente de eliminación de mercancancia
