@@ -250,7 +250,7 @@ const UsersRegistration = () => {
 
                     </div>
                     <div className={styles.buttons}>
-                        <button type="button" onClick={handleSave} className={styles.button}>
+                        <button type="button" /*onClick={handleSave}*/ className={styles.button}>
                             Guardar <SaveIcon />
                         </button>
                         <button type="button" onClick={handleClear} className={styles.button}>
