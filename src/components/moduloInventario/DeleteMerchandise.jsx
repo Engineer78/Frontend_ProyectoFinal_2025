@@ -121,7 +121,6 @@ const DeleteMerchandise = () => {
             alert('Hubo un error al intentar eliminar el producto.');
         }
     };
-    
     const handleLoadMore = () => {
         if (!isLoadingMore) {
             setIsLoadingMore(true);
