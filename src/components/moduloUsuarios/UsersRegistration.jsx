@@ -10,6 +10,22 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 // se crea el componente UsersRegistration
 const InventoryRegistration = () => {
 
+    // Se definen los estados para los campos del formulario
+    const [userID, setUserID] = useState("");
+    const [userName, setUserNames] = useState("");
+    const [userLastName, setUserLastName] = useState("");
+    const [userSecondLastName, setUserSecondLastName] = useState("");
+    const [userAlias, setUserAlias] = useState("");
+    const [userPassword, setUserPassword] = useState("");
+    const [userPhone, setUserPhone] = useState("");
+    const [userAddress, setUserAddress] = useState("");
+    const [userEmergencyContact, setUserEmergencyContact] = useState("");
+    const [userContactPhone, setUserContactPhone] = useState("");
+    const [activeTab, setActiveTab] = useState("registro");
+
+
+
+
 
     // Se renderiza el componente
     return (
