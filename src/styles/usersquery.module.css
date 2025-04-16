@@ -277,3 +277,41 @@
     .button svg {
         margin-left: 0;
     }
+    
+    /* Estilos para los iconos dentro de los botones */
+    .button svg {
+        margin-left: 0;
+    }
+    
+    /* Contenedor para el botón "Cargar más" */
+    .load-more-container {
+        position: relative;       /* Mantiene el botón dentro del flujo del diseño */
+        text-align: center;       /* Centra el botón horizontalmente */
+        margin: 20px auto;        /* Agrega espacio alrededor del botón */
+        width: 100%;              /* Asegura que el contenedor ocupe todo el ancho disponible */
+    }
+    
+    /* Estilo general para el botón "Cargar más" */
+    .load-more-btn {
+        background-color: #4caf50; /* Color de fondo verde */
+        color: white;              /* Color del texto blanco */
+        border: 2px solid red;              /* Sin borde */
+        padding: 10px 20px;        /* Relleno dentro del botón */
+        font-size: 16px;           /* Tamaño de la fuente */
+        border-radius: 5px;        /* Bordes redondeados */
+        cursor: pointer;          /* Muestra el cursor como puntero */
+        transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
+        display: inline-block;
+        /* z-index: 3600; */
+    }
+    
+    /* Efecto de hover para el botón Cargar más*/
+    .load-more-btn:hover {
+        background-color: #45a049; /* Un verde más oscuro al pasar el mouse */
+    }
+    
+    /* Efecto cuando el botón Cargar más está deshabilitado */
+    .load-more-btn:disabled {
+        background-color: #d3d3d3; /* Fondo gris */
+        cursor: not-allowed;       /* Cursor de "no permitido" */
+    }
