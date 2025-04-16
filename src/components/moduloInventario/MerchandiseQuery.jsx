@@ -195,4 +195,14 @@ const MerchandiseQuery = () => {
         if (!isSearching) setIsSearching(true);
     };
 
+     // Controla la visualización del modal de imagen del producto: abrir con la URL seleccionada y cerrar limpiando el estado.
+    const handleImageClick = (imageUrl) => {
+        setModalImage(imageUrl);
+    };
+
+    // Cierra el modal de imagen
+    const closeModal = () => {
+        setModalImage(null);
+    };
+
 }
