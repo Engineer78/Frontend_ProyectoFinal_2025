@@ -31,7 +31,7 @@ const InventoryRegistration = () => {
                     Registro de Usuarios
                 </Link>
 
-                {/*<Link
+                <Link
                     to="/users-query"
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
@@ -53,7 +53,7 @@ const InventoryRegistration = () => {
                     onClick={() => handleTabClick("eliminar")}
                 >
                     Eliminar Usuarios
-                </Link>*/}
+                </Link>
             </div>
 
             {/* Contenido dependiendo de la pestaña activa */}
