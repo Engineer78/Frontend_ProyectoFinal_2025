@@ -28,6 +28,22 @@ const InventoryRegistration = () => {
         setActiveTab(tab);
     };
 
+    // Se define una función para validar los campos vacios del formulario.
+    const validateFields = () => {
+        return (
+            userID &&
+            userName &&
+            userLastName &&
+            userSecondLastName &&
+            userAlias &&
+            userPassword &&
+            userPhone &&
+            userAddress &&
+            userEmergencyContact &&
+            userContactPhone
+        );
+    };
+
 
 
     // Se renderiza el componente
