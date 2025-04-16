@@ -187,3 +187,90 @@
         width: auto; /* Permitir que el botón de salir tenga tamaño automático */
         }
     }
+
+    /* ------------------------ @Media Queries --------------------- */
+
+/* Para resoluciones menores a 480px */
+@media (max-width: 480px) {
+        .menu-title {
+        font-size: 20px;
+        }
+    
+        .menu-button {
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+        }
+    
+        .menu-options {
+        flex-direction: column; /* Cambia las pestañas a una columna en pantallas pequeñas */
+        gap: 10px;
+        }
+    
+        .logout-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        position: static; /* Desactiva el posicionamiento absoluto en pantallas pequeñas */
+        width: 100%;
+        }
+    
+        .menu-button:first-child,
+        .menu-button:last-child {
+        border-radius: 5px; /* Ajusta los bordes en pantallas pequeñas */
+        }
+    }
+    
+    /* Para resoluciones entre 481px y 600px */
+    @media (min-width: 481px) and (max-width: 600px) {
+        .menu-title {
+        font-size: 22px;
+        }
+    
+        .menu-button {
+        font-size: 17px;
+        width: 100%;
+        }
+    
+        .menu-options {
+        flex-direction: column; /* Cambia las pestañas a una columna en pantallas medianas */
+        gap: 10px;
+        }
+    
+        .logout-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        position: static; /* Desactiva el posicionamiento absoluto en pantallas medianas */
+        width: 100%;
+        }
+    
+        .menu-button:first-child,
+        .menu-button:last-child {
+        border-radius: 5px; /* Ajusta los bordes en pantallas medianas */
+        }
+    }
+    
+    /* Para resoluciones entre 601px y 900px */
+    @media (min-width: 601px) and (max-width: 900px) {
+        .menu-title {
+        font-size: 24px;
+        }
+    
+        .menu-button {
+        font-size: 18px;
+        width: 100%;
+        }
+    
+        .menu-options {
+        flex-direction: row; /* Mantiene las pestañas alineadas horizontalmente */
+        gap: 0; /* Elimina el espacio entre los botones */
+        }
+    
+        .logout-button-container {
+        bottom: 20px;
+        position: absolute; /* Posiciona el botón de salir */
+        right: 20px;
+        width: auto; /* Permitir que el botón de salir tenga tamaño automático */
+        }
+    }
