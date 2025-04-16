@@ -70,7 +70,103 @@ function UsersQuery() {
                     Ingrese un dato en la casilla correspondiente para realizar la
                     consulta
                     </h2>
-                </div> 
+                </div>
+                {/* Tabla de consulta de mercancía */}
+            <table className={styles.table}>
+                <thead>
+                <tr>
+                    <th>
+                    Selección
+                    <input type="checkbox" disabled />
+                    </th>
+
+                    <th>
+                    Nº de Documento
+                    <input
+                        type="text"
+                        name="nuemroDocumento"
+                        /*value={filters.numeroDocumento} */// Vincula el valor con el estado de los filtros
+                        /*onChange={handleInputChange}*/
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }} // Esto aplica directamente el estilo en línea
+                    />
+                    </th>
+
+                    <th>
+                    Rol
+                    <input
+                        type="text"
+                        name="rol"
+                        /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>
+
+                    <th>
+                    Nombre(s) Completos
+                    <input
+                        type="text"
+                        name="nombreCompletos"
+                        /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>
+
+                    <th>
+                    Teléfono
+                    <input
+                        type="text"
+                        name="telefono"
+                        /*value={selectedUser  ? selectedUser.cantidad : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>
+
+
+                    <th>
+                    Dirección
+                    <input
+                        type="text"
+                        name="direccion"
+                        /*value={selectedUser ? selectedUser.valorUnitarioProducto : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>
+
+                    <th>
+                    Contacto de emergencia 
+                    <input
+                        type="text"
+                        name="contactoEmergencia"
+                        /*value={selectedUser  ? selectedUser.nombreProveedor : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>
+
+                    <th>
+                    Teléfono de Contacto
+                    <input
+                        type="text"
+                        name="telefonoContacto"
+                        /*value={selectedUser ? selectedUser.nitProveedor : ''}*/
+                        disabled
+                        placeholder="Buscar"
+                        style={{ fontStyle: 'italic' }}
+                    />
+                    </th>                  
+                </tr>
+                </thead>
+            </table>
             </div>
     </div>
   )
