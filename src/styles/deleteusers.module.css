@@ -313,23 +313,6 @@ body {
         width: 120px;
     }
     
-    /* Estilos para el botón de Buscar */
-    .button:nth-child(1) {
-        background-color: #333233; /* Color principal */
-    }
-    
-    /* Estilo cuando el botón de Buscar está en foco (por ejemplo, después de hacer clic) */
-    .button:nth-child(1):focus {
-        outline: none;
-        background-color: #333233; /* Vuelve al color principal */
-        box-shadow: none;
-    }
-    
-    /* Active: Efecto al presionar el botón */
-    .button:nth-child(1):active {
-        background-color: #565557; /* Color al presionar */
-    }
-    
     /* Estilos para el botón de Limpiar */
     .button:nth-child(2) {
         background-color: #333233; /* Color principal */
