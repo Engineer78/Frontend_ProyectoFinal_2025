@@ -11,6 +11,8 @@ import MerchandiseQuery from '../components/moduloInventario/MerchandiseQuery'; 
 import UpdateMerchandise from '../components/moduloInventario/UpdateMerchandise'; // Componente de actualización de mercancía
 import DeleteMerchandise from '../components/moduloInventario/DeleteMerchandise'; // Componente de eliminación de mercancancia
 import UsersRegistration from '../components/moduloUsuarios/UsersRegistration'; // Componente de registro de usuarios
+import UsersQuery from '../components/moduloUsuarios/UsersQuery'; // Componente de consulta de usuarios
+import DeleteUsers from '../components/moduloUsuarios/DeleteUsers'; // Componente de eliminación de usuarios
 
 // Inicializa un usuario predeterminado en el localStorage
 const initializeDefaultUser = () => {
@@ -82,25 +84,25 @@ createRoot(document.getElementById('root')).render(
           element={<DeleteMerchandise />}
         />
         {/* Ruta para el registro de usuarios */}
-        *<Route
+        <Route
           path="/users-registration"
           element={<UsersRegistration />}
         />
-        {/* Ruta para la consulta de usuarios */}
-        {/*<Route
+         {/*Ruta para la consulta de usuarios */}
+        <Route
           path="/users-query"
           element={<UsersQuery />}
-        />*/}
+        />
         {/* Ruta para la actualización de usuarios */}
         {/*<Route
           path="/update-users"
           element={<UpdateUsers />}
         />*/}
         {/* Ruta para la eliminación de usuarios */}
-        {/*<Route
+        <Route
           path="/delete-users"
           element={<DeleteUsers />}
-        />*/}
+        />
       </Routes>
     </Router>
 
