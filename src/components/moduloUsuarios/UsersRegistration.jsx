@@ -102,7 +102,7 @@ const UsersRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
-                    Actualizar Usuario
+                    Actualizar Usuarios
                 </Link>
 
                 <Link
