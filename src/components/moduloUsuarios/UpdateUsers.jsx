@@ -17,6 +17,10 @@ const UpdateUsers = () => {
     const [rolType, setRolType] = useState("");
     const [activeTab, setActiveTab] = useState("registro");
 
+    // Manejar cambio de pestaña
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
 
 
     // Componente para actualizar productos del inventario.
