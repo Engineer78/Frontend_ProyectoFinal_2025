@@ -11,9 +11,9 @@ function UsersQuery() {
   const [activeTab, setActiveTab] = useState("consulta");
 
   // Estado que contiene los datos obtenidos desde el backend
-    const [data] = useState([]);
+    const [data, setData] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
-    const [filters] = useState({
+    const [filters, setFilters] = useState({
         numeroDocumento: ' ',
         tipoDocumento : ' ',
         rol: ' ',
@@ -30,22 +30,7 @@ function UsersQuery() {
   };
 
   // Estado que indica si el usuario ha iniciado una búsqueda
-  const [setIsSearching] = useState(false);
-
-  // Estado con los filtros de búsqueda ingresados por el usuario
-  const [setFilters] = useState({
-    numeroDocumento: "",
-    tipoDocumento : "",
-    rol: "",
-    nombreCompletos: "",
-    telefono: "",
-    direccion: "",
-    contactoEmergencia: "",
-    telefonoContacto: "",
-  });
-
-  // Estado que indica si el usuario ha iniciado una búsqueda
-  const [isSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
   const [HeaderInputs, setHeaderInputs] = useState({
