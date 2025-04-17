@@ -69,6 +69,12 @@ function UsersQuery() {
       telefonoContacto: "",
     });
   };
+  // Actualiza los filtros al escribir en los inputs
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+    if (!isSearching) setIsSearching(true);
+}; 
 
 // Carga los datos de los usuarios seleccionados en los filtros e inputs
 const handleRowClick = (producto) => {
@@ -167,9 +173,9 @@ const handleRowClick = (producto) => {
               Nº de Documento
               <input
                 type="text"
-                name="nuemroDocumento"
+                name="numeroDocumento"
                 /*value={filters.numeroDocumento} */ // Vincula el valor con el estado de los filtros
-                /*onChange={handleInputChange}*/
+                onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
               />
