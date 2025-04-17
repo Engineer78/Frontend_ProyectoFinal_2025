@@ -21,7 +21,7 @@ const DeleteUsers = () => {
 
     // Campos mostrados en los inputs deshabilitados al seleccionar un usuario
     const [disabledInputs, setDisabledInputs] = useState({
-        correo: '',
+        tipoDocumento: '',
         rol: '',
         nombresCompletos: '',
         telefono: '',
@@ -59,7 +59,7 @@ const DeleteUsers = () => {
         if (!hasActiveFilters) {
             setData([]);
             setDisabledInputs({ 
-                correo: '',
+                tipoDocumento: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -82,7 +82,7 @@ const DeleteUsers = () => {
         if (hasActiveFilters && itemsToShow.length > 0) {
             const firstItem = itemsToShow[0];
             setDisabledInputs({
-                correo: firstItem.correo || '',
+                tipoDocumento: firstItem.tipoDocumento || '',
                 rol: firstItem.rol || '',
                 nombresCompletos: firstItem.nombresCompletos || '',
                 telefono: firstItem.telefono || '',
@@ -92,7 +92,7 @@ const DeleteUsers = () => {
             });
         } else {
             setDisabledInputs({
-                correo: '',
+                tipoDocumento: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -116,7 +116,7 @@ const DeleteUsers = () => {
         if (name === 'numeroDocumento' && value === '') {
             setData([]);
             setDisabledInputs({
-                correo: '',
+                tipoDocumento: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -134,7 +134,7 @@ const DeleteUsers = () => {
         if (e.target.checked) {
             setSelectedItems((prev) => [...prev, item]); // Agregar usuario seleccionado
             setDisabledInputs({ // Mostrar info del usuario seleccionado
-                correo: item.correo || '',
+                tipoDocumento: item.tipoDocumento || '',
                 rol: item.rol || '',
                 nombresCompletos: item.nombresCompletos || '',
                 telefono: item.telefono || '',
@@ -177,7 +177,7 @@ const DeleteUsers = () => {
             setSelectedItems([]); // Limpia selección
             setFilters({ numeroDocumento: '' }); // Limpia filtro
             setDisabledInputs({
-                correo: '',
+                tipoDocumento: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -212,7 +212,7 @@ const DeleteUsers = () => {
     const handleClear = () => {
         setFilters({ numeroDocumento: '' });
         setDisabledInputs({
-            correo: '',
+            tipoDocumento: '',
             rol: '',
             nombresCompletos: '',
             telefono: '',
@@ -271,8 +271,8 @@ return (
                     <th>N° de Documento
                         <input type="text" name="numeroDocumento" value={filters.numeroDocumento} onChange={handleInputChange} placeholder="Buscar" />
                     </th>
-                    <th>Correo
-                        <input type="text" name="correo" value={disabledInputs.correo} disabled />
+                    <th>Tipo de Documento
+                        <input type="text" name="tipoDocuemto" value={disabledInputs.tipoDocumento} disabled />
                     </th>
                     <th>Rol
                         <input type="text" name="rol" value={disabledInputs.rol} disabled />
@@ -307,7 +307,7 @@ return (
                                     />
                                 </td>
                                 <td>{item.numeroDocumento}</td>
-                                <td>{item.correo}</td>
+                                <td>{item.tipoDocumento}</td>
                                 <td>{item.rol}</td>
                                 <td>{item.nombresCompletos}</td>
                                 <td>{item.telefono}</td>

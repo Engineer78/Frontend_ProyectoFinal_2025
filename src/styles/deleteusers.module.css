@@ -63,8 +63,10 @@ body {
         color: white;
         cursor: pointer;
         padding: 10px 20px;
+        text-align: center;
         text-decoration: none;
         transition: background-color 0.3s ease, color 0.3s ease;
+        width: 180px; 
     }
     
     .tabButton.active {
@@ -180,6 +182,20 @@ body {
     tbody td input {
         width: 90%;
         height: 26px;
+    }
+
+    /* Modal Overlay */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3500; /* Asegura que esté encima de otros elementos */
     }
     
     /* Modal de búsqueda avanzada */
@@ -297,23 +313,6 @@ body {
         padding: 8px 15px;
         text-align: center;
         width: 120px;
-    }
-    
-    /* Estilos para el botón de Buscar */
-    .button:nth-child(1) {
-        background-color: #333233; /* Color principal */
-    }
-    
-    /* Estilo cuando el botón de Buscar está en foco (por ejemplo, después de hacer clic) */
-    .button:nth-child(1):focus {
-        outline: none;
-        background-color: #333233; /* Vuelve al color principal */
-        box-shadow: none;
-    }
-    
-    /* Active: Efecto al presionar el botón */
-    .button:nth-child(1):active {
-        background-color: #565557; /* Color al presionar */
     }
     
     /* Estilos para el botón de Limpiar */
