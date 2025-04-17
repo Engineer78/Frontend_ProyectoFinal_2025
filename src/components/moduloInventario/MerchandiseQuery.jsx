@@ -214,7 +214,7 @@ const MerchandiseQuery = () => {
         filters.cantidad,
         filters.valorUnitarioProducto,
         filters.valorTotalProducto,
-        isAdvancedSearchOpen,
+        filters, isAdvancedSearchOpen,
     ]);
 
 
