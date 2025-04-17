@@ -14,14 +14,14 @@ function UsersQuery() {
     const [data] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
     const [filters] = useState({
-        codigoProducto: '',
-        nombreCategoria: '',
-        nombreProducto: '',
-        nitProveedor: '',
-        nombreProveedor: '',
-        cantidad: '',
-        valorUnitarioProducto: '',
-        valorTotalProducto: '',
+        numeroDocumento: ' ',
+        tipoDocumento : ' ',
+        rol: ' ',
+        nombreCompletos: ' ',
+        telefono: ' ',
+        direccion: ' ',
+        contactoEmergencia: ' ',
+        telefonoContacto:' ',
 });
       
   // Cambia la pestaña activa al hacer clic en una opción
@@ -35,6 +35,7 @@ function UsersQuery() {
   // Estado con los filtros de búsqueda ingresados por el usuario
   const [setFilters] = useState({
     numeroDocumento: "",
+    tipoDocumento : "",
     rol: "",
     nombreCompletos: "",
     telefono: "",
@@ -49,6 +50,7 @@ function UsersQuery() {
   // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
   const [HeaderInputs, setHeaderInputs] = useState({
     numeroDocumento: "",
+    tipoDocumento : "",
     rol: "",
     nombreCompletos: "",
     telefono: "",
@@ -62,6 +64,7 @@ function UsersQuery() {
   const handleClear = () => {
     setFilters({
       numeroDocumento: "",
+      tipoDocumento : "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -72,6 +75,7 @@ function UsersQuery() {
     setIsSearching(false);
     setHeaderInputs({
       numeroDocumento: "",
+      tipoDocumento : "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -88,26 +92,27 @@ function UsersQuery() {
 }; 
 
 // Carga los datos de los usuarios seleccionados en los filtros e inputs
-const handleRowClick = (producto) => {
+const handleRowClick = (users) => {
     setFilters({
-        codigoProducto: producto.codigoProducto || '',
-        nombreCategoria: producto.nombreCategoria || '',
-        nombreProducto: producto.nombreProducto || '',
-        nitProveedor: producto.nitProveedor || '',
-        nombreProveedor: producto.nombreProveedor || '',
-        cantidad: producto.cantidad || '',
-        valorUnitarioProducto: producto.valorUnitarioProducto || '',
-        valorTotalProducto: producto.valorTotalProducto || '',
+        numeroDocumento: users.numeroDocumento || '',
+        rol: users.rol || '',
+        nombreCompletos: users.nombreCompletos| '',
+        telefono: users. telefono || '',
+        direccion: users.direccion || '',
+        contactoEmergencia: users.contactoEmergencia|| '',
+        telefonoContacto: users.telefonoContacto || '',
+        tipoDocumento: users.tipoDocumento || '',
     });
 
     setHeaderInputs({
-        nombreCategoria: producto.nombreCategoria || '',
-        nombreProducto: producto.nombreProducto || '',
-        cantidad: producto.cantidad || '',
-        valorUnitarioProducto: producto.valorUnitarioProducto || '',
-        valorTotalProducto: producto.valorTotalProducto || '',
-        nombreProveedor: producto.nombreProveedor || '',
-        nitProveedor: producto.nitProveedor || '',
+        numeroDocumento: users.numeroDocumento || '',
+        rol: users.rol || '',
+        nombreCompletos: users.nombreCompletos| '',
+        telefono: users. telefono || '',
+        direccion: users.direccion || '',
+        contactoEmergencia: users.contactoEmergencia|| '',
+        telefonoContacto: users.telefonoContacto || '',
+        tipoDocumento: users.tipoDocumento || '',
     });
 };
 
@@ -189,6 +194,17 @@ const handleRowClick = (producto) => {
                 onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
+              />
+            </th>
+            <th>
+              Tipo de Documento
+              <input
+                type="text"
+                name="tipoDocumento"
+                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                disabled
+                placeholder="Buscar"
+                style={{ fontStyle: "italic" }}
               />
             </th>
 
