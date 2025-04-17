@@ -65,6 +65,7 @@ const MerchandiseQuery = () => {
     // Realiza una consulta al backend (excepto por código de producto, que se filtra en frontend),
     // actualiza los datos de la tabla y muestra automáticamente la información si hay un solo resultado.
     useEffect(() => {
+        console.log('Filtros:', filters); // Muestra los filtros en la consola para depuración 
         const fetchFilteredData = async () => {
         const {
             codigoProducto,
@@ -162,6 +163,60 @@ const MerchandiseQuery = () => {
 
         fetchFilteredData();
     }, [filters]);
+
+
+    // useEffect para la búsqueda avanzada: se activa al abrir el modal y al cambiar los filtros.
+    // Realiza una consulta al backend con los filtros de búsqueda avanzada y actualiza los datos de la tabla.
+    useEffect(() => {
+        const fetchAdvancedSearchData = async () => {
+          const {
+            nitProveedor,
+            nombreProveedor,
+            cantidad,
+            valorUnitarioProducto,
+            valorTotalProducto,
+          } = filters;
+      
+          // Si no hay filtros de búsqueda avanzada, no hacer la consulta
+          const noFilters =
+            !nitProveedor &&
+            !nombreProveedor &&
+            !cantidad &&
+            !valorUnitarioProducto &&
+            !valorTotalProducto;
+      
+          if (noFilters) return;
+      
+          try {
+            const response = await api.get('/productos/busqueda-avanzada', {
+              params: {
+                nitProveedor: nitProveedor || null,
+                nombreProveedor: nombreProveedor || null,
+                cantidad: cantidad || null,
+                valorUnitarioProducto: valorUnitarioProducto || null,
+                valorTotalProducto: valorTotalProducto || null,
+              },
+            });
+      
+            setData(response.data);
+          } catch (error) {
+            console.error('Error en búsqueda avanzada:', error);
+            setData([]);
+          }
+        };
+      
+        if (isAdvancedSearchOpen) {
+          fetchAdvancedSearchData();
+        }
+      }, [
+        filters.nitProveedor,
+        filters.nombreProveedor,
+        filters.cantidad,
+        filters.valorUnitarioProducto,
+        filters.valorTotalProducto,
+        isAdvancedSearchOpen,
+      ]);
+      
 
     // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
     // También reinicia el estado de búsqueda.
