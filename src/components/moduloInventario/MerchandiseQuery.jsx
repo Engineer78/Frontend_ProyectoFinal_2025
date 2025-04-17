@@ -46,7 +46,7 @@ const MerchandiseQuery = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     // Estado para mostrar los datos del producto seleccionado en los inputs deshabilitados
-    const [headerInputs, setHeaderInputs] = useState({
+    const [setHeaderInputs] = useState({
         nombreCategoria: '',
         nombreProducto: '',
         cantidad: '',
