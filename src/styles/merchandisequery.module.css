@@ -63,8 +63,10 @@
         color: white;
         cursor: pointer;
         padding: 10px 20px;
+        text-align: center; /* Centrar texto */
         text-decoration: none; /* Sin subrayado */
         transition: background-color 0.3s ease, color 0.3s ease; /* Transiciones */
+        width: 180px; /* Ancho fijo para las pestañas */
     }
     
     .tabButton.active {

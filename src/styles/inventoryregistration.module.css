@@ -71,8 +71,10 @@ body {
     color: white;
     cursor: pointer;
     padding: 10px 20px;
+    text-align: center;
     text-decoration: none; /* Aseguramos que los enlaces no tengan subrayado */
     transition: background-color 0.3s ease, color 0.3s ease; /* Añadimos transición en color y fondo */
+    width: 180px; /* Ancho fijo para las pestañas */
   }
   
   .tabButton.active {
