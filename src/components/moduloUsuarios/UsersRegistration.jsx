@@ -86,7 +86,7 @@ const UsersRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
-                    Registro de Usuarios
+                    Registrar Usuarios
                 </Link>
 
                 <Link
@@ -94,7 +94,7 @@ const UsersRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
-                    Consulta de Usuarios
+                    Consultar Usuarios
                 </Link>
 
                 <Link

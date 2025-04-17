@@ -121,7 +121,7 @@ const handleRowClick = (users) => {
           }`}
           onClick={() => handleTabClick("registro")}
         >
-          Registro de Usuarios
+          Registrar Usuarios
         </Link>
 
         <Link
@@ -131,7 +131,7 @@ const handleRowClick = (users) => {
           }`}
           onClick={() => handleTabClick("consulta")}
         >
-          Consulta de Usuarios
+          Consultar Usuarios
         </Link>
 
         <Link
