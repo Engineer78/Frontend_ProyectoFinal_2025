@@ -86,7 +86,6 @@ body {
     
     /* Tabla principal */
     .table {
-        table-layout: fixed; /* Fuerza a las columnas a tener el mismo ancho */
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
@@ -94,6 +93,8 @@ body {
         text-align: center;
         table-layout: auto;
         font-size: 0.85rem;
+        border-collapse: collapse; /* MUY IMPORTANTE para líneas simples */
+        border-spacing: 0;       /* Elimina espacio extra entre celdas */
     }
     
     /* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
@@ -118,6 +119,7 @@ body {
         border: 1px solid #ccc;
         padding: 6px;
         vertical-align: middle;
+        padding: 8px;
     }
     
     /* Inputs dentro del encabezado */
@@ -178,13 +180,6 @@ body {
     tbody td input {
         width: 90%;
         height: 26px;
-    }
-
-    thead, tbody, tr, th, td {
-        margin: 0;
-        padding: 0;
-        border-spacing: 0;
-        border-collapse: collapse;
     }
     
     /* Modal de búsqueda avanzada */

@@ -242,16 +242,16 @@ return (
 
         {/* Pestañas de navegación entre vistas del módulo de usuarios */}
         <div className={styles.tabs}>
-            <Link to="/user-registration" className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''}`} onClick={() => handleTabClick('registro')}>
+            <Link to="/users-registration" className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''}`} onClick={() => handleTabClick('registro')}>
                 Registrar Usuario
             </Link>
-            <Link to="/user-query" className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''}`} onClick={() => handleTabClick('consulta')}>
+            <Link to="/users-query" className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''}`} onClick={() => handleTabClick('consulta')}>
                 Consultar Usuario
             </Link>
-            <Link to="/update-user" className={`${styles.tabButton} ${activeTab === 'actualizar' ? styles.active : ''}`} onClick={() => handleTabClick('actualizar')}>
+            <Link to="/update-users" className={`${styles.tabButton} ${activeTab === 'actualizar' ? styles.active : ''}`} onClick={() => handleTabClick('actualizar')}>
                 Actualizar Usuario
             </Link>
-            <Link to="/delete-user" className={`${styles.tabButton} ${activeTab === 'eliminar' ? styles.active : ''}`} onClick={() => handleTabClick('eliminar')}>
+            <Link to="/delete-users" className={`${styles.tabButton} ${activeTab === 'eliminar' ? styles.active : ''}`} onClick={() => handleTabClick('eliminar')}>
                 Eliminar Usuario
             </Link>
         </div>
