@@ -15,6 +15,7 @@ function UsersQuery() {
  // Estado con los filtros de búsqueda ingresados por el usuario
     const [filters] = useState({
         numeroDocumento: ' ',
+        tipoDocumento : ' ',
         rol: ' ',
         nombreCompletos: ' ',
         telefono: ' ',
@@ -34,6 +35,7 @@ function UsersQuery() {
   // Estado con los filtros de búsqueda ingresados por el usuario
   const [setFilters] = useState({
     numeroDocumento: "",
+    tipoDocumento : "",
     rol: "",
     nombreCompletos: "",
     telefono: "",
@@ -48,6 +50,7 @@ function UsersQuery() {
   // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
   const [HeaderInputs, setHeaderInputs] = useState({
     numeroDocumento: "",
+    tipoDocumento : "",
     rol: "",
     nombreCompletos: "",
     telefono: "",
@@ -61,6 +64,7 @@ function UsersQuery() {
   const handleClear = () => {
     setFilters({
       numeroDocumento: "",
+      tipoDocumento : "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -71,6 +75,7 @@ function UsersQuery() {
     setIsSearching(false);
     setHeaderInputs({
       numeroDocumento: "",
+      tipoDocumento : "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -96,6 +101,7 @@ const handleRowClick = (users) => {
         direccion: users.direccion || '',
         contactoEmergencia: users.contactoEmergencia|| '',
         telefonoContacto: users.telefonoContacto || '',
+        tipoDocumento: users.tipoDocumento || '',
     });
 
     setHeaderInputs({
@@ -106,6 +112,7 @@ const handleRowClick = (users) => {
         direccion: users.direccion || '',
         contactoEmergencia: users.contactoEmergencia|| '',
         telefonoContacto: users.telefonoContacto || '',
+        tipoDocumento: users.tipoDocumento || '',
     });
 };
 
@@ -187,6 +194,17 @@ const handleRowClick = (users) => {
                 onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
+              />
+            </th>
+            <th>
+              Tipo de Documento
+              <input
+                type="text"
+                name="tipoDocumento"
+                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                disabled
+                placeholder="Buscar"
+                style={{ fontStyle: "italic" }}
               />
             </th>
 
