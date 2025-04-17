@@ -14,14 +14,13 @@ function UsersQuery() {
     const [data] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
     const [filters] = useState({
-        codigoProducto: '',
-        nombreCategoria: '',
-        nombreProducto: '',
-        nitProveedor: '',
-        nombreProveedor: '',
-        cantidad: '',
-        valorUnitarioProducto: '',
-        valorTotalProducto: '',
+        numeroDocumento: ' ',
+        rol: ' ',
+        nombreCompletos: ' ',
+        telefono: ' ',
+        direccion: ' ',
+        contactoEmergencia: ' ',
+        telefonoContacto:' ',
 });
       
   // Cambia la pestaña activa al hacer clic en una opción
@@ -88,26 +87,25 @@ function UsersQuery() {
 }; 
 
 // Carga los datos de los usuarios seleccionados en los filtros e inputs
-const handleRowClick = (producto) => {
+const handleRowClick = (users) => {
     setFilters({
-        codigoProducto: producto.codigoProducto || '',
-        nombreCategoria: producto.nombreCategoria || '',
-        nombreProducto: producto.nombreProducto || '',
-        nitProveedor: producto.nitProveedor || '',
-        nombreProveedor: producto.nombreProveedor || '',
-        cantidad: producto.cantidad || '',
-        valorUnitarioProducto: producto.valorUnitarioProducto || '',
-        valorTotalProducto: producto.valorTotalProducto || '',
+        numeroDocumento: users.numeroDocumento || '',
+        rol: users.rol || '',
+        nombreCompletos: users.nombreCompletos| '',
+        telefono: users. telefono || '',
+        direccion: users.direccion || '',
+        contactoEmergencia: users.contactoEmergencia|| '',
+        telefonoContacto: users.telefonoContacto || '',
     });
 
     setHeaderInputs({
-        nombreCategoria: producto.nombreCategoria || '',
-        nombreProducto: producto.nombreProducto || '',
-        cantidad: producto.cantidad || '',
-        valorUnitarioProducto: producto.valorUnitarioProducto || '',
-        valorTotalProducto: producto.valorTotalProducto || '',
-        nombreProveedor: producto.nombreProveedor || '',
-        nitProveedor: producto.nitProveedor || '',
+        numeroDocumento: users.numeroDocumento || '',
+        rol: users.rol || '',
+        nombreCompletos: users.nombreCompletos| '',
+        telefono: users. telefono || '',
+        direccion: users.direccion || '',
+        contactoEmergencia: users.contactoEmergencia|| '',
+        telefonoContacto: users.telefonoContacto || '',
     });
 };
 
