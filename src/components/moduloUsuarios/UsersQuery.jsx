@@ -11,7 +11,18 @@ function UsersQuery() {
   const [activeTab, setActiveTab] = useState("consulta");
 
   // Estado que contiene los datos obtenidos desde el backend
-      const [data] = useState([]);
+    const [data] = useState([]);
+ // Estado con los filtros de búsqueda ingresados por el usuario
+    const [filters] = useState({
+        codigoProducto: '',
+        nombreCategoria: '',
+        nombreProducto: '',
+        nitProveedor: '',
+        nombreProveedor: '',
+        cantidad: '',
+        valorUnitarioProducto: '',
+        valorTotalProducto: '',
+});
       
   // Cambia la pestaña activa al hacer clic en una opción
   const handleTabClick = (tab) => {
@@ -174,7 +185,7 @@ const handleRowClick = (producto) => {
               <input
                 type="text"
                 name="numeroDocumento"
-                /*value={filters.numeroDocumento} */ // Vincula el valor con el estado de los filtros
+                value={filters.numeroDocumento} // Vincula el valor con el estado de los filtros
                 onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
