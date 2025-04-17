@@ -206,8 +206,8 @@ const UpdateUsers = () => {
                     </div>
 
                     <div className={styles.actionButtons}>
-                        <button className={styles.saveButton} onClick={handleSave}>
-                            Guardar <SaveIcon />
+                        <button className={styles.updateButton} onClick={handleSave}>
+                            Actualizar <SaveIcon />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
                             Limpiar <CleaningServicesIcon />
