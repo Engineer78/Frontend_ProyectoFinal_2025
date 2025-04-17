@@ -40,6 +40,21 @@ const UpdateUsers = () => {
         );
     };
 
+    // Limpiar el formulario
+    const handleClear = () => {
+        setUserID("");
+        setUserNames("");
+        setUserLastName("");
+        setUserSecondLastName("");
+        setUserAlias("");
+        setUserPassword("");
+        setUserPhone("");
+        setUserAddress("");
+        setUserEmergencyContact("");
+        setUserContactPhone("");
+        setDocumentType("");
+        setRolType("");
+    };
 
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
