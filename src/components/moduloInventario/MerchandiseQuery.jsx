@@ -162,7 +162,7 @@ const MerchandiseQuery = () => {
         };
 
         fetchFilteredData();
-    }, [filters]);
+    }, [filters, setHeaderInputs]);
 
 
     // useEffect para la búsqueda avanzada: se activa al abrir el modal y al cambiar los filtros.
