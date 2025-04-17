@@ -83,21 +83,27 @@ createRoot(document.getElementById('root')).render(
           path="/delete-merchandise"
           element={<DeleteMerchandise />}
         />
+
+        {/*rutas para el modulo de usuatios*/}
+
         {/* Ruta para el registro de usuarios */}
         <Route
           path="/users-registration"
           element={<UsersRegistration />}
         />
+
          {/*Ruta para la consulta de usuarios */}
         <Route
           path="/users-query"
           element={<UsersQuery />}
         />
+
         {/* Ruta para la actualización de usuarios */}
         {/*<Route
           path="/update-users"
           element={<UpdateUsers />}
         />*/}
+        
         {/* Ruta para la eliminación de usuarios */}
         <Route
           path="/delete-users"
