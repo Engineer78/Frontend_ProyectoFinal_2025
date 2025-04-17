@@ -1,6 +1,24 @@
 import React from 'react'
 
 const UpdateUsers = () => {
+
+    // Se definen los estados para los campos del formulario
+    const [userID, setUserID] = useState("");
+    const [userName, setUserNames] = useState("");
+    const [userLastName, setUserLastName] = useState("");
+    const [userSecondLastName, setUserSecondLastName] = useState("");
+    const [userAlias, setUserAlias] = useState("");
+    const [userPassword, setUserPassword] = useState("");
+    const [userPhone, setUserPhone] = useState("");
+    const [userAddress, setUserAddress] = useState("");
+    const [userEmergencyContact, setUserEmergencyContact] = useState("");
+    const [userContactPhone, setUserContactPhone] = useState("");
+    const [documentType, setDocumentType] = useState("");
+    const [rolType, setRolType] = useState("");
+    const [activeTab, setActiveTab] = useState("registro");
+
+
+
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
     // carga de imagen, y botones para guardar, limpiar o salir.
@@ -60,7 +78,7 @@ const UpdateUsers = () => {
                                 type="text"
                                 placeholder="Número de Identificación (Obligatorio)"
                                 value={userID}
-                                onChange={(e) => setProductCode(e.target.value)}
+                                onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
                             //disabled={isCodeDisabled} // Deshabilita el input si se busca un producto
@@ -79,7 +97,7 @@ const UpdateUsers = () => {
                                 type="text"
                                 placeholder="Nombre(s)"
                                 value={userName}
-                                onChange={(e) => setSupplierNIT(e.target.value)}
+                                onChange={(e) => setUserNames(e.target.value)}
                                 className={styles.input}
                             />
 
