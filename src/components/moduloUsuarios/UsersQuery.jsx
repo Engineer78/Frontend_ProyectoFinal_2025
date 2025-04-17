@@ -9,12 +9,18 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 function UsersQuery() {
   // Estado para controlar la pestaña activa
   const [activeTab, setActiveTab] = useState("consulta");
+
+  // Estado que contiene los datos obtenidos desde el backend
+      const [data] = useState([]);
+      
   // Cambia la pestaña activa al hacer clic en una opción
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   // Estado que indica si el usuario ha iniciado una búsqueda
   const [setIsSearching] = useState(false);
+
   // Estado con los filtros de búsqueda ingresados por el usuario
   const [setFilters] = useState({
     numeroDocumento: "",
@@ -25,7 +31,11 @@ function UsersQuery() {
     contactoEmergencia: "",
     telefonoContacto: "",
   });
-  // Estado para mostrar los datos del producto seleccionado en los inputs deshabilitados
+
+  // Estado que indica si el usuario ha iniciado una búsqueda
+  const [isSearching] = useState(false);
+
+  // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
   const [HeaderInputs, setHeaderInputs] = useState({
     numeroDocumento: "",
     rol: "",
@@ -35,6 +45,7 @@ function UsersQuery() {
     contactoEmergencia: "",
     telefonoContacto: "",
   });
+
   // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
   // También reinicia el estado de búsqueda.
   const handleClear = () => {
@@ -58,6 +69,30 @@ function UsersQuery() {
       telefonoContacto: "",
     });
   };
+
+// Carga los datos de los usuarios seleccionados en los filtros e inputs
+const handleRowClick = (producto) => {
+    setFilters({
+        codigoProducto: producto.codigoProducto || '',
+        nombreCategoria: producto.nombreCategoria || '',
+        nombreProducto: producto.nombreProducto || '',
+        nitProveedor: producto.nitProveedor || '',
+        nombreProveedor: producto.nombreProveedor || '',
+        cantidad: producto.cantidad || '',
+        valorUnitarioProducto: producto.valorUnitarioProducto || '',
+        valorTotalProducto: producto.valorTotalProducto || '',
+    });
+
+    setHeaderInputs({
+        nombreCategoria: producto.nombreCategoria || '',
+        nombreProducto: producto.nombreProducto || '',
+        cantidad: producto.cantidad || '',
+        valorUnitarioProducto: producto.valorUnitarioProducto || '',
+        valorTotalProducto: producto.valorTotalProducto || '',
+        nombreProveedor: producto.nombreProveedor || '',
+        nitProveedor: producto.nitProveedor || '',
+    });
+};
 
   // Renderiza la vista principal del módulo de consulta de usuarios:
   // Incluye el header reutilizable, pestañas de navegación, tabla con filtros,
@@ -213,6 +248,34 @@ function UsersQuery() {
             </th>
           </tr>
         </thead>
+        <tbody>
+          {isSearching ? (
+            data.length > 0 ? (
+              data.map((item, index) => (
+                <tr key={index} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{item.numeroDocumento}</td>
+                  <td>{item.rol}</td>
+                  <td>{item.nombreCompletos}</td>
+                  <td>{item.telefono}</td>
+                  <td>{item.direccion}</td>
+                  <td>{item.contactoEmergencia}</td>
+                  <td>{item.telefonoContacto}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="10">No se encontraron resultados</td>
+              </tr>
+            )
+          ) : (
+            <tr>
+              <td colSpan="10">Realiza una búsqueda para ver los registros</td>
+            </tr>
+          )}
+        </tbody>
       </table>
       {/* Botones de acción */}
       <div className={styles.buttons}>
