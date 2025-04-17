@@ -56,6 +56,11 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
+    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+        useEffect(() => {
+            setActiveTab("registro");
+        }, []);
+
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
     // carga de imagen, y botones para guardar, limpiar o salir.
