@@ -263,7 +263,7 @@
     }
     
     /* Estilos generales para los botones */
-    .saveButton,
+    .updateButton,
     .clearButton,
     .exitButton {
         align-items: center;
@@ -284,18 +284,18 @@
     }
     
     /* Estilos para el botón de Guardar */
-    .saveButton {
+    .updateButton {
         background-color: #333233; /* Color principal */
     }
     
-    .saveButton:focus {
+    .updateButton:focus {
         outline: none;
         background-color: #333233; /* Vuelve al color principal */
         box-shadow: none;
     }
     
     /* Active: Efecto al presionar el botón */
-    .saveButton:active {
+    .updateButton:active {
         background-color: #565557; /* Color al presionar */
     }
     
