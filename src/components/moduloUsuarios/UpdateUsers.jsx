@@ -66,12 +66,12 @@ const UpdateUsers = () => {
     // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
     const handleSearch = async () => {
         const trimmedUserID = userID.trim();
-    
+
         if (!trimmedUserID) {
             alert("Por favor, ingrese el Número de Identificación del usuario para buscar.");
             return;
         }
-    
+
         /*try {
             //const response = await api.get(`/usuarios/cedula/${trimmedProductCode}`);
     
@@ -134,7 +134,7 @@ const UpdateUsers = () => {
             alert("Por favor, complete todos los campos obligatorios.");
             return;
         }
-    
+
         /*if (originalUserIndex === -1) {
             alert("No se encontró el usuaroio para actualizar. Realice una búsqueda primero.");
             return;
@@ -204,8 +204,8 @@ const UpdateUsers = () => {
         }*/
     };
 
-     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
-     useEffect(() => {
+    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+    useEffect(() => {
         setActiveTab('actualizar');
     }, []);
 
@@ -415,8 +415,8 @@ const UpdateUsers = () => {
                     </div>
 
                     <div className={styles.actionButtons}>
-                        <button className={styles.updateButton} onClick={handleSave}>
-                            Actualizar <SaveIcon />
+                        <button className={styles.saveButton} onClick={handleSave}>
+                            Guardar <SaveIcon />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
                             Limpiar <CleaningServicesIcon />
@@ -425,7 +425,8 @@ const UpdateUsers = () => {
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton} >
-                            Salir <ExitToAppIcon /> </button>
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                        </button>
                     </div>
                 </div>
             )}
