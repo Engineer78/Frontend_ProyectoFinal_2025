@@ -10,7 +10,8 @@ body {
 
 /* Contenedor principal con scroll */
 .scroll-container {
-    overflow-y: scroll;
+    overflow-y: auto;
+    max-height: 100vh;
     /* Asegurar que siempre haya una barra de desplazamiento vertical */
 }
 
