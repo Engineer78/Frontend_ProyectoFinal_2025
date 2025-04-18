@@ -67,6 +67,71 @@ const UpdateUsers = () => {
             setActiveTab("registro");
         }, []);
 
+    // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
+    const handleSearch = async () => {
+        const trimmedUserID = userID.trim();
+    
+        if (!trimmedUserID) {
+            alert("Por favor, ingrese el Número de Identificación del usuario para buscar.");
+            return;
+        }
+    
+        /*try {
+            //const response = await api.get(`/usuarios/cedula/${trimmedProductCode}`);
+    
+            if (!response.data) {
+                alert("No se encontraron datos para el Número de Identificación del usuario proporcionado.");
+                setOriginalUserIndex(-1);
+                handleClear();
+                return;
+            }
+    
+            // Si se encuentra el producto, llenar el formulario con los datos
+            const product = response.data;
+            setOriginalUserIndex(user.idUser);
+            setUserID(Number(user.idUser) || "");
+            setUserNames(user.userName || "");
+            setUserLastName(user.userLastName || "");
+            setUserSecondLastName(user.userSecondLastName || "");
+            setUserAlias(user.userAlias || "");
+            setUserPassword(user.userPassword || "");
+            setUserPhone(user.userPhone || "");
+            setUserAddress(user.userAddress || "");
+            setUserEmergencyContact(user.userEmergencyContact || "");
+            setUserContactPhone(user.userContactPhone || "");
+            setDocumentType(user.documentType || "");
+            setRolType(user.rolType || "");
+
+            // Buscar el ID del usuario basado en el nombre del tipo de documento
+            const tipoDocumentoEncontrado = documentTypes.find(
+                (tipo) => tipo.nombreTipoDocumento === user.documentType
+            );
+            if (tipoDocumentoEncontrado) {
+                setSelectedDocumentTypeId(tipoDocumentoEncontrado.idTipoDocumento);
+            }
+
+            // Buscar el ID del rol basado en el nombre del tipo de rol
+            const rolEncontrado = roles.find(
+                (rol) => rol.nombreTipoRol === user.rolType
+            );
+            if (rolEncontrado) {
+                setSelectedRolId(rolEncontrado.idTipoRol);
+            }
+
+            // Deshabilitar el campo de búsqueda después de encontrar el usuario
+            // setIsUserIdDisable(true);
+    
+            console.log("Usuario recibido:", response.data);
+        
+            alert("Datos encontrados. Puede actualizarlos ahora.");
+        } catch (error) {
+            console.error("Error al buscar el usuario:", error);
+            alert("Hubo un error al buscar el usuario. Por favor, inténtelo de nuevo.");
+            setOriginalUserIndex(-1);
+            handleClear();
+        }*/
+    };
+
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
     // carga de imagen, y botones para guardar, limpiar o salir.
