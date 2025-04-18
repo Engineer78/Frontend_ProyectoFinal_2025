@@ -213,7 +213,8 @@ const UpdateUsers = () => {
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
     // carga de imagen, y botones para guardar, limpiar o salir.
     return (
-        <>
+        <div className={styles.containerPrincipal}>
+            {/* Encabezado del módulo */}
             <Header
                 title="Módulo registro de usuarios"
                 subtitle="Hardware Store Inventory FFIG"
@@ -428,7 +429,7 @@ const UpdateUsers = () => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

@@ -1,0 +1,58 @@
+/* Estilo global para el cuerpo de la página */
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Contenedor principal con scroll */
+.scroll-container {
+    overflow-y: scroll;
+    /* Asegurar que siempre haya una barra de desplazamiento vertical */
+}
+
+/* Scrollbar para navegadores basados en Webkit (Chrome, Safari, Brave) */
+.scroll-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #333233 !important; /* Color del fondo */
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb {
+    background-color: #565557 !important; /* Color del thumb */
+    border-radius: 10px !important; /* Bordes redondeados */
+  }
+  
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555 !important; /* Color del thumb al hacer hover */
+  }
+  
+  /* Scrollbar para Firefox */
+  .scroll-container {
+    scrollbar-color: #565557 #333233; /* Color del thumb y de la pista */
+    scrollbar-width: thin; /* Ancho del scroll */
+  }
+
+  /* Contenedor principal donde se ubican los formularios y el contenido */
+  .container {
+    color: #333;
+    flex: 1;
+    margin: 20px auto;
+    max-width: 900px;
+    padding: 30px 20px;
+    padding-bottom: 80px; /* Añadir espacio inferior para que no quede oculto por el footer */
+  }
+
+   /* Estilo del título */
+   .title {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    text-align: left;  
+  }
+
+  
