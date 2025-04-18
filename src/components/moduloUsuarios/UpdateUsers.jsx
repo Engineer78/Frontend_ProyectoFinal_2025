@@ -132,6 +132,82 @@ const UpdateUsers = () => {
         }*/
     };
 
+    // Maneja la actualización del usuario tras validar los campos, y enviar los datos al backend
+    const handleSave = async () => {
+        if (!validateFields()) {
+            alert("Por favor, complete todos los campos obligatorios.");
+            return;
+        }
+    
+        /*if (originalUserIndex === -1) {
+            alert("No se encontró el usuaroio para actualizar. Realice una búsqueda primero.");
+            return;
+        }
+    
+        try {
+          
+            const tipoDocumentoSeleccionado = documentType.find(
+                (tipo) => tipo.idTipoDocumento === parseInt(selectedDocumentTypeId)
+            );
+            const rolSeleccionado = rolType.find(
+                (rol) => rol.idTipoRol === parseInt(selectedRolId)
+            );
+        
+            // Construir el objeto con los datos actualizados del usuario
+            const updatedUser = {
+                idUser: originalUserIndex,
+                numeroDocumento: parseInt(userID),
+                nombreUsuario: userName,
+                primerApellidoUsuario: parseInt(userLastName),
+                segundoApellidoUsuario: parseInt(userSecondLastName),
+                aliasUsuario: userAlias,
+                contrasenaUsuario: userPassword,
+                telefonoMovilUsuario: userPhone,
+                direccionResidenciaUsuario: userAddress,
+                contactoEmergenciaUsuario: userEmergencyContact,
+                telefonoContactoUsuario: userContactPhone,
+                idTipoDocumento: tipoDocumentoSeleccionado ? parseInt(tipoDocumentoSeleccionado.idTipoDocumento) : null,
+                idTipoRol: rolSeleccionado ? parseInt(rolSeleccionado.idTipoRol) : null
+            };
+        
+            console.log("Datos a enviar:", updatedUser);
+        
+            // Hacer la llamada a la API para actualizar el usuario
+            const response = await api.put(`/usuarios/${originalUserIndex}`, updatedUser);
+        
+            if (response.status === 200) {
+                alert("usuario actualizado exitosamente.");
+        
+            // Actualizar la interfaz con los datos nuevos que retorna el backend
+                const updated = response.data;
+                setUserID(updated.numeroDocumento || "");
+                setUserNames(updated.nombreUsuario || ""); 
+                setUserLastName(updated.primerApellidoUsuario || "");
+                setUserSecondLastName(updated.segundoApellidoUsuario || "");
+                setUserAlias(updated.aliasUsuario || "");
+                setUserPassword(updated.contrasenaUsuario || "");
+                setUserPhone(updated.telefonoMovilUsuario || "");
+                setUserAddress(updated.direccionResidenciaUsuario || "");
+                setUserEmergencyContact(updated.contactoEmergenciaUsuario || "");
+                setUserContactPhone(updated.telefonoContactoUsuario || "");
+                setDocumentType(updated.idTipoDocumento || "");
+                setRolType(updated.idTipoRol || "");
+        
+                handleClear(); // Limpiar los campos del formulario
+            }
+            else {
+                alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
+            }
+        
+        } catch (error) {
+            console.error("Error al actualizar el usuario:", error);
+            if (error.response) {
+                console.log("Respuesta del servidor:", error.response.data);
+            }
+            alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
+        }*/
+    };
+
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
     // carga de imagen, y botones para guardar, limpiar o salir.
