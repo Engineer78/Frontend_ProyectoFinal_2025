@@ -10,7 +10,7 @@
     height: 40px;
     left: 0;
     padding: 10px 0;
-    position: fixed;
+    position: relative;
     text-align: center;
     width: 100%;
     /*z-index: 1000;*/ /* Asegura que el footer esté por encima de otros elementos */
