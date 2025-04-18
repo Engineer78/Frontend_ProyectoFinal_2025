@@ -31,7 +31,7 @@ const UsersRegistration = () => {
     };
 
     // Se define una función para validar los campos vacios del formulario.
-    const validateFields = () => {
+    {/*const validateFields = () => {
         return (
             userID &&
             userName &&
@@ -46,7 +46,7 @@ const UsersRegistration = () => {
             documentType &&
             rolType
         );
-    };
+    };*/}
 
     // Limpiar el formulario
     const handleClear = () => {
@@ -265,17 +265,17 @@ const UsersRegistration = () => {
                         </form>
 
                     </div>
-                    <div className={styles.buttons}>
-                        <button type="button" /*onClick={handleSave}*/ className={styles.button}>
+                    <div className={styles.actionButtons}>
+                        <button type="button" /*onClick={handleSave}*/ className={styles.saveButton}>
                             Guardar <SaveIcon />
                         </button>
-                        <button type="button" onClick={handleClear} className={styles.button}>
+                        <button type="button" onClick={handleClear} className={styles.clearButton}>
                             Limpiar <CleaningServicesIcon />
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
-                            className={styles.button}
+                            className={styles.exitButton}
                         >
                             Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                         </button>
