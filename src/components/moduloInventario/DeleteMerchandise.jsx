@@ -183,7 +183,7 @@ const DeleteMerchandise = () => {
         if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
             setIsSearching(true);
         }
-    }, [filters, visibleItems, fullProductList]);
+    }, [filters, visibleItems, fullProductList, isSearching]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
