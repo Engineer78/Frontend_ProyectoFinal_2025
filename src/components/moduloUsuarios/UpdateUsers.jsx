@@ -224,7 +224,7 @@ const UpdateUsers = () => {
 
             <div className={styles.tabs}>
                 <Link
-                    to="/inventory-registration"
+                    to="/users-registration"
                     className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
@@ -232,7 +232,7 @@ const UpdateUsers = () => {
                 </Link>
 
                 <Link
-                    to="/merchandise-query"
+                    to="/users-query"
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
@@ -240,7 +240,7 @@ const UpdateUsers = () => {
                 </Link>
 
                 <Link
-                    to="/update-merchandise"
+                    to="/update-users"
                     className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
@@ -248,7 +248,7 @@ const UpdateUsers = () => {
                 </Link>
 
                 <Link
-                    to="/delete-merchandise"
+                    to="/delete-users"
                     className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("eliminar")}
                 >
