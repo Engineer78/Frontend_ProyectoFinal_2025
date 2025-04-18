@@ -12,6 +12,7 @@ import UpdateMerchandise from '../components/moduloInventario/UpdateMerchandise'
 import DeleteMerchandise from '../components/moduloInventario/DeleteMerchandise'; // Componente de eliminación de mercancancia
 import UsersRegistration from '../components/moduloUsuarios/UsersRegistration'; // Componente de registro de usuarios
 import UsersQuery from '../components/moduloUsuarios/UsersQuery'; // Componente de consulta de usuarios
+import UpdateUsers from '../components/moduloUsuarios/UpdateUsers'; // Componente de actualización de usuarios
 import DeleteUsers from '../components/moduloUsuarios/DeleteUsers'; // Componente de eliminación de usuarios
 
 // Inicializa un usuario predeterminado en el localStorage
@@ -99,10 +100,10 @@ createRoot(document.getElementById('root')).render(
         />
 
         {/* Ruta para la actualización de usuarios */}
-        {/*<Route
+        *<Route
           path="/update-users"
           element={<UpdateUsers />}
-        />*/}
+        />
         
         {/* Ruta para la eliminación de usuarios */}
         <Route
