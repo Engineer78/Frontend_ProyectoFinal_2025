@@ -63,9 +63,9 @@ const UpdateUsers = () => {
     };
 
     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
-        useEffect(() => {
-            setActiveTab("registro");
-        }, []);
+    useEffect(() => {
+        setActiveTab('actualizar');
+    }, []);
 
     // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
     const handleSearch = async () => {
