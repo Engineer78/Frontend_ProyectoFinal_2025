@@ -283,7 +283,7 @@ body {
 }
 
 /* Estilos generales para los botones */
-.updateButton,
+.saveButton,
 .clearButton,
 .exitButton {
     align-items: center;
@@ -300,22 +300,22 @@ body {
     justify-content: center;
     padding: 8px 15px;
     text-align: center;
-    min-width: 118px !important;
+    min-width: 120px !important;
 }
 
 /* Estilos para el botón de Guardar */
-.updateButton {
+.saveButton {
     background-color: #333233; /* Color principal */
 }
 
-.updateButton:focus {
+.saveButton:focus {
     outline: none;
     background-color: #333233; /* Vuelve al color principal */
     box-shadow: none;
 }
 
 /* Active: Efecto al presionar el botón */
-.updateButton:active {
+.saveButton:active {
     background-color: #565557; /* Color al presionar */
 }
 
