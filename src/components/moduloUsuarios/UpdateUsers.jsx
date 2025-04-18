@@ -62,11 +62,6 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
-    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
-    useEffect(() => {
-        setActiveTab('actualizar');
-    }, []);
-
     // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
     const handleSearch = async () => {
         const trimmedUserID = userID.trim();
@@ -207,6 +202,11 @@ const UpdateUsers = () => {
             alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
         }*/
     };
+
+     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+     useEffect(() => {
+        setActiveTab('actualizar');
+    }, []);
 
     // Componente para actualizar productos del inventario.
     // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
