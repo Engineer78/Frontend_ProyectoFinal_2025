@@ -465,7 +465,7 @@ const UpdateMerchandise = () => {
                     </div>
 
                     <div className={styles.actionButtons}>
-                        <button className={styles.saveButton} onClick={handleSave}>
+                        <button className={styles.updateButton} onClick={handleSave}>
                             Guardar <SaveIcon />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
