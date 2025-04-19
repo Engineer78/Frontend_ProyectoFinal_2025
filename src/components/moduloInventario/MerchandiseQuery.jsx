@@ -339,7 +339,7 @@ const MerchandiseQuery = () => {
                         }`}
                     onClick={() => handleTabClick('registro')}
                 >
-                    Registro de Producto
+                    Registrar Inventario
                 </Link>
 
                 <Link
@@ -348,7 +348,7 @@ const MerchandiseQuery = () => {
                         }`}
                     onClick={() => handleTabClick('consulta')}
                 >
-                    Consulta de Producto
+                    Consultar Inventario
                 </Link>
 
                 <Link
@@ -357,7 +357,7 @@ const MerchandiseQuery = () => {
                         }`}
                     onClick={() => handleTabClick('actualizar')}
                 >
-                    Actualizar Producto
+                    Actualizar Inventario
                 </Link>
 
                 <Link
@@ -366,7 +366,7 @@ const MerchandiseQuery = () => {
                         }`}
                     onClick={() => handleTabClick('eliminar')}
                 >
-                    Eliminar Producto
+                    Eliminar Inventario
                 </Link>
             </div>
 
