@@ -378,8 +378,8 @@ const MerchandiseQuery = () => {
                 </h2>
             </div>
 
-            {/* Tabla de consulta de mercancía */}
-            <table className={styles.table}>
+             {/* Tabla de consulta de mercancía */}
+             <table className={styles.table}>
                 <thead>
                     <tr>
                         <th>
@@ -426,7 +426,7 @@ const MerchandiseQuery = () => {
                                 name="cantidad"
                                 value={selectedProduct ? selectedProduct.cantidad : ''}
                                 disabled
-                                placeholder="Buscar"
+                                placeholder="..."
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -437,7 +437,7 @@ const MerchandiseQuery = () => {
                                 name="valorUnitarioProducto"
                                 value={selectedProduct ? selectedProduct.valorUnitarioProducto : ''}
                                 disabled
-                                placeholder="Buscar"
+                                placeholder="..."
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -448,7 +448,7 @@ const MerchandiseQuery = () => {
                                 name="valorTotalProducto"
                                 value={selectedProduct ? selectedProduct.valorTotalProducto : ''}
                                 disabled
-                                placeholder="Buscar"
+                                placeholder="..."
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -459,7 +459,7 @@ const MerchandiseQuery = () => {
                                 name="nombreProveedor"
                                 value={selectedProduct ? selectedProduct.nombreProveedor : ''}
                                 disabled
-                                placeholder="Buscar"
+                                placeholder="..."
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -470,7 +470,7 @@ const MerchandiseQuery = () => {
                                 name="nitProveedor"
                                 value={selectedProduct ? selectedProduct.nitProveedor : ''}
                                 disabled
-                                placeholder="Buscar"
+                                placeholder="..."
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -628,26 +628,26 @@ const MerchandiseQuery = () => {
             )}
 
             {/* Botones de acción */}
-            <div className={styles.buttons}>
+            <div className={styles.actionButtons}>
                 {/* Botón para abrir el modal búsqueda avanzada */}
                 <button
                     type="button"
                     onClick={openAdvancedSearchModal} // Abre el modal de búsqueda avanzada
-                    className={styles.button}
+                    className={styles.advancedSearchButton}
                     title="Haz clic para realizar una búsqueda avanzada" // Tooltip que aparece al pasar el cursor
                 >
                     Buscar <SearchIcon style={{ marginLeft: 8 }} />
                 </button>
 
-                <button type="button" onClick={handleClear} className={styles.button}>
+                <button type="button" onClick={handleClear} 
+                    className={styles.clearButton}>
                     Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                 </button>
 
                 <button
                     type="button"
                     onClick={() => (window.location.href = '/menu-principal')}
-                    className={styles.button}
-                >
+                    className={styles.exitButton}>
                     Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                 </button>
             </div>
