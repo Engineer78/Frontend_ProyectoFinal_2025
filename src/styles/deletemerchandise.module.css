@@ -1,448 +1,547 @@
 /* Estilo global para el cuerpo de la página */
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    min-height: 100vh; /* Asegura que el body ocupe toda la altura sin afectar el header */
-  }
-  
-  /* Contenedor principal con scroll */
-  .scroll-container {
-    overflow-y: scroll; /* Barra de desplazamiento vertical */
-    min-height: calc(100vh - 80px); /* Asegura que el contenedor ocupe toda la altura restante después de los botones */
-    padding: 0 20px; /* Espacio lateral para dar margen a todo el contenido */
-  }
-  
-  /* Scrollbar para navegadores basados en Webkit (Chrome, Safari, Brave) */
-  .scroll-container::-webkit-scrollbar {
-    width: 12px; /* Ancho del scrollbar */
-  }
-  
-  .scroll-container::-webkit-scrollbar-track {
-    background: #333233 !important; /* Color del fondo del scrollbar */
-  }
-  
-  .scroll-container::-webkit-scrollbar-thumb {
-    background-color: #565557 !important; /* Color del thumb */
-    border-radius: 10px !important; /* Bordes redondeados */
-  }
-  
-  .scroll-container::-webkit-scrollbar-thumb:hover {
-    background: #555 !important; /* Color del thumb al hacer hover */
-  }
-  
-  /* Scrollbar para Firefox */
-  .scroll-container {
-    scrollbar-color: #565557 #333233; /* Color del thumb y de la pista */
-    scrollbar-width: thin; /* Ancho del scrollbar */
-  }
-  
-  /* Título de la tabla */
-  .title {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    margin-left: 172px;
-    text-align: left;
-  }
-  
-  /* Estilo para las pestañas de navegación */
-  .tabs {
-    display: flex;
-    flex: 1;
-    justify-content: center; /* Centrar pestañas horizontalmente */
-    margin-bottom: 20px;
-  }
-  
-  /* Enlace de pestaña con efectos */
-  .tabButton {
-    align-items: center;
-    background-color: #333233; /* Color de fondo */
-    border: none;
-    border-radius: 1px 25px 1px 1px; /* Bordes personalizados */
-    color: white;
-    cursor: pointer;
-    padding: 10px 20px;
-    text-align: center; /* Centrar texto */
-    text-decoration: none; /* Sin subrayado */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transiciones */
-    width: 180px; /* Ancho fijo para las pestañas */
-  }
-  
-  .tabButton.active {
-    background-color: #565557; /* Fondo para pestaña activa */
-    color: white; /* Texto blanco */
-    font-weight: bold; /* Negrita */
-  }
-  
-  .tabButton:hover {
-    background-color: #565557; /* Fondo al pasar el cursor */
-    color: white;
-  }
-  
-  /* Asegurar enlaces limpios */
-  .tabs a {
-    text-decoration: none;
-    color: #ffffff;
-  }
-  
-  /* Tabla principal */
-  .table {
-    width: 100%; /* Ocupa el ancho completo del contenedor */
-    max-width: 1200px; /* Limita el ancho máximo de la tabla */
-    margin: 0 auto; /* Centra la tabla horizontalmente */
-    margin-bottom: 60px; /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/  border-collapse: collapse; /* Evita doble borde entre celdas */
-    text-align: center; /* Centra horizontalmente el contenido */
-    table-layout: auto; /* Ajuste dinámico del ancho de las columnas */
-    font-size: 0.85rem; /* Reducir tamaño de la letra en la tabla */
-  }
-  
-  /* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
-  .table-wrapper {
-    display: block;
-    max-height: calc(100vh - 120px); /* Ajusta la altura de la tabla para que el encabezado quede visible */
-    overflow-y: auto; /* Permite el desplazamiento solo en el cuerpo de la tabla */
-  }
-  
-  /* Aseguramos que el encabezado se quede fijo al hacer scroll */
-  .table thead {
-    position: sticky;
-    top: 0; /* Hace que el encabezado quede pegado al top */
-    background-color: #333233; /* Fondo para el encabezado */
-    color: #ffffff;
-    font-size: 0.8rem; /* Tamaño del texto en encabezado */
-    z-index: 1; /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
-  }
-  
-  /* Celdas del encabezado y cuerpo de la tabla */
-  th, td {
-    border: 1px solid #ccc; /* Bordes grises claros */
-    padding: 6px; /* Reducido el espaciado interno */
-    vertical-align: middle; /* Centrar verticalmente el contenido */
-    padding: 8px; /* Añade algo de padding a las celdas del encabezado */ 
-  }
-  
-  /* Inputs dentro del encabezado */
-  th input {
-    width: 90%; /* Tamaño adaptable a la celda */
-    padding: 3px; /* Reducir el espaciado interno del input */
-    font-size: 0.85rem; /* Tamaño más pequeño del texto en los inputs */
-    height: 26px; /* Altura más delgada para los inputs */
-    border: 1px solid #ccc; /* Borde sutil */
-    border-radius: 3px; /* Bordes ligeramente redondeados */
-  }
-  
-  /* Estilo para checkboxes */
-  th input[type="checkbox"], td input[type="checkbox"] {
-    width: 16px; /* Reducir tamaño del checkbox */
-    height: 16px; /* Reducir tamaño del checkbox */
-    cursor: pointer; /* Cambiar el cursor a puntero por defecto */
-  }
-  
-  /* Solo aplicar cursor: not-allowed cuando el checkbox esté deshabilitado */
-  /* Quitar estilo predeterminado del checkbox y personalizarlo */
-  th input[type="checkbox"]:disabled, td input[type="checkbox"]:disabled {
-    -webkit-appearance: none;  /* Para Webkit (Chrome, Safari, etc.) */
-    -moz-appearance: none;     /* Para Firefox */
-    appearance: none;          /* Para otros navegadores */
-    width: 16px;
-    height: 16px;
-    background-color: #565557; /* Color de fondo cuando está deshabilitado */
-    border: 2px solid #ccc;    /* Borde gris claro */
-    border-radius: 4px;        /* Bordes redondeados */
-    cursor: not-allowed;      /* Cursor prohibido */
-  }
-  
-  /* Inputs deshabilitados en las celdas */
-  th input[disabled] {
-    background-color: #565557; /* Fondo gris claro */
-    color: #FFFFFF; /* Texto gris */
-    border: 1px solid #ccc; /* Borde sutil */
-  }
-  
-  /* Filas del cuerpo de la tabla */
-  tbody tr {
-    background-color: #fff; /* Fondo blanco por defecto */
-  }
-  
-  tbody tr:hover {
-    background-color: #f7f7f7; /* Fondo al pasar el cursor */
-  }
-  
-  /* Texto en las celdas del cuerpo */
-  tbody td {
-    font-size: 0.8rem; /* Reducir tamaño del texto en celdas */
-  }
-  
-  /* Ajuste dinámico del ancho de inputs */
-  tbody td input {
-    width: 90%; /* Inputs se ajustan al ancho de la celda */
-    height: 26px; /* Altura delgada de los inputs */
-  }
-  
-  .modalImage {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  /* Modal Overlay */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3500; /* Asegura que esté encima de otros elementos */
-  }
-  
-  /* Modal Content */
-  .modalContent {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    width: 400px;
-    height: 520px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Close Button */
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #FD7E14;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 15%;
-    font-size: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-style: bold;
-    font-weight: bold;
-  }
-  
-  /* Modal de búsqueda avanzada */
-  .delete-confirmation-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3500;
-  }
-  
-  /* Contenido del modal */
-  .modalContent-delete{
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px; /* Ancho fijo para el modal */
-    height: 260px;
-    max-width: 90%;
-    overflow-y: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  /* Estilo para los encabezados dentro del modal */
-  .modalContent-delete h3 {
-    margin-bottom: 20px;
-    margin-top: 40px;
-    text-align: center;
-    font-size: 1.5rem;
-    color: #333;
-  }
-  
-  .modalContent-delete p {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #333;
-  }
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  /* Asegura que el body ocupe toda la altura sin afectar el header */
+}
 
-  .delete-button{
-    align-items: center;
-    background-color: #565557;
-    color: white;
-    display: flex;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
-    cursor: pointer;
-    margin-left: 150px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    width: 110px;
-    justify-content: center;
-  }
+/* Contenedor principal con scroll */
+.scroll-container {
+  overflow-y: scroll;
+  /* Barra de desplazamiento vertical */
+  min-height: calc(100vh - 80px);
+  /* Asegura que el contenedor ocupe toda la altura restante después de los botones */
+  padding: 0 20px;
+  /* Espacio lateral para dar margen a todo el contenido */
+}
 
-  .delete-button:hover {
-    background-color: #333233;
-  }
-  
-    /* Botón de cerrar */
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #FD7E14;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-style: bold;
-    font-weight: bold;
-    border-radius: 15%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 10px;
-  }
-  
-  /* Fondo de la ventana modal (al hacer click fuera de la ventana, cierra el modal) */
-  .modal:hover {
-    cursor: pointer;
-  }
-  
-  
-  /* estilos para los botones de Acción */
-  /* Estilo para el contenedor de los botones */
-  .buttons {
-    position: fixed;
-    bottom: 100px;
-    align-items: flex-end;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-left: 990px;
-    margin-top: 330px;
-    z-index: 3000;
-  }
+/* Scrollbar para navegadores basados en Webkit (Chrome, Safari, Brave) */
+.scroll-container::-webkit-scrollbar {
+  width: 12px;
+  /* Ancho del scrollbar */
+}
 
-  /* Estilos generales para los botones */
-  .button {
-    align-items: center;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1rem;
-    gap: 2px;
-    height: 45px;
-    justify-content: center;
-    padding: 8px 15px;
-    text-align: center;
-    width: 120px;
-  }
-  
-  /* Estilos para el botón de Buscar */
-  .button:nth-child(1) {
-    background-color: #333233; /* Color principal */
-  }
-  
-  /* Estilo cuando el botón de Buscar está en foco (por ejemplo, después de hacer clic) */
-  .button:nth-child(1):focus {
-    outline: none;
-    background-color: #333233; /* Vuelve al color principal */
-    box-shadow: none;
-  }
-  
-  /* Active: Efecto al presionar el botón */
-  .button:nth-child(1):active {
-    background-color: #565557; /* Color al presionar */
-  }
-  
-  /* Estilos para el botón de Limpiar */
-  .button:nth-child(2) {
-    background-color: #333233; /* Color principal */
-  }
-  
-  .button:nth-child(2):focus {
-    outline: none;
-    background-color: #333233; /* Vuelve al color principal */
-    box-shadow: none;
-  }
-  
-  /* Active: Efecto al presionar el botón */
-  .button:nth-child(2):active {
-    background-color: #565557; /* Color al presionar */
-  }
-  
-  /* Estilos para el botón de Salir */
-  .button:nth-child(3) {
-    background-color: #565557; /* Color principal */
-  }
-  
-  .button:nth-child(3):focus {
-    outline: none;
-    background-color: #565557; /* Vuelve al color principal */
-    box-shadow: none;
-  }
-  
-  /* Active: Efecto al presionar el botón */
-  .button:nth-child(3):active {
-    background-color: #333233; /* Color al presionar */
-  }
-  
-  /* Estilos para los iconos dentro de los botones */
-  .button svg {
-    margin-left: 0;
-  }
-  
-  /* Estilo general para el botón "Cargar más" */
-  .load-more-btn {
-    background-color: #4caf50; /* Color de fondo verde */
-    color: white;              /* Color del texto blanco */
-    border: 2px solid red;              /* Sin borde */
-    padding: 10px 20px;        /* Relleno dentro del botón */
-    font-size: 16px;           /* Tamaño de la fuente */
-    border-radius: 5px;        /* Bordes redondeados */
-    cursor: pointer;          /* Muestra el cursor como puntero */
-    transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
-    display: inline-block;
-  }
-  
-  /* Efecto de hover para el botón Cargar más*/
-  .load-more-btn:hover {
-    background-color: #45a049; /* Un verde más oscuro al pasar el mouse */
-  }
-  
-  /* Efecto cuando el botón Cargar más está deshabilitado */
-  .load-more-btn:disabled {
-    background-color: #d3d3d3; /* Fondo gris */
-    cursor: not-allowed;       /* Cursor de "no permitido" */
-  }
-  
+.scroll-container::-webkit-scrollbar-track {
+  background: #333233 !important;
+  /* Color del fondo del scrollbar */
+}
 
-  .buttonEliminar {
-    background-color: #FD7E14;
-    align-items: center;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1rem;
-    gap: 2px;
-    height: 45px;
-    justify-content: center;
-    padding: 8px 15px;
-    text-align: center;
-    width: 120px;
-  }
-  
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #565557 !important;
+  /* Color del thumb */
+  border-radius: 10px !important;
+  /* Bordes redondeados */
+}
 
- 
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+  /* Color del thumb al hacer hover */
+}
+
+/* Scrollbar para Firefox */
+.scroll-container {
+  scrollbar-color: #565557 #333233;
+  /* Color del thumb y de la pista */
+  scrollbar-width: thin;
+  /* Ancho del scrollbar */
+}
+
+.container {
+  color: #333;
+  flex: 1;
+  margin: 20px auto;
+  max-width: 900px;
+  padding: 30px 20px;
+  padding-bottom: 0px;
+  /* Añadir espacio inferior para que no quede oculto por el footer */
+}
+
+/* Título de la tabla */
+.title {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-top: -30px;
+  text-align: left;
+}
+
+/* Estilo para las pestañas de navegación */
+.tabs {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  /* Centrar pestañas horizontalmente */
+  margin-bottom: 20px;
+}
+
+/* Enlace de pestaña con efectos */
+.tabButton {
+  align-items: center;
+  background-color: #333233;
+  /* Color de fondo */
+  border: none;
+  border-radius: 1px 25px 1px 1px;
+  /* Bordes personalizados */
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  text-align: center;
+  /* Centrar texto */
+  text-decoration: none;
+  /* Sin subrayado */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Transiciones */
+  width: 180px;
+  /* Ancho fijo para las pestañas */
+}
+
+.tabButton.active {
+  background-color: #565557;
+  /* Fondo para pestaña activa */
+  color: white;
+  /* Texto blanco */
+  font-weight: bold;
+  /* Negrita */
+}
+
+.tabButton:hover {
+  background-color: #565557;
+  /* Fondo al pasar el cursor */
+  color: white;
+}
+
+/* Asegurar enlaces limpios */
+.tabs a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* Tabla principal */
+.table {
+  width: 100%;
+  /* Ocupa el ancho completo del contenedor */
+  max-width: 1200px;
+  /* Limita el ancho máximo de la tabla */
+  margin: 0 auto;
+  /* Centra la tabla horizontalmente */
+  margin-bottom: 60px;
+  /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/
+  border-collapse: collapse;
+  /* Evita doble borde entre celdas */
+  text-align: center;
+  /* Centra horizontalmente el contenido */
+  table-layout: auto;
+  /* Ajuste dinámico del ancho de las columnas */
+  font-size: 0.85rem;
+  /* Reducir tamaño de la letra en la tabla */
+}
+
+/* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
+.table-wrapper {
+  display: block;
+  max-height: calc(100vh - 120px);
+  /* Ajusta la altura de la tabla para que el encabezado quede visible */
+  overflow-y: auto;
+  /* Permite el desplazamiento solo en el cuerpo de la tabla */
+}
+
+/* Aseguramos que el encabezado se quede fijo al hacer scroll */
+.table thead {
+  position: sticky;
+  top: 0;
+  /* Hace que el encabezado quede pegado al top */
+  background-color: #333233;
+  /* Fondo para el encabezado */
+  color: #ffffff;
+  font-size: 0.8rem;
+  /* Tamaño del texto en encabezado */
+  z-index: 1;
+  /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
+}
+
+/* Celdas del encabezado y cuerpo de la tabla */
+th,
+td {
+  border: 1px solid #ccc;
+  /* Bordes grises claros */
+  padding: 6px;
+  /* Reducido el espaciado interno */
+  vertical-align: middle;
+  /* Centrar verticalmente el contenido */
+  padding: 8px;
+  /* Añade algo de padding a las celdas del encabezado */
+}
+
+/* Inputs dentro del encabezado */
+th input {
+  width: 90%;
+  /* Tamaño adaptable a la celda */
+  padding: 3px;
+  /* Reducir el espaciado interno del input */
+  font-size: 0.85rem;
+  /* Tamaño más pequeño del texto en los inputs */
+  height: 26px;
+  /* Altura más delgada para los inputs */
+  border: 1px solid #ccc;
+  /* Borde sutil */
+  border-radius: 3px;
+  /* Bordes ligeramente redondeados */
+}
+
+/* Estilo para checkboxes */
+th input[type="checkbox"],
+td input[type="checkbox"] {
+  width: 16px;
+  /* Reducir tamaño del checkbox */
+  height: 16px;
+  /* Reducir tamaño del checkbox */
+  cursor: pointer;
+  /* Cambiar el cursor a puntero por defecto */
+}
+
+/* Solo aplicar cursor: not-allowed cuando el checkbox esté deshabilitado */
+/* Quitar estilo predeterminado del checkbox y personalizarlo */
+th input[type="checkbox"]:disabled,
+td input[type="checkbox"]:disabled {
+  -webkit-appearance: none;
+  /* Para Webkit (Chrome, Safari, etc.) */
+  -moz-appearance: none;
+  /* Para Firefox */
+  appearance: none;
+  /* Para otros navegadores */
+  width: 16px;
+  height: 16px;
+  background-color: #565557;
+  /* Color de fondo cuando está deshabilitado */
+  border: 2px solid #ccc;
+  /* Borde gris claro */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  cursor: not-allowed;
+  /* Cursor prohibido */
+}
+
+/* Inputs deshabilitados en las celdas */
+th input[disabled] {
+  background-color: #565557;
+  /* Fondo gris claro */
+  color: #FFFFFF;
+  /* Texto gris */
+  border: 1px solid #ccc;
+  /* Borde sutil */
+}
+
+/* Filas del cuerpo de la tabla */
+tbody tr {
+  background-color: #fff;
+  /* Fondo blanco por defecto */
+}
+
+tbody tr:hover {
+  background-color: #f7f7f7;
+  /* Fondo al pasar el cursor */
+}
+
+/* Texto en las celdas del cuerpo */
+tbody td {
+  font-size: 0.8rem;
+  /* Reducir tamaño del texto en celdas */
+}
+
+/* Ajuste dinámico del ancho de inputs */
+tbody td input {
+  width: 90%;
+  /* Inputs se ajustan al ancho de la celda */
+  height: 26px;
+  /* Altura delgada de los inputs */
+}
+
+.modalImage {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Modal Overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo oscuro semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3500;
+  /* Asegura que esté encima de otros elementos */
+}
+
+/* Modal Content */
+.modalContent {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  width: 400px;
+  height: 520px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #FD7E14;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 15%;
+  font-size: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-style: bold;
+  font-weight: bold;
+}
+
+/* Modal de búsqueda avanzada */
+.delete-confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo translúcido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3500;
+}
+
+/* Contenido del modal */
+.modalContent-delete {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  /* Ancho fijo para el modal */
+  height: 260px;
+  max-width: 90%;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Estilo para los encabezados dentro del modal */
+.modalContent-delete h3 {
+  margin-bottom: 20px;
+  margin-top: 40px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.modalContent-delete p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.delete-button {
+  align-items: center;
+  background-color: #565557;
+  color: white;
+  display: flex;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  margin-left: 150px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 110px;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background-color: #333233;
+}
+
+/* Botón de cerrar */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #FD7E14;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-style: bold;
+  font-weight: bold;
+  border-radius: 15%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 10px;
+}
+
+/* Fondo de la ventana modal (al hacer click fuera de la ventana, cierra el modal) */
+.modal:hover {
+  cursor: pointer;
+}
+
+/* estilos para los botones de Acción */
+/* Estilo para el contenedor de los botones */
+.actionButtons {
+  align-items: flex-end;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-bottom: 0px !important;
+  margin-right: 516px;
+  margin-top: 389px;
+  z-index: 3000;
+}
+
+/* Estilos generales para los botones */
+.clearButton,
+.exitButton {
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  gap: 2px;
+  height: 38px !important;
+  justify-content: center;
+  padding: 8px 15px;
+  text-align: center;
+  min-width: 120px !important;
+}
+
+.buttonEliminar {
+  background-color: #FD7E14;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  gap: 2px;
+  height: 38px !important;
+  justify-content: center;
+  padding: 8px 15px;
+  text-align: center;
+  min-width: 120px !important;
+}
+
+/* Estilos para el botón de Eliminar */
+.buttonEliminar {
+  background-color: #FD7E14;
+  /* Color principal */
+}
+
+.buttonEliminar:focus {
+  outline: none;
+  background-color: #FD7E14;
+  /* Vuelve al color principal */
+  box-shadow: none;
+}
+
+/* Active: Efecto al presionar el botón */
+.buttonEliminar:active {
+  background-color: #fe953f;
+  /* Color al presionar */
+}
+
+/* Estilos para el botón de Limpiar */
+.clearButton {
+  background-color: #333233;
+  /* Color principal */
+}
+
+.clearButton:focus {
+  outline: none;
+  background-color: #333233;
+  /* Vuelve al color principal */
+  box-shadow: none;
+}
+
+/* Active: Efecto al presionar el botón */
+.clearButton:active {
+  background-color: #565557;
+  /* Color al presionar */
+}
+
+/* Estilos para el botón de Salir */
+.exitButton {
+  background-color: #565557;
+  /* Color principal */
+  text-decoration: none;
+}
+
+.exitButton:focus {
+  outline: none;
+  background-color: #565557;
+  /* Vuelve al color principal */
+  box-shadow: none;
+}
+
+/* Active: Efecto al presionar el botón */
+.exitButton:active {
+  background-color: #333233;
+  /* Color al presionar */
+}
+
+/* Estilos para los iconos dentro de los botones */
+.clearButton svg,
+.exitButton svg {
+  margin-left: 0;
+}
+
+/* Estilo general para el botón "Cargar más" */
+.load-more-btn {
+  background-color: #4caf50;
+  /* Color de fondo verde */
+  color: white;
+  /* Color del texto blanco */
+  border: 2px solid red;
+  /* Sin borde */
+  padding: 10px 20px;
+  /* Relleno dentro del botón */
+  font-size: 16px;
+  /* Tamaño de la fuente */
+  border-radius: 5px;
+  /* Bordes redondeados */
+  cursor: pointer;
+  /* Muestra el cursor como puntero */
+  transition: background-color 0.3s ease;
+  /* Transición suave al pasar el mouse */
+  display: inline-block;
+}
+
+/* Efecto de hover para el botón Cargar más*/
+.load-more-btn:hover {
+  background-color: #45a049;
+  /* Un verde más oscuro al pasar el mouse */
+}
+
+/* Efecto cuando el botón Cargar más está deshabilitado */
+.load-more-btn:disabled {
+  background-color: #d3d3d3;
+  /* Fondo gris */
+  cursor: not-allowed;
+  /* Cursor de "no permitido" */
+}
