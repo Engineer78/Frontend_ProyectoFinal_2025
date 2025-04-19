@@ -291,7 +291,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
-                    Registro de Producto
+                    Registrar Inventario
                 </Link>
 
                 <Link
@@ -299,7 +299,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
-                    Consulta de Producto
+                    Consultar Inventario
                 </Link>
 
                 <Link
@@ -307,7 +307,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
-                    Actualizar Producto
+                    Actualizar Inventario
                 </Link>
 
                 <Link
@@ -315,7 +315,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("eliminar")}
                 >
-                    Eliminar Producto
+                    Eliminar Inventario
                 </Link>
             </div>
 
