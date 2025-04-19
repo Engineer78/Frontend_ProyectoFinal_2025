@@ -322,7 +322,7 @@ const UpdateMerchandise = () => {
             {activeTab === "actualizar" && (
                 <div className={styles.container}>
                     <h2 className={styles.title}>
-                        Ingrese el Código del Producto para buscar y actualizar el registro
+                        Ingrese el código del Producto para buscar y actualizar el registro
                     </h2>
 
                     <div className={styles.formContainer}>
@@ -330,7 +330,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Código del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Código del producto (Obligatorio)"
+                                placeholder="Código del Producto (Obligatorio)"
                                 value={productCode}
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
@@ -353,7 +353,7 @@ const UpdateMerchandise = () => {
                                 className={styles.input}
                                 style={{ fontStyle: 'italic' }}
                             >
-                                <option value="">Seleccione un proveedor</option>
+                                <option value="">Seleccione un Proveedor</option>
                                 {suppliers.map((proveedor) => (
                                 <option key={proveedor.idProveedor} value={proveedor.idProveedor}>
                                     {proveedor.nombreProveedor}
@@ -395,7 +395,7 @@ const UpdateMerchandise = () => {
                                 onChange={(e) => setSelectedCategoryId(number(e.target.value))}
                                 style={{ fontStyle: 'italic' }}
                             >
-                                <option value="">Seleccione una categoría</option>
+                                <option value="">Seleccione una Categoría</option>
                                 {categories.map((cat) => (
                                 <option key={cat.idCategoria} value={cat.idCategoria}>
                                     {cat.nombreCategoria}
@@ -465,22 +465,23 @@ const UpdateMerchandise = () => {
                     </div>
 
                     <div className={styles.actionButtons}>
-                        <button className={styles.updateButton} onClick={handleSave}>
-                            Guardar <SaveIcon />
+                        <button className={styles.saveButton} onClick={handleSave}>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
-                            Limpiar <CleaningServicesIcon />
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton} >
-                            Salir <ExitToAppIcon /> </button>
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }}/> 
+                            </button>
                     </div>
                 </div>
             )}
         </>
     );
-};
+}
 
     export default UpdateMerchandise;
