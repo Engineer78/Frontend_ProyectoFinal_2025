@@ -37,6 +37,7 @@ const DeleteUsers = () => {
     const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
 
     // Cargar usuarios desde la API
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchUsers = async () => {
         try {
             const response = await api.get('/usuarios'); // Petición GET a la API
@@ -49,7 +50,7 @@ const DeleteUsers = () => {
     // Cargar usuarios una vez al montar el componente
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [fetchUsers]);
 
     // Filtrar usuarios por número de documento
     useEffect(() => {
@@ -105,7 +106,7 @@ const DeleteUsers = () => {
         if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
             setIsSearching(true); // Activar estado de búsqueda
         }
-    }, [filters, visibleItems, fullUserList]);
+    }, [filters, visibleItems, fullUserList, isSearching]);
 
     // Manejo del cambio en el input de búsqueda
     const handleInputChange = (e) => {
