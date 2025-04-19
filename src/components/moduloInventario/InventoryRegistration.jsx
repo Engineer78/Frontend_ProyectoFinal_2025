@@ -263,7 +263,7 @@ const InventoryRegistration = () => {
                     </h2>
 
                     <div className={styles.formContainer}>
-                        <form className={styles.formLeft}>
+                    <form className={styles.formLeft}>
                             <label className={styles.inputLabel}>Nombre del Proveedor:</label>
                             <input
                                 type="text"
@@ -304,20 +304,20 @@ const InventoryRegistration = () => {
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Crear categoría de la mercancía:</label>
+                            <label className={styles.inputLabel}>Crear Categoría del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Categoría de la mercancía (Obligatorio)"
+                                placeholder="Categoría del Producto (Obligatorio)"
                                 value={productCategory}
                                 onChange={(e) => setProductCategory(e.target.value)}
                                 required
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Crear código del producto:</label>
+                            <label className={styles.inputLabel}>Crear Código del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Código del producto (Obligatorio)"
+                                placeholder="Código del Producto (Obligatorio)"
                                 value={productCode}
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
@@ -354,13 +354,13 @@ const InventoryRegistration = () => {
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Valor total:</label>
+                            <label className={styles.inputLabel}>Valor Total:</label>
                             <input
-                                type="number"
-                                placeholder="Valor total"
+                                type="text"
+                                placeholder="Valor Total"
                                 value={totalValue}
-                                disabled
                                 className={styles.inputValorTotal}
+                                disabled
                             />
                         </form>
 
