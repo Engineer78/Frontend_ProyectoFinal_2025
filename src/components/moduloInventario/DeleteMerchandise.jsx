@@ -243,7 +243,7 @@ const DeleteMerchandise = () => {
                         }`}
                     onClick={() => handleTabClick('registro')}
                 >
-                    Registro de Producto
+                    Registrar Inventario
                 </Link>
                 <Link
                     to="/merchandise-query"
@@ -251,7 +251,7 @@ const DeleteMerchandise = () => {
                         }`}
                     onClick={() => handleTabClick('consulta')}
                 >
-                    Consulta de Producto
+                    Consultar Inventario
                 </Link>
                 <Link
                     to="/update-merchandise"
@@ -259,7 +259,7 @@ const DeleteMerchandise = () => {
                         }`}
                     onClick={() => handleTabClick('actualizar')}
                 >
-                    Actualizar Producto
+                    Actualizar Inventario
                 </Link>
                 <Link
                     to="/delete-merchandise"
@@ -267,7 +267,7 @@ const DeleteMerchandise = () => {
                         }`}
                     onClick={() => handleTabClick('eliminar')}
                 >
-                    Eliminar Producto
+                    Eliminar Inventario
                 </Link>
             </div>
 
