@@ -366,7 +366,7 @@ const InventoryRegistration = () => {
 
                         <form className={styles.formRight}>
                             <label id="productImageLabel" className={styles.imageLabel}>
-                                Imagen del producto
+                                Imagen del Producto
                             </label>
                             <div className={styles.imageWrapper}>
                                 <img
@@ -390,17 +390,17 @@ const InventoryRegistration = () => {
                             </div>
                         </form>
                     </div>
-                    <div className={styles.buttons}>
-                        <button type="button" onClick={handleSave} className={styles.button}>
-                            Guardar <SaveIcon />
+                    <div className={styles.actionButtons}>
+                        <button type="button" onClick={handleSave} className={styles.saveButton}>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
                         </button>
-                        <button type="button" onClick={handleClear} className={styles.button}>
-                            Limpiar <CleaningServicesIcon />
+                        <button type="button" onClick={handleClear} className={styles.clearButton}>
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
-                            className={styles.button}
+                            className={styles.exitButton}
                         >
                             Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                         </button>
