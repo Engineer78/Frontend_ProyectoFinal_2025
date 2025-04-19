@@ -273,7 +273,7 @@ const DeleteMerchandise = () => {
 
             <div className={styles.container}>
                 <h2 className={styles.title}>
-                    Ingrese un código de producto para realizar la búsqueda, luego seleccione la casilla que contiene el registro que desea eliminar.
+                    Ingrese un código de producto y seleccione el registro que desea eliminar.
                 </h2>
             </div>
 
@@ -299,6 +299,7 @@ const DeleteMerchandise = () => {
                                 type="text"
                                 name="categoria"
                                 value={disabledInputs.categoria}
+                                placeholder="..."
                                 disabled />
                         </th>
                         <th>Nom. del producto
@@ -306,6 +307,7 @@ const DeleteMerchandise = () => {
                                 type="text"
                                 name="nombre"
                                 value={disabledInputs.nombre}
+                                placeholder="..."
                                 disabled />
                         </th>
                         <th>Existencias
@@ -313,12 +315,14 @@ const DeleteMerchandise = () => {
                                 type="text"
                                 name="existencia"
                                 value={disabledInputs.existencias}
+                                placeholder="..."
                                 disabled /></th>
                         <th>Valor Unitario
                             <input
                                 type="text"
                                 name="valorUnitario"
                                 value={disabledInputs.valorUnitario}
+                                placeholder="..."
                                 disabled />
                         </th>
                         <th>Valor Total prod.
@@ -326,12 +330,14 @@ const DeleteMerchandise = () => {
                                 type="text"
                                 name="valorTotal"
                                 value={disabledInputs.valorTotal}
+                                placeholder="..."
                                 disabled /></th>
                         <th>Proveedor
                             <input
                                 type="text"
                                 name="proveedor"
                                 value={disabledInputs.proveedor}
+                                placeholder="..."
                                 disabled />
                         </th>
                         <th>NIT Proveedor
@@ -339,6 +345,7 @@ const DeleteMerchandise = () => {
                                 type="text"
                                 name="nitProveedor"
                                 value={disabledInputs.nitProveedor}
+                                placeholder="..."
                                 disabled />
                         </th>
                         <th>Imagen</th>
@@ -459,7 +466,7 @@ const DeleteMerchandise = () => {
                 </div>
             )}
             {/* Botones de acción */}
-            <div className={styles.buttons}>
+            <div className={styles.actionButtons}>
                 <button
                     type="button"
                     onClick={openDeleteConfirmationModal} // Abre el modal de confirmación de eliminación
@@ -468,14 +475,14 @@ const DeleteMerchandise = () => {
                     Eliminar <DeleteOutlineIcon style={{ marginLeft: 8 }} />
                 </button>
 
-                <button type="button" onClick={handleClear} className={styles.button}>
+                <button type="button" onClick={handleClear} className={styles.clearButton}>
                     Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                 </button>
 
                 <button
                     type="button"
                     onClick={() => (window.location.href = '/menu-principal')}
-                    className={styles.button}
+                    className={styles.exitButton}
                 >
                     Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                 </button>
