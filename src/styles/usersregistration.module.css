@@ -33,7 +33,7 @@ body {
 }
 
 .scroll-container::-webkit-scrollbar-thumb:hover {
-  background: #555 !important;
+  background: #565557 !important;
   /* Color del thumb al hacer hover */
 }
 
@@ -47,7 +47,7 @@ body {
 
 /* Contenedor principal donde se ubican los formularios y el contenido */
 .container {
-  color: #333;
+  color: #333233;
   flex: 1;
   margin: 20px auto;
   max-width: 900px;
