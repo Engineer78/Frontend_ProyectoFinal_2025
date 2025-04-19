@@ -11,7 +11,7 @@ function UsersQuery() {
   const [activeTab, setActiveTab] = useState("consulta");
 
   // Estado que contiene los datos obtenidos desde el backend
-    const [data, setData] = useState([]);
+    const [data, /*setData*/] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
     const [filters, setFilters] = useState({
         numeroDocumento: ' ',
