@@ -273,7 +273,7 @@ const DeleteMerchandise = () => {
 
             <div className={styles.container}>
                 <h2 className={styles.title}>
-                    Ingrese un código de producto y seleccione el registro que desea eliminar.
+                    Ingrese un código de producto y seleccione el registro que desea eliminar
                 </h2>
             </div>
 
