@@ -300,7 +300,9 @@ const DeleteMerchandise = () => {
                                 name="categoria"
                                 value={disabledInputs.categoria}
                                 placeholder="..."
-                                disabled />
+                                disabled
+                                style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Nom. del producto
                             <input
@@ -308,7 +310,9 @@ const DeleteMerchandise = () => {
                                 name="nombre"
                                 value={disabledInputs.nombre}
                                 placeholder="..."
-                                disabled />
+                                disabled 
+                                style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Existencias
                             <input
@@ -316,14 +320,19 @@ const DeleteMerchandise = () => {
                                 name="existencia"
                                 value={disabledInputs.existencias}
                                 placeholder="..."
-                                disabled /></th>
+                                disabled 
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </th>
                         <th>Valor Unitario
                             <input
                                 type="text"
                                 name="valorUnitario"
                                 value={disabledInputs.valorUnitario}
                                 placeholder="..."
-                                disabled />
+                                disabled 
+                                style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Valor Total prod.
                             <input
@@ -331,14 +340,19 @@ const DeleteMerchandise = () => {
                                 name="valorTotal"
                                 value={disabledInputs.valorTotal}
                                 placeholder="..."
-                                disabled /></th>
+                                disabled
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </th>
                         <th>Proveedor
                             <input
                                 type="text"
                                 name="proveedor"
                                 value={disabledInputs.proveedor}
                                 placeholder="..."
-                                disabled />
+                                disabled
+                                style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>NIT Proveedor
                             <input
@@ -346,7 +360,9 @@ const DeleteMerchandise = () => {
                                 name="nitProveedor"
                                 value={disabledInputs.nitProveedor}
                                 placeholder="..."
-                                disabled />
+                                disabled 
+                                style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Imagen</th>
                     </tr>
