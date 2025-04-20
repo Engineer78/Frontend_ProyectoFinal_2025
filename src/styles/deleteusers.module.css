@@ -41,11 +41,21 @@ body {
     /* Ancho del scrollbar */
 }
 
+.container{
+    color: #333233; /* Color del texto */
+    flex: 1;
+    margin: 20px auto; /* Centra el contenedor */
+    max-width: 900px; /* Ancho máximo del contenedor */
+    padding: 30px 20px; /* Espacio interno */
+    padding-bottom: 0px; /* Espacio interno inferior */
+}
+
 /* Título de la tabla */
 .title {
     font-size: 1.1rem;
     margin-bottom: 20px;
-    margin-left: 172px;
+    margin-left: 10px;
+    margin-top: -30px; /* Ajusta el margen superior para que no se superponga con el header */
     text-align: left;
 }
 
@@ -91,17 +101,14 @@ body {
 
 /* Tabla principal */
 .table {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-bottom: 60px;
-    text-align: center;
-    table-layout: auto;
-    font-size: 0.85rem;
-    border-collapse: collapse;
-    /* MUY IMPORTANTE para líneas simples */
-    border-spacing: 0;
-    /* Elimina espacio extra entre celdas */
+    width: 95%; /* Ocupa el ancho completo del contenedor */
+    max-width: 1920px; /* Limita el ancho máximo de la tabla */
+    margin: 0 auto; /* Centra la tabla horizontalmente */
+    margin-bottom: 60px; /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/  
+    border-collapse: collapse; /* Evita doble borde entre celdas */
+    text-align: center; /* Centra horizontalmente el contenido */
+    table-layout: auto; /* Ajuste dinámico del ancho de las columnas */
+    font-size: 0.85rem; /* Reducir tamaño de la letra en la tabla */
 }
 
 /* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
@@ -293,20 +300,21 @@ tbody td input {
 
 /* estilos para los botones de Acción */
 /* Estilo para el contenedor de los botones */
-.buttons {
-    position: fixed;
-    bottom: 100px;
+.actionButtons {
     align-items: flex-end;
     display: flex;
     gap: 10px;
     justify-content: flex-end;
-    margin-left: 990px;
-    margin-top: 330px;
+    position: fixed;
+    margin-bottom: 0px !important;
+    margin-left: 825px;
+    margin-top: 271px;
     z-index: 3000;
 }
 
 /* Estilos generales para los botones */
-.button {
+.clearButton,
+.exitButton {
     align-items: center;
     border: none;
     border-radius: 5px;
@@ -316,38 +324,56 @@ tbody td input {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
     gap: 2px;
-    height: 45px;
+    height: 38px !important;
     justify-content: center;
     padding: 8px 15px;
     text-align: center;
-    width: 120px;
+    width: 120px !important;
+}
+
+.buttonEliminar {
+    background-color: #FD7E14;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    gap: 2px;
+    height: 38px !important;
+    justify-content: center;
+    padding: 8px 15px;
+    text-align: center;
+    width: 120px !important;
 }
 
 /* Estilos para el botón de eliminar */
-.button:nth-child(1) {
+.buttonEliminar {
     background-color: #FD7E14;
     /* Color principal */
 }
 
-.button:nth-child(1):focus {
+.buttonEliminar:focus {
     outline: none;
     background-color: #FD7E14;
     /* Vuelve al color principal */
     box-shadow: none;
 }
 
-.button:nth-child(1):active {
+.buttonEliminar:active {
     background-color: #fe953f;
     /* Color al presionar */
 }
 
 /* Estilos para el botón de Limpiar */
-.button:nth-child(2) {
+.clearButton {
     background-color: #333233;
     /* Color principal */
 }
 
-.button:nth-child(2):focus {
+.clearButton:focus {
     outline: none;
     background-color: #333233;
     /* Vuelve al color principal */
@@ -355,18 +381,18 @@ tbody td input {
 }
 
 /* Active: Efecto al presionar el botón */
-.button:nth-child(2):active {
+.clearButton:active {
     background-color: #565557;
     /* Color al presionar */
 }
 
 /* Estilos para el botón de Salir */
-.button:nth-child(3) {
+.exitButton{
     background-color: #565557;
     /* Color principal */
 }
 
-.button:nth-child(3):focus {
+.exitButton:focus {
     outline: none;
     background-color: #565557;
     /* Vuelve al color principal */
@@ -374,7 +400,7 @@ tbody td input {
 }
 
 /* Active: Efecto al presionar el botón */
-.button:nth-child(3):active {
+.exitButton:active {
     background-color: #333233;
     /* Color al presionar */
 }
@@ -420,135 +446,4 @@ tbody td input {
 }
 
 
-.buttonEliminar {
-    background-color: #FD7E14;
-    align-items: center;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1rem;
-    gap: 2px;
-    height: 45px;
-    justify-content: center;
-    padding: 8px 15px;
-    text-align: center;
-    width: 120px;
-}
 
-/* -----------------------------------------
-    MEDIA QUERY: Teléfonos (hasta 480px)
-    -------------------------------------------- */
-@media (max-width: 480px) {
-    .scrollContainer {
-        padding: 10px;
-    }
-
-    .tabs {
-        flex-direction: column;
-        gap: 10px;
-        align-items: stretch;
-    }
-
-    .tabButton {
-        width: 100%;
-        text-align: center;
-    }
-
-    .container {
-        padding: 10px;
-    }
-
-    .table {
-        font-size: 12px;
-        overflow-x: auto;
-        display: block;
-    }
-
-    .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .buttonEliminar,
-    .button {
-        width: 100%;
-    }
-
-    .load-more-container {
-        text-align: center;
-    }
-}
-
-/* -----------------------------------------
-        MEDIA QUERY: Teléfonos grandes y tablets pequeñas (481px – 600px)
-    -------------------------------------------- */
-@media (min-width: 481px) and (max-width: 600px) {
-    .scrollContainer {
-        padding: 15px;
-    }
-
-    .tabs {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .tabButton {
-        flex: 1 1 45%;
-        text-align: center;
-    }
-
-    .table {
-        font-size: 13px;
-        overflow-x: auto;
-        display: block;
-    }
-
-    .buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .buttonEliminar,
-    .button {
-        width: 80%;
-    }
-}
-
-/* -----------------------------------------
-        MEDIA QUERY: Tablets (601px – 900px)
-    -------------------------------------------- */
-@media (min-width: 601px) and (max-width: 900px) {
-    .scrollContainer {
-        padding: 20px;
-    }
-
-    .tabs {
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    .tabButton {
-        flex: 1 1 22%;
-    }
-
-    .table {
-        font-size: 14px;
-    }
-
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-    }
-
-    .buttonEliminar,
-    .button {
-        width: 30%;
-    }
-}
