@@ -22,6 +22,7 @@ const DeleteUsers = () => {
     // Campos mostrados en los inputs deshabilitados al seleccionar un usuario
     const [disabledInputs, setDisabledInputs] = useState({
         tipoDocumento: '',
+        nombreUsuario: '',
         rol: '',
         nombresCompletos: '',
         telefono: '',
@@ -61,6 +62,7 @@ const DeleteUsers = () => {
             setData([]);
             setDisabledInputs({
                 tipoDocumento: '',
+                nombreUsuario: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -84,6 +86,7 @@ const DeleteUsers = () => {
             const firstItem = itemsToShow[0];
             setDisabledInputs({
                 tipoDocumento: firstItem.tipoDocumento || '',
+                nombreUsuario: firstItem.nombreUsuario || '',
                 rol: firstItem.rol || '',
                 nombresCompletos: firstItem.nombresCompletos || '',
                 telefono: firstItem.telefono || '',
@@ -94,6 +97,7 @@ const DeleteUsers = () => {
         } else {
             setDisabledInputs({
                 tipoDocumento: '',
+                nombreUsuario: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -118,6 +122,7 @@ const DeleteUsers = () => {
             setData([]);
             setDisabledInputs({
                 tipoDocumento: '',
+                nombreUsuario: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -136,6 +141,7 @@ const DeleteUsers = () => {
             setSelectedItems((prev) => [...prev, item]); // Agregar usuario seleccionado
             setDisabledInputs({ // Mostrar info del usuario seleccionado
                 tipoDocumento: item.tipoDocumento || '',
+                nombreUsuario: item.nombreUsuario || '',
                 rol: item.rol || '',
                 nombresCompletos: item.nombresCompletos || '',
                 telefono: item.telefono || '',
@@ -179,6 +185,7 @@ const DeleteUsers = () => {
             setFilters({ numeroDocumento: '' }); // Limpia filtro
             setDisabledInputs({
                 tipoDocumento: '',
+                nombreUsuario: '',
                 rol: '',
                 nombresCompletos: '',
                 telefono: '',
@@ -214,6 +221,7 @@ const DeleteUsers = () => {
         setFilters({ numeroDocumento: '' });
         setDisabledInputs({
             tipoDocumento: '',
+            nombreUsuario: '',
             rol: '',
             nombresCompletos: '',
             telefono: '',
@@ -250,7 +258,7 @@ const DeleteUsers = () => {
                 >
                     Registrar Usuarios
                 </Link>
-                
+
                 <Link to="/users-query"
                     className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''
 
@@ -282,7 +290,7 @@ const DeleteUsers = () => {
             {/* Instrucción para el usuario sobre el proceso de eliminación */}
             <div className={styles.container}>
                 <h2 className={styles.title}>
-                    Ingrese Número de Documento del usuario para buscar. Luego seleccione el usuario que desea eliminar.
+                    Ingrese Número de Identificación y seleccione el registro que desea eliminar
                 </h2>
             </div>
 
@@ -290,30 +298,101 @@ const DeleteUsers = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Selección <input type="checkbox" disabled /></th>
+                        <th>Selección 
+                            <input 
+                            type="checkbox" 
+                            disabled
+                            />
+                        </th>
                         <th>N° de Documento
-                            <input type="text" name="numeroDocumento" value={filters.numeroDocumento} onChange={handleInputChange} placeholder="Buscar" />
+                            <input 
+                            type="text" 
+                            name="numeroDocumento" 
+                            value={filters.numeroDocumento} 
+                            onChange={handleInputChange} 
+                            placeholder="Buscar" 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Tipo de Documento
-                            <input type="text" name="tipoDocuemto" value={disabledInputs.tipoDocumento} disabled />
+                            <input 
+                            type="text" 
+                            name="tipoDocuemto" 
+                            value={disabledInputs.tipoDocumento} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
+                        </th>
+                        <th>Nombre de Usuario
+                            <input 
+                            type="text" 
+                            name="nombreUsuario"
+                            value={disabledInputs.nombreUsuario} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Rol
-                            <input type="text" name="rol" value={disabledInputs.rol} disabled />
+                            <input 
+                            type="text" 
+                            name="rol" 
+                            value={disabledInputs.rol} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Nombre(s) Completos
-                            <input type="text" name="nombresCompletos" value={disabledInputs.nombresCompletos} disabled />
+                            <input 
+                            type="text" 
+                            name="nombresCompletos" 
+                            value={disabledInputs.nombresCompletos} 
+                            placeholder="..."
+                            disabled
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Teléfono
-                            <input type="text" name="telefono" value={disabledInputs.telefono} disabled />
+                            <input 
+                            type="text" 
+                            name="telefono" 
+                            value={disabledInputs.telefono} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                         <th>Dirección
-                            <input type="text" name="direccion" value={disabledInputs.direccion} disabled />
+                            <input 
+                            type="text" 
+                            name="direccion" 
+                            value={disabledInputs.direccion} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
-                        <th>Contacto Emergencia
-                            <input type="text" name="contactoEmergencia" value={disabledInputs.contactoEmergencia} disabled />
+                        <th>Contacto de Emergencia
+                            <input 
+                            type="text" 
+                            name="contactoEmergencia" 
+                            value={disabledInputs.contactoEmergencia} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
-                        <th>Teléfono
-                            <input type="text" name="telefonoContacto" value={disabledInputs.telefonoContacto} disabled />
+                        <th>Teléfono de Contacto
+                            <input 
+                            type="text" 
+                            name="telefonoContacto" 
+                            value={disabledInputs.telefonoContacto} 
+                            placeholder="..."
+                            disabled 
+                            style={{ fontStyle: 'italic' }}
+                            />
                         </th>
                     </tr>
                 </thead>
@@ -381,14 +460,14 @@ const DeleteUsers = () => {
             )}
 
             {/* Botones inferiores para eliminar, limpiar o salir */}
-            <div className={styles.buttons}>
+            <div className={styles.actionButtons}>
                 <button type="button" onClick={openDeleteConfirmationModal} className={styles.buttonEliminar}>
                     Eliminar <DeleteOutlineIcon style={{ marginLeft: 8 }} />
                 </button>
-                <button type="button" onClick={handleClear} className={styles.button}>
+                <button type="button" onClick={handleClear} className={styles.clearButton}>
                     Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                 </button>
-                <button type="button" onClick={() => (window.location.href = '/menu-principal')} className={styles.button}>
+                <button type="button" onClick={() => (window.location.href = '/menu-principal')} className={styles.exitButton}>
                     Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                 </button>
             </div>
