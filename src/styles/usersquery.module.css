@@ -37,12 +37,22 @@
         scrollbar-color: #565557 #333233; /* Color del thumb y de la pista */
         scrollbar-width: thin; /* Ancho del scrollbar */
     }
+
+    .container{
+        color: #333233; /* Color del texto */
+        flex: 1;
+        margin: 20px auto; /* Centra el contenedor */
+        max-width: 900px; /* Ancho máximo del contenedor */
+        padding: 30px 20px; /* Espacio interno */
+        padding-bottom: 0px; /* Espacio interno inferior */
+    }
     
     /* Título de la tabla */
     .title {
         font-size: 1.1rem;
         margin-bottom: 20px;
-        margin-left: 172px;
+        margin-left: 10px;
+        margin-top: -30px; /* Ajusta el margen superior para que no se superponga con el header */
         text-align: left;
     }
     
@@ -88,8 +98,8 @@
     
     /* Tabla principal */
     .table {
-        width: 100%; /* Ocupa el ancho completo del contenedor */
-        max-width: 1200px; /* Limita el ancho máximo de la tabla */
+        width: 95%; /* Ocupa el ancho completo del contenedor */
+        max-width: 1920px; /* Limita el ancho máximo de la tabla */
         margin: 0 auto; /* Centra la tabla horizontalmente */
         margin-bottom: 60px; /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/  
         border-collapse: collapse; /* Evita doble borde entre celdas */
@@ -111,7 +121,7 @@
         top: 0; /* Hace que el encabezado quede pegado al top */
         background-color: #333233; /* Fondo para el encabezado */
         color: #ffffff;
-        font-size: 0.8rem; /* Tamaño del texto en encabezado */
+        font-size: 0.8rem; /* Tamaño del texto en encabezado */;
         z-index: 1; /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
     }
     
@@ -181,11 +191,6 @@
         height: 26px; /* Altura delgada de los inputs */
     }
     
-    .modalImage {
-        max-width: 100%;
-        height: auto;
-    }
-    
     /* Modal Overlay */
     .modal {
         position: fixed;
@@ -239,20 +244,21 @@
     
     /* estilos para los botones de Acción */
     /* Estilo para el contenedor de los botones */
-    .buttons {
-        position: fixed;
-        bottom: 100px;
+    .actionButtons {
         align-items: flex-end;
         display: flex;
         gap: 10px;
         justify-content: flex-end;
-        margin-left: 1116px;
-        margin-top: 330px;
+        position: fixed;
+        margin-bottom: 0px !important;
+        margin-left: 955px;
+        margin-top: 271px;
         z-index: 3000;
     }
     
     /* Estilos generales para los botones */
-    .button {
+    .clearButton, 
+    .exitButton {
         align-items: center;
         border: none;
         border-radius: 5px;
@@ -262,44 +268,44 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 1rem;
         gap: 2px;
-        height: 45px;
+        height: 38px !important;
         justify-content: center;
         padding: 8px 15px;
         text-align: center;
-        width: 120px;
+        width: 120px !important;
     }
     
     /* Estilos para el botón de Limpiar */
-    .button:nth-child(1) {
+    .clearButton {
         background-color: #333233; /* Color principal */
     }
     
     /* Estilo cuando el botón de Limpiar está en foco (por ejemplo, después de hacer clic) */
-    .button:nth-child(1):focus {
+    .clearButton:focus {
         outline: none;
         background-color: #333233; /* Vuelve al color principal */
         box-shadow: none;
     }
     
     /* Active: Efecto al presionar el botón */
-    .button:nth-child(1):active {
+    .clearButton:active {
         background-color: #565557; /* Color al presionar */
     }
     
     /* Estilos para el botón de Salir */
-    .button:nth-child(2) {
-        background-color: #333233; /* Color principal */
+    .exitButton {
+        background-color: #565557; /* Color principal */
     }
     
-    .button:nth-child(2):focus {
+    .exitButton:focus {
         outline: none;
-        background-color: #333233; /* Vuelve al color principal */
+        background-color: #565557; /* Vuelve al color principal */
         box-shadow: none;
     }
     
     /* Active: Efecto al presionar el botón */
-    .button:nth-child(2):active {
-        background-color: #565557; /* Color al presionar */
+    .exitButton:active {
+        background-color: #333233; /* Color al presionar */
     }
     
     /* Estilos para los iconos dentro de los botones */
