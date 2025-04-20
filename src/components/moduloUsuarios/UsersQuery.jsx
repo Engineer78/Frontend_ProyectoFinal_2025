@@ -14,14 +14,14 @@ function UsersQuery() {
     const [data, /*setData*/] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
     const [filters, setFilters] = useState({
-        numeroDocumento: ' ',
-        tipoDocumento : ' ',
-        rol: ' ',
-        nombreCompletos: ' ',
-        telefono: ' ',
-        direccion: ' ',
-        contactoEmergencia: ' ',
-        telefonoContacto:' ',
+        numeroDocumento: "",
+        tipoDocumento : "",
+        rol: "",
+        nombreCompletos: "",
+        telefono: "",
+        direccion: "",
+        contactoEmergencia: "",
+        telefonoContacto: "",
 });
       
   // Cambia la pestaña activa al hacer clic en una opción
