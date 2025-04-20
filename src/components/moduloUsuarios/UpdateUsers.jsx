@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Header from "../Header";
 import styles from "../../styles/UpdateUsers.module.css";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -384,7 +384,7 @@ const UpdateUsers = () => {
                                             onChange={(e) => setDocumentType(e.target.value)}
                                             required
                                         >
-                                            <option value=""> Seleccione un tipo de documento </option>
+                                            <option value=""> Seleccione un Tipo de Documento </option>
                                             <option value="CC">Cédula de Ciudadanía (CC)</option>
                                             <option value="CE">Cédula de Extranjería (CE)</option>
                                             <option value="PAS">Pasaporte (PA)</option>
@@ -402,7 +402,7 @@ const UpdateUsers = () => {
                                             onChange={(e) => setRolType(e.target.value)}
                                             required
                                         >
-                                            <option value=""> Seleccione un rol </option>
+                                            <option value=""> Seleccione un Rol </option>
                                             <option value="administrador">Administrador</option>
                                             <option value="almacenista">Almacenista</option>
                                             <option value="propietario">Propietario</option>
@@ -416,10 +416,10 @@ const UpdateUsers = () => {
 
                     <div className={styles.actionButtons}>
                         <button className={styles.saveButton} onClick={handleSave}>
-                            Guardar <SaveIcon />
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
-                            Limpiar <CleaningServicesIcon />
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button
                             type="button"
