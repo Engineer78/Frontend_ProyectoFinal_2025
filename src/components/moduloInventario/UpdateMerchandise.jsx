@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "../Header";
 import styles from "../../styles/updatemerchandise.module.css";
-import SaveIcon from "@mui/icons-material/Save";
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import SearchIcon from "@mui/icons-material/Search";
@@ -291,7 +291,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
-                    Registro de Producto
+                    Registrar Inventario
                 </Link>
 
                 <Link
@@ -299,7 +299,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
-                    Consulta de Producto
+                    Consultar Inventario
                 </Link>
 
                 <Link
@@ -307,7 +307,7 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
-                    Actualizar Producto
+                    Actualizar Inventario
                 </Link>
 
                 <Link
@@ -315,14 +315,14 @@ const UpdateMerchandise = () => {
                     className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("eliminar")}
                 >
-                    Eliminar Producto
+                    Eliminar Inventario
                 </Link>
             </div>
 
             {activeTab === "actualizar" && (
                 <div className={styles.container}>
                     <h2 className={styles.title}>
-                        Ingrese el Código del Producto para buscar y actualizar el registro
+                        Ingrese el código del Producto para buscar y actualizar el registro
                     </h2>
 
                     <div className={styles.formContainer}>
@@ -330,7 +330,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Código del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Código del producto (Obligatorio)"
+                                placeholder="Código del Producto (Obligatorio)"
                                 value={productCode}
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
@@ -353,7 +353,7 @@ const UpdateMerchandise = () => {
                                 className={styles.input}
                                 style={{ fontStyle: 'italic' }}
                             >
-                                <option value="">Seleccione un proveedor</option>
+                                <option value="">Seleccione un Proveedor</option>
                                 {suppliers.map((proveedor) => (
                                 <option key={proveedor.idProveedor} value={proveedor.idProveedor}>
                                     {proveedor.nombreProveedor}
@@ -395,7 +395,7 @@ const UpdateMerchandise = () => {
                                 onChange={(e) => setSelectedCategoryId(number(e.target.value))}
                                 style={{ fontStyle: 'italic' }}
                             >
-                                <option value="">Seleccione una categoría</option>
+                                <option value="">Seleccione una Categoría</option>
                                 {categories.map((cat) => (
                                 <option key={cat.idCategoria} value={cat.idCategoria}>
                                     {cat.nombreCategoria}
@@ -465,22 +465,23 @@ const UpdateMerchandise = () => {
                     </div>
 
                     <div className={styles.actionButtons}>
-                        <button className={styles.updateButton} onClick={handleSave}>
-                            Guardar <SaveIcon />
+                        <button className={styles.saveButton} onClick={handleSave}>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
-                            Limpiar <CleaningServicesIcon />
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton} >
-                            Salir <ExitToAppIcon /> </button>
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }}/> 
+                            </button>
                     </div>
                 </div>
             )}
         </>
     );
-};
+}
 
     export default UpdateMerchandise;

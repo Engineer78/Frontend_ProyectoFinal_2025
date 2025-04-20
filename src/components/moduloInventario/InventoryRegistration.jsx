@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Header from "../Header";
 import styles from "../../styles/inventoryregistration.module.css";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -227,7 +227,7 @@ const InventoryRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
-                    Registro de Producto
+                    Registrar Inventario
                 </Link>
 
                 <Link
@@ -235,7 +235,7 @@ const InventoryRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
-                    Consulta de Producto
+                    Consultar Inventario
                 </Link>
 
                 <Link
@@ -243,7 +243,7 @@ const InventoryRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
-                    Actualizar Producto
+                    Actualizar Inventario
                 </Link>
 
                 <Link
@@ -251,7 +251,7 @@ const InventoryRegistration = () => {
                     className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
                     onClick={() => handleTabClick("eliminar")}
                 >
-                    Eliminar Producto
+                    Eliminar Inventario
                 </Link>
             </div>
 
@@ -263,7 +263,7 @@ const InventoryRegistration = () => {
                     </h2>
 
                     <div className={styles.formContainer}>
-                        <form className={styles.formLeft}>
+                    <form className={styles.formLeft}>
                             <label className={styles.inputLabel}>Nombre del Proveedor:</label>
                             <input
                                 type="text"
@@ -304,20 +304,20 @@ const InventoryRegistration = () => {
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Crear categoría de la mercancía:</label>
+                            <label className={styles.inputLabel}>Crear Categoría del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Categoría de la mercancía (Obligatorio)"
+                                placeholder="Categoría del Producto (Obligatorio)"
                                 value={productCategory}
                                 onChange={(e) => setProductCategory(e.target.value)}
                                 required
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Crear código del producto:</label>
+                            <label className={styles.inputLabel}>Crear Código del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Código del producto (Obligatorio)"
+                                placeholder="Código del Producto (Obligatorio)"
                                 value={productCode}
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
@@ -354,19 +354,19 @@ const InventoryRegistration = () => {
                                 className={styles.input}
                             />
 
-                            <label className={styles.inputLabel}>Valor total:</label>
+                            <label className={styles.inputLabel}>Valor Total:</label>
                             <input
-                                type="number"
-                                placeholder="Valor total"
+                                type="text"
+                                placeholder="Valor Total"
                                 value={totalValue}
-                                disabled
                                 className={styles.inputValorTotal}
+                                disabled
                             />
                         </form>
 
                         <form className={styles.formRight}>
                             <label id="productImageLabel" className={styles.imageLabel}>
-                                Imagen del producto
+                                Imagen del Producto
                             </label>
                             <div className={styles.imageWrapper}>
                                 <img
@@ -390,17 +390,17 @@ const InventoryRegistration = () => {
                             </div>
                         </form>
                     </div>
-                    <div className={styles.buttons}>
-                        <button type="button" onClick={handleSave} className={styles.button}>
-                            Guardar <SaveIcon />
+                    <div className={styles.actionButtons}>
+                        <button type="button" onClick={handleSave} className={styles.saveButton}>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
                         </button>
-                        <button type="button" onClick={handleClear} className={styles.button}>
-                            Limpiar <CleaningServicesIcon />
+                        <button type="button" onClick={handleClear} className={styles.clearButton}>
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
-                            className={styles.button}
+                            className={styles.exitButton}
                         >
                             Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                         </button>
