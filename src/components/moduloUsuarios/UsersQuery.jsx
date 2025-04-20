@@ -16,6 +16,7 @@ function UsersQuery() {
     const [filters, setFilters] = useState({
         numeroDocumento: "",
         tipoDocumento : "",
+        nombreUsuario: "",
         rol: "",
         nombreCompletos: "",
         telefono: "",
@@ -36,6 +37,7 @@ function UsersQuery() {
   const [HeaderInputs, setHeaderInputs] = useState({
     numeroDocumento: "",
     tipoDocumento : "",
+    nombreUsuario: "",
     rol: "",
     nombreCompletos: "",
     telefono: "",
@@ -50,6 +52,7 @@ function UsersQuery() {
     setFilters({
       numeroDocumento: "",
       tipoDocumento : "",
+      nombreUsuario: "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -61,6 +64,7 @@ function UsersQuery() {
     setHeaderInputs({
       numeroDocumento: "",
       tipoDocumento : "",
+      nombreUsuario: "",
       rol: "",
       nombreCompletos: "",
       telefono: "",
@@ -80,24 +84,26 @@ function UsersQuery() {
 const handleRowClick = (users) => {
     setFilters({
         numeroDocumento: users.numeroDocumento || '',
+        tipoDocumento: users.tipoDocumento || '',
+        nombreUsuario: users.nombreUsuario || '',
         rol: users.rol || '',
         nombreCompletos: users.nombreCompletos| '',
         telefono: users. telefono || '',
         direccion: users.direccion || '',
         contactoEmergencia: users.contactoEmergencia|| '',
         telefonoContacto: users.telefonoContacto || '',
-        tipoDocumento: users.tipoDocumento || '',
     });
 
     setHeaderInputs({
         numeroDocumento: users.numeroDocumento || '',
+        tipoDocumento: users.tipoDocumento || '',
+        nombreUsuario: users.nombreUsuario || '',
         rol: users.rol || '',
         nombreCompletos: users.nombreCompletos| '',
         telefono: users. telefono || '',
         direccion: users.direccion || '',
         contactoEmergencia: users.contactoEmergencia|| '',
         telefonoContacto: users.telefonoContacto || '',
-        tipoDocumento: users.tipoDocumento || '',
     });
 };
 
@@ -157,7 +163,7 @@ const handleRowClick = (users) => {
       {/* Contenido dependiendo de la pestaña activa */}
       <div className={styles.container}>
         <h2 className={styles.title}>
-          Ingrese un dato en la casilla correspondiente para realizar la
+          Ingrese el Número de Identificación para realizar la
           consulta
         </h2>
       </div>
@@ -192,7 +198,17 @@ const handleRowClick = (users) => {
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
+            <th>
+              Nombre de Usuario
+              <input
+                type="text"
+                name="nombreUsuario"
+                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                disabled
+                placeholder="..."
+                style={{ fontStyle: "italic" }}
+              />
+            </th>
             <th>
               Rol
               <input
@@ -305,7 +321,7 @@ const handleRowClick = (users) => {
         <button
           type="button"
           onClick={() => (window.location.href = "/menu-principal")}
-          className={styles.ExitButton}
+          className={styles.exitButton}
         >
           Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
         </button>
