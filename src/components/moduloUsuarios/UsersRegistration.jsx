@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Header from "../Header";
 import styles from "../../styles/usersRegistration.module.css";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
@@ -131,6 +131,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Nombre(s):</label>
@@ -141,6 +142,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserNames(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Primer Apellido:</label>
@@ -151,6 +153,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserLastName(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Segundo Apellido :</label>
@@ -161,6 +164,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserSecondLastName(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Nombre de Usuario:</label>
@@ -171,6 +175,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserAlias(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Contraseña:</label>
@@ -181,6 +186,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserPassword(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Teléfono Móvil:</label>
@@ -191,6 +197,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserPhone(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Dirección de Residencia:</label>
@@ -201,6 +208,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserAddress(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Contacto de Emergencia:</label>
@@ -211,6 +219,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserEmergencyContact(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Teléfono de Contacto:</label>
@@ -221,6 +230,7 @@ const UsersRegistration = () => {
                                 onChange={(e) => setUserContactPhone(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
                         </form>
 
@@ -235,7 +245,7 @@ const UsersRegistration = () => {
                                             onChange={(e) => setDocumentType(e.target.value)} 
                                             required
                                         >
-                                            <option value=""> Seleccione un tipo de documento </option>
+                                            <option value=""> Seleccione un Tipo de Documento </option>
                                             <option value="CC">Cédula de Ciudadanía (CC)</option>
                                             <option value="CE">Cédula de Extranjería (CE)</option>
                                             <option value="PAS">Pasaporte (PA)</option>
@@ -253,7 +263,7 @@ const UsersRegistration = () => {
                                             onChange={(e) => setRolType(e.target.value)} 
                                             required
                                         >
-                                            <option value=""> Seleccione un rol </option>
+                                            <option value=""> Seleccione un Rol </option>
                                             <option value="administrador">Administrador</option>
                                             <option value="almacenista">Almacenista</option>
                                             <option value="propietario">Propietario</option>
@@ -267,17 +277,17 @@ const UsersRegistration = () => {
                     </div>
                     <div className={styles.actionButtons}>
                         <button type="button" /*onClick={handleSave}*/ className={styles.saveButton}>
-                            Guardar <SaveIcon />
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button type="button" onClick={handleClear} className={styles.clearButton}>
-                            Limpiar <CleaningServicesIcon />
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton}
                         >
-                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }}/>
                         </button>
                     </div>
                 </div>
