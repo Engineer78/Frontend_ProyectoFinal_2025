@@ -122,9 +122,9 @@
 
     /* Tabla principal */
     .table {
-        width: 100%;
+        width: 95%;
         /* Ocupa el ancho completo del contenedor */
-        max-width: 1200px;
+        max-width: 1920px;
         /* Limita el ancho máximo de la tabla */
         margin: 0 auto;
         /* Centra la tabla horizontalmente */
