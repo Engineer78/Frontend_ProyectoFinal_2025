@@ -364,7 +364,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>NIT:</label>
                             <input
                                 type="text"
-                                placeholder="NIT"
+                                placeholder="NIT (Obligatorio)"
                                 value={supplierNIT}
                                 onChange={(e) => setSupplierNIT(e.target.value)}
                                 className={styles.input}
@@ -373,7 +373,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Teléfono:</label>
                             <input
                                 type="text"
-                                placeholder="Teléfono"
+                                placeholder="Teléfono (Obligatorio)"
                                 value={supplierPhone}
                                 onChange={(e) => setSupplierPhone(e.target.value)}
                                 className={styles.input}
@@ -382,7 +382,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Dirección:</label>
                             <input
                                 type="text"
-                                placeholder="Dirección"
+                                placeholder="Dirección (Obligatorio)"
                                 value={supplierAddress}
                                 onChange={(e) => setSupplierAddress(e.target.value)}
                                 className={styles.input}
@@ -406,7 +406,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Nombre del Producto:</label>
                             <input
                                 type="text"
-                                placeholder="Nombre del Producto"
+                                placeholder="Nombre del Producto (Obligatorio)"
                                 value={productName}
                                 onChange={(e) => setProductName(e.target.value)}
                                 className={styles.input}
@@ -415,7 +415,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Cantidad:</label>
                             <input
                                 type="number"
-                                placeholder="Cantidad"
+                                placeholder="Cantidad (Obligatorio)"
                                 value={productQuantity}
                                 onChange={(e) => setProductQuantity(e.target.value)}
                                 className={styles.input}
@@ -424,7 +424,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Valor Unitario:</label>
                             <input
                                 type="number"
-                                placeholder="Valor Unitario"
+                                placeholder="Valor Unitario (Obligatorio)"
                                 value={unitValue}
                                 onChange={(e) => setUnitValue(e.target.value)}
                                 className={styles.input}
