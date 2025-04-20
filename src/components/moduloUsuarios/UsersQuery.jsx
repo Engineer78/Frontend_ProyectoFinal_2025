@@ -171,7 +171,7 @@ const handleRowClick = (users) => {
             </th>
 
             <th>
-              Nº de Documento
+              N° de Documento
               <input
                 type="text"
                 name="numeroDocumento"
@@ -188,7 +188,7 @@ const handleRowClick = (users) => {
                 name="tipoDocumento"
                 /*value={selectedUser ? selectedUser.cantidad : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -200,7 +200,7 @@ const handleRowClick = (users) => {
                 name="rol"
                 /*value={selectedUser ? selectedUser.cantidad : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -212,7 +212,7 @@ const handleRowClick = (users) => {
                 name="nombreCompletos"
                 /*value={selectedUser ? selectedUser.cantidad : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -224,7 +224,7 @@ const handleRowClick = (users) => {
                 name="telefono"
                 /*value={selectedUser  ? selectedUser.cantidad : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -236,19 +236,19 @@ const handleRowClick = (users) => {
                 name="direccion"
                 /*value={selectedUser ? selectedUser.valorUnitarioProducto : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
 
             <th>
-              Contacto de emergencia
+              Contacto de Emergencia
               <input
                 type="text"
                 name="contactoEmergencia"
                 /*value={selectedUser  ? selectedUser.nombreProveedor : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -260,7 +260,7 @@ const handleRowClick = (users) => {
                 name="telefonoContacto"
                 /*value={selectedUser ? selectedUser.nitProveedor : ''}*/
                 disabled
-                placeholder="Buscar"
+                placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
@@ -296,16 +296,16 @@ const handleRowClick = (users) => {
         </tbody>
       </table>
       {/* Botones de acción */}
-      <div className={styles.buttons}>
+      <div className={styles.actionButtons}>
         {/*Botón para limpiar los inputs */}
-        <button type="button" onClick={handleClear} className={styles.button}>
+        <button type="button" onClick={handleClear} className={styles.clearButton}>
           Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
         </button>
         {/*Botón para salir al modulo principal */}
         <button
           type="button"
           onClick={() => (window.location.href = "/menu-principal")}
-          className={styles.button}
+          className={styles.ExitButton}
         >
           Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
         </button>
