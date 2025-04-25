@@ -12,7 +12,6 @@ const UserBadge = ({ nombreCompleto, rol }) => {
         const inicialApellido = primerApellido?.trim()[0]?.toUpperCase() || '';
         return inicialNombre + inicialApellido;
       };
-    };
 
     return (
         <div className="user-badge">
