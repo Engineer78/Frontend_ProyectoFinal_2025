@@ -81,9 +81,12 @@ const UsersRegistration = () => {
         setRolType("");
     };
 
-    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+    // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente 
+    // y los hooks basicos para cargar perfiles y roles.
     useEffect(() => {
         setActiveTab("registro");
+        cargarPerfiles();
+        cargarRoles();
     }, []);
 
     // Se renderiza el componente
