@@ -389,6 +389,29 @@ const UsersRegistration = () => {
                     </div>
                 </div>
             )}
+            {/* Modal Crear Rol */}
+            {isRolModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <button className={styles.closeModalButton} onClick={() => setRolModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2>Crear Rol</h2>
+                        <input type="text" placeholder="Nombre del Rol" value={rolNombre} onChange={(e) => setRolNombre(e.target.value)} className={styles.inputModal} />
+                        <textarea placeholder="Descripción" value={rolDescripcion} onChange={(e) => setRolDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
+                        <input type="text" placeholder="Buscar Rol" value={rolFiltro} onChange={(e) => setRolFiltro(e.target.value)} className={styles.inputModal} />
+                        <ul className={styles.listaResultados}>
+                            {roles.filter(rol => rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())).map((rol) => (
+                                <li key={rol.idRol}>{rol.nombreRol}</li>
+                            ))}
+                        </ul>
+                        <div className={styles.modalButtons}>
+                            <button onClick={handleSaveRol} className={styles.saveButton}>Guardar</button>
+                            <button onClick={() => setRolModalOpen(false)} className={styles.exitButton}>Salir</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
