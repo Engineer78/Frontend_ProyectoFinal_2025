@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import UserBadge from '../UserBadge';
 import axios from "axios"; // Importa axios
 
 // Componente principal para eliminar usuarios
@@ -249,6 +250,11 @@ const DeleteUsers = () => {
                 showHelp={true}
             />
 
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
+
             {/* Pestañas de navegación entre vistas del módulo de usuarios */}
             <div className={styles.tabs}>
                 <Link to="/users-registration"
@@ -298,100 +304,100 @@ const DeleteUsers = () => {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Selección 
-                            <input 
-                            type="checkbox" 
-                            disabled
+                        <th>Selección
+                            <input
+                                type="checkbox"
+                                disabled
                             />
                         </th>
                         <th>N° de Documento
-                            <input 
-                            type="text" 
-                            name="numeroDocumento" 
-                            value={filters.numeroDocumento} 
-                            onChange={handleInputChange} 
-                            placeholder="Buscar" 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="numeroDocumento"
+                                value={filters.numeroDocumento}
+                                onChange={handleInputChange}
+                                placeholder="Buscar"
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Tipo de Documento
-                            <input 
-                            type="text" 
-                            name="tipoDocuemto" 
-                            value={disabledInputs.tipoDocumento} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="tipoDocuemto"
+                                value={disabledInputs.tipoDocumento}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Nombre de Usuario
-                            <input 
-                            type="text" 
-                            name="nombreUsuario"
-                            value={disabledInputs.nombreUsuario} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="nombreUsuario"
+                                value={disabledInputs.nombreUsuario}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Rol
-                            <input 
-                            type="text" 
-                            name="rol" 
-                            value={disabledInputs.rol} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="rol"
+                                value={disabledInputs.rol}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Nombre(s) Completos
-                            <input 
-                            type="text" 
-                            name="nombresCompletos" 
-                            value={disabledInputs.nombresCompletos} 
-                            placeholder="..."
-                            disabled
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="nombresCompletos"
+                                value={disabledInputs.nombresCompletos}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Teléfono
-                            <input 
-                            type="text" 
-                            name="telefono" 
-                            value={disabledInputs.telefono} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="telefono"
+                                value={disabledInputs.telefono}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Dirección
-                            <input 
-                            type="text" 
-                            name="direccion" 
-                            value={disabledInputs.direccion} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="direccion"
+                                value={disabledInputs.direccion}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Contacto de Emergencia
-                            <input 
-                            type="text" 
-                            name="contactoEmergencia" 
-                            value={disabledInputs.contactoEmergencia} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="contactoEmergencia"
+                                value={disabledInputs.contactoEmergencia}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                         <th>Teléfono de Contacto
-                            <input 
-                            type="text" 
-                            name="telefonoContacto" 
-                            value={disabledInputs.telefonoContacto} 
-                            placeholder="..."
-                            disabled 
-                            style={{ fontStyle: 'italic' }}
+                            <input
+                                type="text"
+                                name="telefonoContacto"
+                                value={disabledInputs.telefonoContacto}
+                                placeholder="..."
+                                disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </th>
                     </tr>
