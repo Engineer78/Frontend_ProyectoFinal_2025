@@ -338,9 +338,17 @@ const UsersRegistration = () => {
                                     </div>
                                 </div>
                             </div>
+                            {/* Botones Abrir Modales */}
+                            <button type="button" onClick={() => setPerfilModalOpen(true)} className={styles.createButton}>
+                                <AddIcon style={{ fontSize: 18 }} /> Crear Perfil
+                            </button>
+                            <button type="button" onClick={() => setRolModalOpen(true)} className={styles.createButton}>
+                                <AddIcon style={{ fontSize: 18 }} /> Crear Rol
+                            </button>
                         </form>
-
                     </div>
+
+                    {/* Botones Acción */}
                     <div className={styles.actionButtons}>
                         <button type="button" /*onClick={handleSave}*/ className={styles.saveButton}>
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
