@@ -50,6 +50,14 @@ const UsersRegistration = () => {
         );
     };*/}
 
+    // Estados de modal Perfil
+    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
+    const [perfilNombre, setPerfilNombre] = useState("");
+    const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [perfilFiltro, setPerfilFiltro] = useState("");
+    const [perfiles, setPerfiles] = useState([]);
+
+
     // Limpiar el formulario
     const handleClear = () => {
         setUserID("");
