@@ -29,6 +29,9 @@ const LoginForm = () => {
     
         if (savedUser && username === savedUser.username && password === savedUser.password) {
           console.log("¡Inicio de sesión exitoso! Bienvenido:", username);
+
+          localStorage.setItem('isLoggedIn', 'true'); // Guardar estado de inicio de sesión
+
           navigate('/menu-principal');
         } else {
           console.error("Nombre de usuario o contraseña incorrectos.");
