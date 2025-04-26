@@ -122,6 +122,19 @@ const UsersRegistration = () => {
         }
     };
 
+    // Guardar Rol
+    const handleSaveRol = async () => {
+        try {
+            await axios.post("/api/roles", { nombreRol: rolNombre, descripcion: rolDescripcion });
+            cargarRoles();
+            setRolNombre("");
+            setRolDescripcion("");
+            setRolModalOpen(false);
+        } catch (error) {
+            console.error("Error guardando rol:", error);
+        }
+    };
+
     // Se renderiza el componente
     return (
         <>
