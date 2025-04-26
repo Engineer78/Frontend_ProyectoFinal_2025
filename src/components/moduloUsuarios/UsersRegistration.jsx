@@ -99,6 +99,16 @@ const UsersRegistration = () => {
         }
     };
 
+    // Cargar Roles existentes
+    const cargarRoles = async () => {
+        try {
+            const response = await axios.get("/api/roles/buscar");
+            setRoles(response.data);
+        } catch (error) {
+            console.error("Error cargando roles:", error);
+        }
+    };
+
     // Se renderiza el componente
     return (
         <>
