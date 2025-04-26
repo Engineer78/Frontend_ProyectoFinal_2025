@@ -348,11 +348,15 @@ const UsersRegistration = () => {
                                 </div>
                             </div>
                             {/* Botones Abrir Modales */}
-                            <button type="button" onClick={() => setPerfilModalOpen(true)} className={styles.createButton}>
-                                <AddIcon style={{ fontSize: 18 }} /> Crear Perfil
+                            <button type="button" onClick={() => setPerfilModalOpen(true)} 
+                                className={styles.createButton}>
+                                    onClick={handleOpenModalPerfil}
+                                <AddIcon style={{ marginLeft: 8 }} /> Crear Perfil
                             </button>
-                            <button type="button" onClick={() => setRolModalOpen(true)} className={styles.createButton}>
-                                <AddIcon style={{ fontSize: 18 }} /> Crear Rol
+                            <button type="button" onClick={() => setRolModalOpen(true)} 
+                                className={styles.createButton}>
+                                    onClick={handleOpenModalRol}
+                                <AddIcon style={{ marginLeft: 8 }} /> Crear Rol
                             </button>
                         </form>
                     </div>
