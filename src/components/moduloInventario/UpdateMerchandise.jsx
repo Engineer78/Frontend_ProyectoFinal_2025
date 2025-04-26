@@ -8,7 +8,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Link } from "react-router-dom";
 import { number } from "yup";
-import UserBadge from "../UserBadge"; // Importa el componente UserBadge
 import axios from "axios"; // Importa axios
 
 
@@ -286,11 +285,6 @@ const UpdateMerchandise = () => {
                 showLogo={true}
                 showHelp={true}
             />
-
-            {/* Insignia del usuario logueado */}
-            <div className='user-badge-container'>
-                <UserBadge />
-            </div>
 
             <div className={styles.tabs}>
                 <Link

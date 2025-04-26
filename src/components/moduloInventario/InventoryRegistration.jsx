@@ -6,7 +6,6 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import UserBadge from "../UserBadge";
 import axios from "axios";
 
 // se crea el componente InventoryRegistration
@@ -220,11 +219,6 @@ const InventoryRegistration = () => {
                 showLogo={true}
                 showHelp={true}
             />
-
-            {/* Insignia del usuario logueado */}
-            <div className='user-badge-container'>
-                <UserBadge />
-            </div>
 
             {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
