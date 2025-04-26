@@ -1,9 +1,15 @@
 import React from 'react'
-import '../style/UserBadge.css';
-import { getLogerUserData} from '../authUtils';
+import '../styles/userBadge.css'; // Asegúrate de que la ruta sea correcta
+import { getLoggedUserData } from '../authUtils.js';
+import { obtenerIniciales } from '../obtenerIniciales';
 
+const UserBadge = () => {
 
-const UserBadge = ({ nombreCompleto, rol }) => {
+    // Simulación de usuario logueado (en el futuro vendrá del backend o localStorage)
+    const { rol, nombres, apellidoPaterno } = getLoggedUserData();
+
+    const nombreCompleto = `${nombres} ${apellidoPaterno}`;
+    const iniciales = obtenerIniciales(nombres, apellidoPaterno);
 
     return (
         <div className="user-badge">
@@ -12,7 +18,7 @@ const UserBadge = ({ nombreCompleto, rol }) => {
                 <p>{rol}</p>
             </div>
             <div className="user-initials">
-                {obtenerIniciales(nombreCompleto)}
+                {iniciales}
             </div>
         </div>
     )
