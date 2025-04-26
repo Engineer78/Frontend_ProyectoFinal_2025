@@ -5,6 +5,9 @@ import styles from "../../styles/usersRegistration.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import axios from "axios";
 
 // se crea el componente UsersRegistration
 const UsersRegistration = () => {
