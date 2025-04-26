@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import UserBadge from '../UserBadge';
 import axios from "axios"; // Importa axios
 
 const api = axios.create({ // Crea una instancia de axios
@@ -235,6 +236,11 @@ const DeleteMerchandise = () => {
                 showLogo={true}
                 showHelp={true}
             />
+
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
 
             <div className={styles.tabs}>
                 <Link
