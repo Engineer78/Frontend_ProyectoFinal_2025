@@ -109,6 +109,19 @@ const UsersRegistration = () => {
         }
     };
 
+    // Guardar Perfil
+    const handleSavePerfil = async () => {
+        try {
+            await axios.post("/api/perfiles", { nombrePerfil: perfilNombre, descripcion: perfilDescripcion });
+            cargarPerfiles();
+            setPerfilNombre("");
+            setPerfilDescripcion("");
+            setPerfilModalOpen(false);
+        } catch (error) {
+            console.error("Error guardando perfil:", error);
+        }
+    };
+
     // Se renderiza el componente
     return (
         <>
