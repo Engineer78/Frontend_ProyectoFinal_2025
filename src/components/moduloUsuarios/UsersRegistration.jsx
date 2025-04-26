@@ -366,6 +366,29 @@ const UsersRegistration = () => {
                     </div>
                 </div>
             )}
+            {/* Modal Crear Perfil */}
+            {isPerfilModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <button className={styles.closeModalButton} onClick={() => setPerfilModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2>Crear Perfil</h2>
+                        <input type="text" placeholder="Nombre del Perfil" value={perfilNombre} onChange={(e) => setPerfilNombre(e.target.value)} className={styles.inputModal} />
+                        <textarea placeholder="Descripción" value={perfilDescripcion} onChange={(e) => setPerfilDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
+                        <input type="text" placeholder="Buscar Perfil" value={perfilFiltro} onChange={(e) => setPerfilFiltro(e.target.value)} className={styles.inputModal} />
+                        <ul className={styles.listaResultados}>
+                            {perfiles.filter(perfil => perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())).map((perfil) => (
+                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                            ))}
+                        </ul>
+                        <div className={styles.modalButtons}>
+                            <button onClick={handleSavePerfil} className={styles.saveButton}>Guardar</button>
+                            <button onClick={() => setPerfilModalOpen(false)} className={styles.exitButton}>Salir</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
