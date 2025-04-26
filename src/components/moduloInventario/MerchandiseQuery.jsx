@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import SearchIcon from '@mui/icons-material/Search';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import UserBadge from '../UserBadge'; // Importa el componente UserBadge
 import axios from 'axios';
 
 // Configura instancia de axios para conectarse al backend
@@ -330,6 +331,11 @@ const MerchandiseQuery = () => {
                 showLogo={true}
                 showHelp={true}
             />
+
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
 
             {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
