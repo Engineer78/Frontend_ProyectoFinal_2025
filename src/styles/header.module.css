@@ -27,7 +27,7 @@
 /* Sección central (Título principal) */
 .header-center {
   flex: 1; /* Hace que esta sección ocupe el espacio central */
-  margin-left: -9rem; /* Corre el titulo hacia la izquierda */
+  margin-left: -4rem; /* Corre el titulo hacia la izquierda */
   text-align: center;
 }
 
@@ -44,53 +44,106 @@
   position: relative;
 }
 
-.help-button {
-  background: none;
-  border: none;
-  color: #000;
-  cursor: pointer;
-  display: inline-block !important;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-right: 1.2rem; /* Corre el boton hacia la izquierda */
-  padding: 0.5rem;
+.user-badge {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  background-color: #333233;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Estilos del menú desplegable */
-.dropdown-menu {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  /*filter: alpha(opacity=50);*/
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  /*opacity: 0.5;*/
-  right: 18px;
-  top: calc(100% + 5px); /* Se coloca justo debajo del botón */
-  width: 170px; /* Ancho del menú */
-  z-index: 1000;
-}
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10px;
+    color: white;
+    margin-top: 0px;
+  }
+  
+  .user-info strong {
+    font-size: 12px;
+    line-height: 1.1;
+  }
 
-.dropdown-menu li {
-  padding: 0.5rem 1rem;
-  white-space: nowrap; /* Evita que los textos se partan */
-}
+  .user-info p {
+    font-size: 11px;
+    line-height: 1.1;
+  }
+  
+  .user-initials {
+    width: 30px;
+    height: 30px;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 0px;
+    margin-right: -7px;
+  }
 
-.dropdown-menu li a {
-  color: #000;
-  display: block;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bolder;
-  text-decoration: none;
-}
+  .user-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
 
-.dropdown-menu li a:hover {
-  background-color: #565557;
-  color: #ffffff;
-}
+  .dropdown-menu {
+    position: absolute;
+    top: 39px; /* Ajusta la posición vertical del menú */
+    right: 0px;
+    background-color: #333233;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    list-style: none;
+    min-width: 160px;
+  }
+  
+  
+  .dropdown-menu li {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #444;
+  }
+  
+  .dropdown-menu li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+  }
 
+  .user-arrow {
+      color: white;
+      margin-right: -8px;
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+  }
+  
 /* ------------------------ @Media Queries --------------------- */
 
 /* Resoluciones menores a 480px */
