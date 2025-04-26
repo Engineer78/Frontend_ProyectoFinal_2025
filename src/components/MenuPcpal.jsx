@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Header from '../components/Header';
 import styles from '../styles/menupcpal.module.css';
-import UserBadge from './UserBadge';
 
 const MenuPcpal = () => {
 
@@ -32,11 +31,6 @@ const MenuPcpal = () => {
                 showLogo={true} // Mostrar el logo
                 showHelp={true} // Mostrar el botón de ayuda
             />
-
-            {/* Insignia del usuario logueado */}
-            <div className='user-badge-container'>
-                <UserBadge />
-            </div>
 
             <div className={styles['menu-principal']}>
 
