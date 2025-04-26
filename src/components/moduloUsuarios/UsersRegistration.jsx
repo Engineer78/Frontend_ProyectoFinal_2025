@@ -57,6 +57,13 @@ const UsersRegistration = () => {
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfiles, setPerfiles] = useState([]);
 
+    // Estados de modal Rol
+    const [isRolModalOpen, setRolModalOpen] = useState(false);
+    const [rolNombre, setRolNombre] = useState("");
+    const [rolDescripcion, setRolDescripcion] = useState("");
+    const [rolFiltro, setRolFiltro] = useState("");
+    const [roles, setRoles] = useState([]);
+
 
     // Limpiar el formulario
     const handleClear = () => {
