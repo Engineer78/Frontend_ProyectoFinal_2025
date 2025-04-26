@@ -5,6 +5,7 @@ import styles from "../../styles/usersRegistration.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import UserBadge from "../UserBadge"; // Asegúrate de que la ruta sea correcta
 
 
 // se crea el componente UsersRegistration
@@ -78,6 +79,11 @@ const UsersRegistration = () => {
                 showLogo={true}
                 showHelp={true}
             />
+
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
 
             {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
@@ -241,8 +247,8 @@ const UsersRegistration = () => {
                                     <div className={styles.selectWrapper}>
                                         <select id="tipoDocumento"
                                             className={styles.select}
-                                            value={documentType}                             
-                                            onChange={(e) => setDocumentType(e.target.value)} 
+                                            value={documentType}
+                                            onChange={(e) => setDocumentType(e.target.value)}
                                             required
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
@@ -257,10 +263,10 @@ const UsersRegistration = () => {
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
-                                        <select id="tipoRol" 
+                                        <select id="tipoRol"
                                             className={styles.select}
-                                            value={rolType}                             
-                                            onChange={(e) => setRolType(e.target.value)} 
+                                            value={rolType}
+                                            onChange={(e) => setRolType(e.target.value)}
                                             required
                                         >
                                             <option value=""> Seleccione un Rol </option>
@@ -277,17 +283,17 @@ const UsersRegistration = () => {
                     </div>
                     <div className={styles.actionButtons}>
                         <button type="button" /*onClick={handleSave}*/ className={styles.saveButton}>
-                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button type="button" onClick={handleClear} className={styles.clearButton}>
-                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton}
                         >
-                            Salir <ExitToAppIcon style={{ marginLeft: 8 }}/>
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                         </button>
                     </div>
                 </div>
