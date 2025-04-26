@@ -89,6 +89,16 @@ const UsersRegistration = () => {
         cargarRoles();
     }, []);
 
+    // Cargar Perfiles existentes
+    const cargarPerfiles = async () => {
+        try {
+            const response = await axios.get("/api/perfiles/buscar");
+            setPerfiles(response.data);
+        } catch (error) {
+            console.error("Error cargando perfiles:", error);
+        }
+    };
+
     // Se renderiza el componente
     return (
         <>
