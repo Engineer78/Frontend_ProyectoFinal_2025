@@ -64,6 +64,15 @@ const UsersRegistration = () => {
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
 
+    // Se define la función para abrir los modales de crear perfil y rol
+    const handleOpenModalPerfil = () => {
+        setPerfilModalOpen(true);
+      };
+      
+      const handleOpenModalRol = () => {
+        setRolModalOpen(true);
+      };
+      
 
     // Limpiar el formulario
     const handleClear = () => {
