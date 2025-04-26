@@ -6,6 +6,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import UserBadge from "../UserBadge";
 import axios from "axios";
 
 // se crea el componente InventoryRegistration
@@ -220,6 +221,11 @@ const InventoryRegistration = () => {
                 showHelp={true}
             />
 
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
+
             {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
                 <Link
@@ -263,7 +269,7 @@ const InventoryRegistration = () => {
                     </h2>
 
                     <div className={styles.formContainer}>
-                    <form className={styles.formLeft}>
+                        <form className={styles.formLeft}>
                             <label className={styles.inputLabel}>Nombre del Proveedor:</label>
                             <input
                                 type="text"
@@ -392,10 +398,10 @@ const InventoryRegistration = () => {
                     </div>
                     <div className={styles.actionButtons}>
                         <button type="button" onClick={handleSave} className={styles.saveButton}>
-                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }}/>
+                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button type="button" onClick={handleClear} className={styles.clearButton}>
-                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
+                            Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button
                             type="button"
