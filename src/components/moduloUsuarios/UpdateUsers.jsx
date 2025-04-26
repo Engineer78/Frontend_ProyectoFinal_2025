@@ -6,6 +6,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import UserBadge from "../UserBadge";
 
 const UpdateUsers = () => {
 
@@ -221,6 +222,11 @@ const UpdateUsers = () => {
                 showLogo={true}
                 showHelp={true}
             />
+
+            {/* Insignia del usuario logueado */}
+            <div className='user-badge-container'>
+                <UserBadge />
+            </div>
 
             <div className={styles.tabs}>
                 <Link
