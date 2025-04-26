@@ -5,8 +5,6 @@ import styles from "../../styles/usersRegistration.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import UserBadge from "../UserBadge"; // Asegúrate de que la ruta sea correcta
-
 
 // se crea el componente UsersRegistration
 const UsersRegistration = () => {
@@ -79,11 +77,6 @@ const UsersRegistration = () => {
                 showLogo={true}
                 showHelp={true}
             />
-
-            {/* Insignia del usuario logueado */}
-            <div className='user-badge-container'>
-                <UserBadge />
-            </div>
 
             {/* Pestañas debajo del header */}
             <div className={styles.tabs}>

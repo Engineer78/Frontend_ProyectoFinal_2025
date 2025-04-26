@@ -3,9 +3,8 @@ import Header from "../Header";
 import styles from "../../styles/usersquery.module.css";
 import { Link } from "react-router-dom";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-import SearchIcon from "@mui/icons-material/Search";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import UserBadge from "../UserBadge";
+
 
 function UsersQuery() {
   // Estado para controlar la pestaña activa
@@ -119,11 +118,6 @@ const handleRowClick = (users) => {
         showLogo={true}
         showHelp={true}
       />
-
-      {/* Insignia del usuario logueado */}
-      <div className='user-badge-container'>
-                <UserBadge />
-            </div>
 
       {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
