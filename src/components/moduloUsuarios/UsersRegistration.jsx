@@ -27,6 +27,29 @@ const UsersRegistration = () => {
     const [rolType, setRolType] = useState("");
     const [activeTab, setActiveTab] = useState("registro");
 
+    // Estados de modal Perfil
+    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
+    const [perfilNombre, setPerfilNombre] = useState("");
+    const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [perfilFiltro, setPerfilFiltro] = useState("");
+    const [perfiles, setPerfiles] = useState([]);
+
+    // Estados de modal Rol
+    const [isRolModalOpen, setRolModalOpen] = useState(false);
+    const [rolNombre, setRolNombre] = useState("");
+    const [rolDescripcion, setRolDescripcion] = useState("");
+    const [rolFiltro, setRolFiltro] = useState("");
+    const [roles, setRoles] = useState([]);
+
+    // Se define la función para abrir los modales de crear perfil y rol
+    const handleOpenModalPerfil = () => {
+        setPerfilModalOpen(true);
+    };
+
+    const handleOpenModalRol = () => {
+        setRolModalOpen(true);
+    };
+
     // Manejar cambio de pestaña
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -49,30 +72,6 @@ const UsersRegistration = () => {
             rolType
         );
     };*/}
-
-    // Estados de modal Perfil
-    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
-    const [perfilNombre, setPerfilNombre] = useState("");
-    const [perfilDescripcion, setPerfilDescripcion] = useState("");
-    const [perfilFiltro, setPerfilFiltro] = useState("");
-    const [perfiles, setPerfiles] = useState([]);
-
-    // Estados de modal Rol
-    const [isRolModalOpen, setRolModalOpen] = useState(false);
-    const [rolNombre, setRolNombre] = useState("");
-    const [rolDescripcion, setRolDescripcion] = useState("");
-    const [rolFiltro, setRolFiltro] = useState("");
-    const [roles, setRoles] = useState([]);
-
-    // Se define la función para abrir los modales de crear perfil y rol
-    const handleOpenModalPerfil = () => {
-        setPerfilModalOpen(true);
-      };
-      
-      const handleOpenModalRol = () => {
-        setRolModalOpen(true);
-      };
-      
 
     // Limpiar el formulario
     const handleClear = () => {
@@ -348,15 +347,15 @@ const UsersRegistration = () => {
                                 </div>
                             </div>
                             {/* Botones Abrir Modales */}
-                            <button type="button" onClick={() => setPerfilModalOpen(true)} 
+                            <button type="button" onClick={() => setPerfilModalOpen(true)}
                                 className={styles.createButton}
-                                    onClick={handleOpenModalPerfil}
+                                onClick={handleOpenModalPerfil}
                             >
                                 <AddIcon style={{ marginLeft: 8 }} /> Crear Perfil
                             </button>
-                            <button type="button" onClick={() => setRolModalOpen(true)} 
+                            <button type="button" onClick={() => setRolModalOpen(true)}
                                 className={styles.createButton}
-                                    onClick={handleOpenModalRol}
+                                onClick={handleOpenModalRol}
                             >
                                 <AddIcon style={{ marginLeft: 8 }} /> Crear Rol
                             </button>
@@ -393,7 +392,9 @@ const UsersRegistration = () => {
                         <textarea placeholder="Descripción" value={perfilDescripcion} onChange={(e) => setPerfilDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
                         <input type="text" placeholder="Buscar Perfil" value={perfilFiltro} onChange={(e) => setPerfilFiltro(e.target.value)} className={styles.inputModal} />
                         <ul className={styles.listaResultados}>
-                            {perfiles.filter(perfil => perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())).map((perfil) => (
+                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                            ).map((perfil) => (
                                 <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
                             ))}
                         </ul>
@@ -416,7 +417,9 @@ const UsersRegistration = () => {
                         <textarea placeholder="Descripción" value={rolDescripcion} onChange={(e) => setRolDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
                         <input type="text" placeholder="Buscar Rol" value={rolFiltro} onChange={(e) => setRolFiltro(e.target.value)} className={styles.inputModal} />
                         <ul className={styles.listaResultados}>
-                            {roles.filter(rol => rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())).map((rol) => (
+                            {Array.isArray(roles) && roles.filter((rol) =>
+                                rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                            ).map((rol) => (
                                 <li key={rol.idRol}>{rol.nombreRol}</li>
                             ))}
                         </ul>
