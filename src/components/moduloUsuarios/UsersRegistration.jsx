@@ -32,10 +32,9 @@ const UsersRegistration = () => {
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
     const [perfilFiltro, setPerfilFiltro] = useState("");
-    const [perfiles, setPerfiles] = useState([]);
     const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
     const [perfiles, setPerfiles] = useState([]);
-
+   
     // Estados de modal Rol
     const [isRolModalOpen, setRolModalOpen] = useState(false);
     const [rolNombre, setRolNombre] = useState("");
@@ -466,6 +465,21 @@ const UsersRegistration = () => {
                         </button>
 
                         <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Rol</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="PerfilRol" className={styles.labelModal}>Asignar Perfil</label>
+                            <select
+                                id="PerfilRol"
+                                value={perfilSeleccionado}
+                                onChange={(e) => setPerfilSeleccionado(e.target.value)}
+                                className={styles.selectModal}
+                            >
+                                <option value="">Seleccionar perfil</option>
+                                {perfiles.map((perfil) => (
+                                    <option key={perfil.idPerfil} value={perfil.idPerfil}>{perfil.nombrePerfil}</option>
+                                ))}
+                            </select>
+                        </div>
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
