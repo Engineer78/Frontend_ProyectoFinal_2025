@@ -383,49 +383,62 @@ const UsersRegistration = () => {
             {/* Modal Crear Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
-                    <div className={styles.modal}>
-                        <button className={styles.closeModalButton} onClick={() => setPerfilModalOpen(false)}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
                             <CloseIcon />
                         </button>
                         <h2>Crear Perfil</h2>
-                        <input type="text" placeholder="Nombre del Perfil" value={perfilNombre} onChange={(e) => setPerfilNombre(e.target.value)} className={styles.inputModal} />
-                        <textarea placeholder="Descripción" value={perfilDescripcion} onChange={(e) => setPerfilDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
-                        <input type="text" placeholder="Buscar Perfil" value={perfilFiltro} onChange={(e) => setPerfilFiltro(e.target.value)} className={styles.inputModal} />
-                        <ul className={styles.listaResultados}>
+                        <input type="text" placeholder="Buscar Perfil" value={perfilFiltro} onChange={(e) => setPerfilFiltro(e.target.value)} />
+                        <input type="text" placeholder="Nombre del Perfil" value={perfilNombre} onChange={(e) => setPerfilNombre(e.target.value)} />
+                        <textarea placeholder="Descripción" value={perfilDescripcion} onChange={(e) => setPerfilDescripcion(e.target.value)} />
+                        <ul>
                             {Array.isArray(perfiles) && perfiles.filter((perfil) =>
                                 perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
                             ).map((perfil) => (
                                 <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
                             ))}
                         </ul>
-                        <div className={styles.modalButtons}>
-                            <button onClick={handleSavePerfil} className={styles.saveButton}>Guardar</button>
-                            <button onClick={() => setPerfilModalOpen(false)} className={styles.exitButton}>Salir</button>
+                        <div className="style.modalButtons">
+                            <button className={styles.modalButtonSave}
+                                onClick={handleSavePerfil}>
+                                Guardar
+                            </button>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => setPerfilModalOpen(false)}>
+                                Salir
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
+
             {/* Modal Crear Rol */}
             {isRolModalOpen && (
                 <div className={styles.modalOverlay}>
-                    <div className={styles.modal}>
-                        <button className={styles.closeModalButton} onClick={() => setRolModalOpen(false)}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
                             <CloseIcon />
                         </button>
                         <h2>Crear Rol</h2>
-                        <input type="text" placeholder="Nombre del Rol" value={rolNombre} onChange={(e) => setRolNombre(e.target.value)} className={styles.inputModal} />
-                        <textarea placeholder="Descripción" value={rolDescripcion} onChange={(e) => setRolDescripcion(e.target.value)} className={styles.textareaModal}></textarea>
-                        <input type="text" placeholder="Buscar Rol" value={rolFiltro} onChange={(e) => setRolFiltro(e.target.value)} className={styles.inputModal} />
-                        <ul className={styles.listaResultados}>
+                        <input type="text" placeholder="Buscar Rol" value={rolFiltro} onChange={(e) => setRolFiltro(e.target.value)} />
+                        <input type="text" placeholder="Nombre del Rol" value={rolNombre} onChange={(e) => setRolNombre(e.target.value)} />
+                        <textarea placeholder="Descripción" value={rolDescripcion} onChange={(e) => setRolDescripcion(e.target.value)} />
+                        <ul>
                             {Array.isArray(roles) && roles.filter((rol) =>
                                 rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
                             ).map((rol) => (
                                 <li key={rol.idRol}>{rol.nombreRol}</li>
                             ))}
                         </ul>
-                        <div className={styles.modalButtons}>
-                            <button onClick={handleSaveRol} className={styles.saveButton}>Guardar</button>
-                            <button onClick={() => setRolModalOpen(false)} className={styles.exitButton}>Salir</button>
+                        <div className="style.modalButtons">
+                            <button className={styles.modalButtonSave}
+                                onClick={handleSaveRol}>
+                                Guardar
+                            </button>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => setRolModalOpen(false)}>
+                                Salir
+                            </button>
                         </div>
                     </div>
                 </div>
