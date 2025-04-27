@@ -6,7 +6,7 @@ import { getLoggedUserData } from "../authUtils";
 import { obtenerIniciales } from "../obtenerIniciales";
 import { useLocation } from "react-router-dom";
 
-const Header = ({ title, subtitle, showLogo = true }) => {
+const Header = ({ title, subtitle, showLogo, isLogin = false }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
 
   const toggleUserMenu = () => {
@@ -37,9 +37,9 @@ const Header = ({ title, subtitle, showLogo = true }) => {
         <h1>{title}</h1>
         {subtitle && <h2>{subtitle}</h2>}
       </div>
-    
+
       {/* Menú de usuario */}
-      {isLoggedIn && (
+      {!isLogin && isLoggedIn ? (
         <div className={styles["user-menu"]}>
           <div className={styles["user-badge"]} onClick={toggleUserMenu}>
             <div className={styles["user-info"]}>
@@ -65,7 +65,10 @@ const Header = ({ title, subtitle, showLogo = true }) => {
             </ul>
           )}
         </div>
+      ) : (
+        <div style={{ width: '150px', height: '50px' }}></div> // Espacio vacío solo en login
       )}
+
     </header>
   );
 };
