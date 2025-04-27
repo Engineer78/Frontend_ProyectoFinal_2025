@@ -34,7 +34,7 @@ const UsersRegistration = () => {
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
     const [perfiles, setPerfiles] = useState([]);
-   
+
     // Estados de modal Rol
     const [isRolModalOpen, setRolModalOpen] = useState(false);
     const [rolNombre, setRolNombre] = useState("");
@@ -134,10 +134,15 @@ const UsersRegistration = () => {
     // Guardar Rol
     const handleSaveRol = async () => {
         try {
-            await axios.post("/api/roles", { nombreRol: rolNombre, descripcion: rolDescripcion });
+            await axios.post("/api/roles", {
+                nombreRol: rolNombre,
+                descripcion: rolDescripcion,
+                perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
+            });
             cargarRoles();
             setRolNombre("");
             setRolDescripcion("");
+            setPerfilSeleccionado(""); // Limpiar selección de perfil
             setRolModalOpen(false);
         } catch (error) {
             console.error("Error guardando rol:", error);
