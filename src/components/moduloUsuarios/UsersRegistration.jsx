@@ -373,13 +373,13 @@ const UsersRegistration = () => {
                                 className={styles.createButton}
                                 onClick={handleOpenModalPerfil}
                             >
-                                <AddIcon style={{ marginLeft: 8 }} /> Crear Perfil
+                                Perfil <AddIcon style={{ marginLeft: 8 }} /> 
                             </button>
                             <button type="button"
                                 className={styles.createButton}
                                 onClick={handleOpenModalRol}
                             >
-                                <AddIcon style={{ marginLeft: 8 }} /> Crear Rol
+                                Roles<AddIcon style={{ marginLeft: 8 }} />
                             </button>
                         </form>
                     </div>
