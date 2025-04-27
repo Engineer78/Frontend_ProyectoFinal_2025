@@ -453,10 +453,19 @@ const UsersRegistration = () => {
                             ))}
                         </ul>
 
-                        <div className={styles.modalButtons} style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '1rem' }}>
-                            <button className={styles.modalButtonSave} onClick={handleSavePerfil}>Guardar</button>
-                            <button className={styles.clearButtonModal} onClick={handleClearPerfil}>Limpiar</button>
-                            <button className={styles.modalButtonExit} onClick={() => setPerfilModalOpen(false)}>Salir</button>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave}
+                                onClick={handleSavePerfil}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            <button className={styles.clearButtonModal}
+                                onClick={handleClearPerfil}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => setPerfilModalOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -471,67 +480,79 @@ const UsersRegistration = () => {
                         </button>
 
                         <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Rol</h2>
-
                         <div className={styles.modalFormGroup}>
-                            <label htmlFor="PerfilRol" className={styles.labelModal}>Asignar Perfil</label>
-                            <select
-                                id="PerfilRol"
-                                value={perfilSeleccionado}
-                                onChange={(e) => setPerfilSeleccionado(e.target.value)}
-                                className={styles.selectModal}
-                            >
-                                <option value="">Seleccionar perfil</option>
-                                {perfiles.map((perfil) => (
-                                    <option key={perfil.idPerfil} value={perfil.idPerfil}>{perfil.nombrePerfil}</option>
+                            <div className={styles.selectGroupRol}>
+                                <div className={styles.formGroupRol}>
+                                    <label htmlFor="PerfilRol" className={styles.labelModal}>Seleccione un perfil para asignarlo al rol</label>
+                                    <div className={styles.selectWrapperRol}>
+                                        <select
+                                            id="PerfilRol"
+                                            className={styles.selectPerfil}
+                                            value={perfilSeleccionado}
+                                            onChange={(e) => setPerfilSeleccionado(e.target.value)}
+                                        >
+                                            <option value="">Seleccionar perfil</option>
+                                            {perfiles.map((perfil) => (
+                                                <option key={perfil.idPerfil} value={perfil.idPerfil}>{perfil.nombrePerfil}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
+                                <input
+                                    type="text"
+                                    id="BuscarRol"
+                                    placeholder="Buscar Rol"
+                                    value={rolFiltro}
+                                    onChange={(e) => setRolFiltro(e.target.value)}
+                                />
+                            </div>
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
+                                <input
+                                    type="text"
+                                    id="NombreRol"
+                                    placeholder="Nombre del Rol"
+                                    value={rolNombre}
+                                    onChange={(e) => setRolNombre(e.target.value)}
+                                />
+                            </div>
+
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <textarea
+                                    id="DescripcionRol"
+                                    placeholder="Descripción"
+                                    value={rolDescripcion}
+                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    className={styles.textareaModal}
+                                />
+                            </div>
+
+                            <ul>
+                                {Array.isArray(roles) && roles.filter((rol) =>
+                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                ).map((rol) => (
+                                    <li key={rol.idRol}>{rol.nombreRol}</li>
                                 ))}
-                            </select>
-                        </div>
+                            </ul>
 
-                        <div className={styles.modalFormGroup}>
-                            <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
-                            <input
-                                type="text"
-                                id="BuscarRol"
-                                placeholder="Buscar Rol"
-                                value={rolFiltro}
-                                onChange={(e) => setRolFiltro(e.target.value)}
-                            />
-                        </div>
-
-                        <div className={styles.modalFormGroup}>
-                            <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
-                            <input
-                                type="text"
-                                id="NombreRol"
-                                placeholder="Nombre del Rol"
-                                value={rolNombre}
-                                onChange={(e) => setRolNombre(e.target.value)}
-                            />
-                        </div>
-
-                        <div className={styles.modalFormGroup}>
-                            <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
-                            <textarea
-                                id="DescripcionRol"
-                                placeholder="Descripción"
-                                value={rolDescripcion}
-                                onChange={(e) => setRolDescripcion(e.target.value)}
-                                className={styles.textareaModal}
-                            />
-                        </div>
-
-                        <ul>
-                            {Array.isArray(roles) && roles.filter((rol) =>
-                                rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                            ).map((rol) => (
-                                <li key={rol.idRol}>{rol.nombreRol}</li>
-                            ))}
-                        </ul>
-
-                        <div className={styles.modalButtons} style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '1rem' }}>
-                            <button className={styles.modalButtonSave} onClick={handleSaveRol}>Guardar</button>
-                            <button className={styles.clearButtonModal} onClick={handleClearRol}>Limpiar</button>
-                            <button className={styles.modalButtonExit} onClick={() => setRolModalOpen(false)}>Salir</button>
+                            <div className={styles.modalButtonsRol}>
+                                <button className={styles.modalButtonSave}
+                                    onClick={handleSaveRol}>
+                                    Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.clearButtonModal}
+                                    onClick={handleClearRol}>
+                                    Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.modalButtonExit}
+                                    onClick={() => setRolModalOpen(false)}>
+                                    Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
