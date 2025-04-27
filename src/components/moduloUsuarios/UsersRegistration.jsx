@@ -103,6 +103,7 @@ const UsersRegistration = () => {
         try {
             const response = await axios.get("/api/perfiles/buscar");
             setPerfiles(response.data);
+            setPerfiles(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error cargando perfiles:", error);
         }
