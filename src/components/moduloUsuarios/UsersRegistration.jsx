@@ -33,6 +33,8 @@ const UsersRegistration = () => {
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfiles, setPerfiles] = useState([]);
+    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
+    const [perfiles, setPerfiles] = useState([]);
 
     // Estados de modal Rol
     const [isRolModalOpen, setRolModalOpen] = useState(false);
