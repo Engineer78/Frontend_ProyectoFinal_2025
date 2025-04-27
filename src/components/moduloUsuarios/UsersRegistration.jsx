@@ -148,15 +148,15 @@ const UsersRegistration = () => {
         setPerfilNombre("");
         setPerfilDescripcion("");
         setPerfilFiltro("");
-      };
+    };
 
     // Función para limpiar los campos dentro del modal para crear roles.
     const handleClearRol = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
-      };
-      
+    };
+
 
     // Se renderiza el componente
     return (
@@ -402,10 +402,42 @@ const UsersRegistration = () => {
                         <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
                             <CloseIcon />
                         </button>
-                        <h2>Crear Perfil</h2>
-                        <input type="text" placeholder="Buscar Perfil" value={perfilFiltro} onChange={(e) => setPerfilFiltro(e.target.value)} />
-                        <input type="text" placeholder="Nombre del Perfil" value={perfilNombre} onChange={(e) => setPerfilNombre(e.target.value)} />
-                        <textarea placeholder="Descripción" value={perfilDescripcion} onChange={(e) => setPerfilDescripcion(e.target.value)} />
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Perfil</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
+                            <input
+                                type="text"
+                                id="BuscarPerfil"
+                                placeholder="Buscar Perfil"
+                                value={perfilFiltro}
+                                onChange={(e) => setPerfilFiltro(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
+                            <input
+                                type="text"
+                                id="NombrePerfil"
+                                placeholder="Nombre del Perfil"
+                                value={perfilNombre}
+                                onChange={(e) => setPerfilNombre(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <textarea
+                                id="DescripcionPerfil"
+                                placeholder="Descripción"
+                                value={perfilDescripcion}
+                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                className={styles.textareaModal}
+                            />
+                        </div>
+
                         <ul>
                             {Array.isArray(perfiles) && perfiles.filter((perfil) =>
                                 perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
@@ -413,15 +445,11 @@ const UsersRegistration = () => {
                                 <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
                             ))}
                         </ul>
-                        <div className="style.modalButtons">
-                            <button className={styles.modalButtonSave}
-                                onClick={handleSavePerfil}>
-                                Guardar
-                            </button>
-                            <button className={styles.modalButtonExit}
-                                onClick={() => setPerfilModalOpen(false)}>
-                                Salir
-                            </button>
+
+                        <div className={styles.modalButtons} style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '1rem' }}>
+                            <button className={styles.modalButtonSave} onClick={handleSavePerfil}>Guardar</button>
+                            <button className={styles.clearButtonModal} onClick={handleClearPerfil}>Limpiar</button>
+                            <button className={styles.modalButtonExit} onClick={() => setPerfilModalOpen(false)}>Salir</button>
                         </div>
                     </div>
                 </div>
@@ -434,10 +462,42 @@ const UsersRegistration = () => {
                         <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
                             <CloseIcon />
                         </button>
-                        <h2>Crear Rol</h2>
-                        <input type="text" placeholder="Buscar Rol" value={rolFiltro} onChange={(e) => setRolFiltro(e.target.value)} />
-                        <input type="text" placeholder="Nombre del Rol" value={rolNombre} onChange={(e) => setRolNombre(e.target.value)} />
-                        <textarea placeholder="Descripción" value={rolDescripcion} onChange={(e) => setRolDescripcion(e.target.value)} />
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Rol</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
+                            <input
+                                type="text"
+                                id="BuscarRol"
+                                placeholder="Buscar Rol"
+                                value={rolFiltro}
+                                onChange={(e) => setRolFiltro(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
+                            <input
+                                type="text"
+                                id="NombreRol"
+                                placeholder="Nombre del Rol"
+                                value={rolNombre}
+                                onChange={(e) => setRolNombre(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                            <textarea
+                                id="DescripcionRol"
+                                placeholder="Descripción"
+                                value={rolDescripcion}
+                                onChange={(e) => setRolDescripcion(e.target.value)}
+                                className={styles.textareaModal}
+                            />
+                        </div>
+
                         <ul>
                             {Array.isArray(roles) && roles.filter((rol) =>
                                 rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
@@ -445,15 +505,11 @@ const UsersRegistration = () => {
                                 <li key={rol.idRol}>{rol.nombreRol}</li>
                             ))}
                         </ul>
-                        <div className="style.modalButtons">
-                            <button className={styles.modalButtonSave}
-                                onClick={handleSaveRol}>
-                                Guardar
-                            </button>
-                            <button className={styles.modalButtonExit}
-                                onClick={() => setRolModalOpen(false)}>
-                                Salir
-                            </button>
+
+                        <div className={styles.modalButtons} style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '1rem' }}>
+                            <button className={styles.modalButtonSave} onClick={handleSaveRol}>Guardar</button>
+                            <button className={styles.clearButtonModal} onClick={handleClearRol}>Limpiar</button>
+                            <button className={styles.modalButtonExit} onClick={() => setRolModalOpen(false)}>Salir</button>
                         </div>
                     </div>
                 </div>
