@@ -143,6 +143,21 @@ const UsersRegistration = () => {
         }
     };
 
+    // Función para limpiar los campos dentro del modal para crear perfiles.
+    const handleClearPerfil = () => {
+        setPerfilNombre("");
+        setPerfilDescripcion("");
+        setPerfilFiltro("");
+      };
+
+    // Función para limpiar los campos dentro del modal para crear roles.
+    const handleClearRol = () => {
+        setRolNombre("");
+        setRolDescripcion("");
+        setRolFiltro("");
+      };
+      
+
     // Se renderiza el componente
     return (
         <>
