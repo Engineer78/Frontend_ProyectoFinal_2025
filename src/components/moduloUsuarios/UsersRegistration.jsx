@@ -15,6 +15,7 @@ import {
     listarTiposDocumento, 
     crearEmpleado 
   } from "../../api"; 
+import { array } from "yup";
 
 // se crea el componente UsersRegistration
 const UsersRegistration = () => {
@@ -30,8 +31,10 @@ const UsersRegistration = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
-    const [documentType, setDocumentType] = useState("");
+    const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
+    const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
+
     const [activeTab, setActiveTab] = useState("registro");
 
     // Estados de modal Perfil
@@ -62,6 +65,15 @@ const UsersRegistration = () => {
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    // Se define la funcióm para cargar tipos de documento
+    const cargarTiposDocumento = async () => {
+        try {
+            const response = await axxios.get("/api/tipos-documento");
+            setDocumentTypes(array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error("Error cargando tipos de documento:", error);
+        }
 
     // Se define una función para validar los campos vacios del formulario.
     {/*const validateFields = () => {
@@ -98,11 +110,12 @@ const UsersRegistration = () => {
     };
 
     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente 
-    // y los hooks basicos para cargar perfiles y roles.
+    // y los hooks basicos para cargar perfiles, roles y tipos de documento.
     useEffect(() => {
         setActiveTab("registro");
         cargarPerfiles();
         cargarRoles();
+        cargarTiposDocumento();
     }, []);
 
     // Cargar Perfiles existentes
