@@ -133,7 +133,7 @@ const UsersRegistration = () => {
     // Cargar Roles existentes
     const cargarRoles = async () => {
         try {
-            const response = await listarRoles();
+             const response = await listarRoles();
             setRoles(response.data);
         } catch (error) {
             console.error("Error cargando roles:", error);
