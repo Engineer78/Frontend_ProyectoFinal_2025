@@ -66,50 +66,6 @@ const UsersRegistration = () => {
         setActiveTab(tab);
     };
 
-    // Se define la funcióm para cargar tipos de documento
-    const cargarTiposDocumento = async () => {
-        try {
-            const response = await listarTiposDocumento();
-            setDocumentTypes(response.data);
-        } catch (error) {
-            console.error("Error cargando tipos de documento:", error);
-        }
-    };
-
-    // Se define una función para validar los campos vacios del formulario.
-    {/*const validateFields = () => {
-        return (
-            userID &&
-            userName &&
-            userLastName &&
-            userSecondLastName &&
-            userAlias &&
-            userPassword &&
-            userPhone &&
-            userAddress &&
-            userEmergencyContact &&
-            userContactPhone &&
-            documentType &&
-            rolType
-        );
-        };*/}
-
-    // Limpiar el formulario
-    const handleClear = () => {
-        setUserID("");
-        setUserNames("");
-        setUserLastName("");
-        setUserSecondLastName("");
-        setUserAlias("");
-        setUserPassword("");
-        setUserPhone("");
-        setUserAddress("");
-        setUserEmergencyContact("");
-        setUserContactPhone("");
-        setDocumentType("");
-        setRolType("");
-    };
-
     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente 
     // y los hooks basicos para cargar perfiles, roles y tipos de documento.
     useEffect(() => {
@@ -118,6 +74,16 @@ const UsersRegistration = () => {
         cargarRoles();
         cargarTiposDocumento();
     }, []);
+
+     // Se define la funcióm para cargar tipos de documento
+     const cargarTiposDocumento = async () => {
+        try {
+            const response = await listarTiposDocumento();
+            setDocumentTypes(response.data);
+        } catch (error) {
+            console.error("Error cargando tipos de documento:", error);
+        }
+    };
 
     // Cargar Perfiles existentes
     const cargarPerfiles = async () => {
@@ -179,7 +145,7 @@ const UsersRegistration = () => {
             // ☑️ Validar que el nombre de usaurio (alias) sea un correo electrónico válido
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(userAlias)) {
-                alert("El nombre de usuario debe ser un correo electrónico válido");
+                alert("⚠️ El nombre de usuario debe ser un correo electrónico válido");
                 return;
             }
 
@@ -202,11 +168,11 @@ const UsersRegistration = () => {
             // Llamamos a la API
             await crearEmpleado(newUser);
 
-            alert("Usuario registrado exitosamente.");
-            handleClear(); // Limpiamos el formulario después de guardar🧹
+            alert("✅ Usuario registrado exitosamente.");
+            handleClear(); // 🔥 Limpiamos el formulario después de guardar🧹
         } catch (error) {
             console.error("Error registrando el usuario:", error);
-            alert("Hubo un error al registrar el usuario. Intenta nuevamente.");
+            alert("❌ Hubo un error al registrar el usuario. Intenta nuevamente.");
         }
     };
 
@@ -224,7 +190,7 @@ const UsersRegistration = () => {
         setRolFiltro("");
     };
 
-    // Función para limpiar los campos de el formulario de registro de usuarios.
+    // Función para limpiar los campos de el formulario de registro de usuarios. 🧹
     const handleClear = () => {
         // Datos principales
         setUserID("");
