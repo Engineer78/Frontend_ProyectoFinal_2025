@@ -207,6 +207,7 @@ const UsersRegistration = () => {
         // Selects
         setDocumentType("");
         setRolType("");
+    };
 
     // Se renderiza el componente
     return (
@@ -429,7 +430,7 @@ const UsersRegistration = () => {
                         </form>
                     </div>
 
-                    {/* Botones Acción */}
+                    {/* Botones de Acción para el formulario principal */}
                     <div className={styles.actionButtons}>
                         <button type="button" onClick={handleSaveUser} className={styles.saveButton}>
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
