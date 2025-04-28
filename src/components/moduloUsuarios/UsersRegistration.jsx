@@ -175,32 +175,40 @@ const UsersRegistration = () => {
     // Se crea el objeto que se enviará al backend y se llama a la API para crear el empleado.
     const handleSaveUser = async () => {
         try {
-          // Creamos el objeto 🙍🏻 que se enviará al backend
-          const newUser = {
-            numeroDocumento: userID,
-            nombres: userName,
-            apellidoPaterno: userLastName,
-            apellidoMaterno: userSecondLastName,
-            nombreUsuario: userAlias,
-            contraseñaUsuario: userPassword,
-            telefonoMovil: userPhone,
-            direccionResidencia: userAddress,
-            contactoEmergencia: userEmergencyContact,
-            telefonoContacto: userContactPhone,
-            idtipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
-            idRol: rolType,                 // cuidado aquí también... verificar🔍
-          };
-      
-          // Llamamos a la API
-          await crearEmpleado(newUser);
-      
-          alert("Usuario registrado exitosamente.");
-          handleClear(); // Limpiamos el formulario después de guardar🧹
+
+            // ☑️ Validar que el nombre de usaurio (alias) sea un correo electrónico válido
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userAlias)) {
+                alert("El nombre de usuario debe ser un correo electrónico válido");
+                return;
+            }
+
+            // Creamos el objeto 🙍🏻 que se enviará al backend
+            const newUser = {
+                numeroDocumento: userID,
+                nombres: userName,
+                apellidoPaterno: userLastName,
+                apellidoMaterno: userSecondLastName,
+                nombreUsuario: userAlias,
+                contraseñaUsuario: userPassword,
+                telefonoMovil: userPhone,
+                direccionResidencia: userAddress,
+                contactoEmergencia: userEmergencyContact,
+                telefonoContacto: userContactPhone,
+                idtipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
+                idRol: rolType,                 // cuidado aquí también... verificar🔍
+            };
+
+            // Llamamos a la API
+            await crearEmpleado(newUser);
+
+            alert("Usuario registrado exitosamente.");
+            handleClear(); // Limpiamos el formulario después de guardar🧹
         } catch (error) {
-          console.error("Error registrando el usuario:", error);
-          alert("Hubo un error al registrar el usuario. Intenta nuevamente.");
+            console.error("Error registrando el usuario:", error);
+            alert("Hubo un error al registrar el usuario. Intenta nuevamente.");
         }
-      };      
+    };
 
     // Función para limpiar los campos dentro del modal para crear perfiles.
     const handleClearPerfil = () => {
