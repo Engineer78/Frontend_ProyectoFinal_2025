@@ -440,7 +440,7 @@ const UsersRegistration = () => {
 
                     {/* Botones Acción */}
                     <div className={styles.actionButtons}>
-                        <button type="button" /*onClick={handleSave}*/ className={styles.saveButton}>
+                        <button type="button" onClick={handleSaveUser} className={styles.saveButton}>
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button type="button" onClick={handleClear} className={styles.clearButton}>
