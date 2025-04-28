@@ -106,6 +106,14 @@ const UsersRegistration = () => {
 
     // Guardar Perfil
     const handleSavePerfil = async () => {
+
+        // Validar que el nombre y la descripción no estén vacíos
+        // Si están vacíos, mostrar un mensaje de alerta y no continuar con la creación del perfil
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+            alert("⚠️ Por favor completa el nombre y la descripción del perfil antes de guardar.");
+            return;
+          }
+
         try {
             await crearPerfil({
                 nombrePerfil: perfilNombre,
@@ -124,19 +132,26 @@ const UsersRegistration = () => {
 
     // Guardar Rol
     const handleSaveRol = async () => {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+            alert("⚠️ Por favor completa todos los campos del rol antes de guardar.");
+            return;
+          }
+
         try {
-            await axios.post("/api/roles", {
+            await crearRol({
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
                 perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
-            cargarRoles();
+            await cargarRoles(); // 📢 recargar roles después de guardar
+            alert("✅ Rol creado exitosamente."); 
             setRolNombre("");
             setRolDescripcion("");
             setPerfilSeleccionado(""); // Limpiar selección de perfil
             setRolModalOpen(false);
         } catch (error) {
             console.error("Error guardando rol:", error);
+            alert("❌ Error al guardar el rol.");
         }
     };
 
