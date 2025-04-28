@@ -224,6 +224,23 @@ const UsersRegistration = () => {
         setRolFiltro("");
     };
 
+    // Función para limpiar los campos de el formulario de registro de usuarios.
+    const handleClear = () => {
+        // Datos principales
+        setUserID("");
+        setUserNames("");
+        setUserLastName("");
+        setUserSecondLastName("");
+        setUserAlias("");
+        setUserPassword("");
+        setUserPhone("");
+        setUserAddress("");
+        setUserEmergencyContact("");
+        setUserContactPhone("");
+      
+        // Selects
+        setDocumentType("");
+        setRolType("");
 
     // Se renderiza el componente
     return (
