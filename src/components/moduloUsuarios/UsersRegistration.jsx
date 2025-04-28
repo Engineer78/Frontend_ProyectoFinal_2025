@@ -15,7 +15,6 @@ import {
     listarTiposDocumento,
     crearEmpleado
 } from "../../api"; // Asegúrate de que la ruta sea correcta
-import { array } from "yup";
 
 // se crea el componente UsersRegistration
 const UsersRegistration = () => {
