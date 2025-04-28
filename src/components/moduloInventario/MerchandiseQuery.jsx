@@ -185,7 +185,7 @@ const MerchandiseQuery = () => {
                 style={{fontStyle:'italic'}}
               />
             </th>
-            <th>Categoríagit
+            <th>Categoría
               <input
                 type="text"
                 name="nombreCategoria"
