@@ -75,8 +75,8 @@ const UsersRegistration = () => {
         cargarTiposDocumento();
     }, []);
 
-     // Se define la funcióm para cargar tipos de documento
-     const cargarTiposDocumento = async () => {
+    // Se define la funcióm para cargar tipos de documento
+    const cargarTiposDocumento = async () => {
         try {
             const response = await listarTiposDocumento();
             setDocumentTypes(response.data);
@@ -109,9 +109,9 @@ const UsersRegistration = () => {
     // Guardar Perfil
     const handleSavePerfil = async () => {
         try {
-            await crearPerfil ({ 
-                nombrePerfil: perfilNombre, 
-                descripcion: perfilDescripcion 
+            await crearPerfil({
+                nombrePerfil: perfilNombre,
+                descripcion: perfilDescripcion
             });
             await cargarPerfiles(); // 📢 recargar perfiles después de guardar
             alert("✅ Perfil creado exitosamente.");
@@ -208,7 +208,7 @@ const UsersRegistration = () => {
         setUserAddress("");
         setUserEmergencyContact("");
         setUserContactPhone("");
-      
+
         // Selects
         setDocumentType("");
         setRolType("");
@@ -544,7 +544,9 @@ const UsersRegistration = () => {
                                         >
                                             <option value="">Seleccionar perfil</option>
                                             {perfiles.map((perfil) => (
-                                                <option key={perfil.idPerfil} value={perfil.idPerfil}>{perfil.nombrePerfil}</option>
+                                                <option key={perfil.idPerfil} value={perfil.idPerfil}>
+                                                    {perfil.nombrePerfil}
+                                                </option>
                                             ))}
                                         </select>
                                     </div>
