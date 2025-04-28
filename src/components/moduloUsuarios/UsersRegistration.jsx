@@ -69,8 +69,8 @@ const UsersRegistration = () => {
     // Se define la funcióm para cargar tipos de documento
     const cargarTiposDocumento = async () => {
         try {
-            const response = await axios.get("/api/tipos-documento");
-            setDocumentTypes(array.isArray(response.data) ? response.data : []);
+            const response = await listarTiposDocumento();
+            setDocumentTypes(response.data);
         } catch (error) {
             console.error("Error cargando tipos de documento:", error);
         }
@@ -133,7 +133,7 @@ const UsersRegistration = () => {
     // Cargar Roles existentes
     const cargarRoles = async () => {
         try {
-            const response = await axios.get("/api/roles/buscar");
+            const response = await listarRoles();
             setRoles(response.data);
         } catch (error) {
             console.error("Error cargando roles:", error);
