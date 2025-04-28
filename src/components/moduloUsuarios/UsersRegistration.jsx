@@ -125,12 +125,12 @@ const UsersRegistration = () => {
     // Guardar Rol
     const handleSaveRol = async () => {
         try {
-            await axios.post("/api/roles", {
+            await crearRol("/api/roles", {
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
                 perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
-            cargarRoles();
+            await cargarRoles();
             setRolNombre("");
             setRolDescripcion("");
             setPerfilSeleccionado(""); // Limpiar selección de perfil
