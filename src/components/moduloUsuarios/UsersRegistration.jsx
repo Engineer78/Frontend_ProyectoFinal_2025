@@ -133,7 +133,7 @@ const UsersRegistration = () => {
     // Cargar Roles existentes
     const cargarRoles = async () => {
         try {
-             const response = await listarRoles();
+            const response = await listarRoles();
             setRoles(response.data);
         } catch (error) {
             console.error("Error cargando roles:", error);
@@ -382,10 +382,11 @@ const UsersRegistration = () => {
                                             required
                                         >
                                             <option value=""> Seleccione un Rol </option>
-                                            <option value="administrador">Administrador</option>
-                                            <option value="almacenista">Almacenista</option>
-                                            <option value="propietario">Propietario</option>
-                                            <option value="vendedor">Vendedor</option>
+                                            {roles.map((rol) => (
+                                                <option key={rol.idRol} value={rol.idRol}>
+                                                    {rol.nombreRol}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
