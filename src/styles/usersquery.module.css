@@ -250,11 +250,12 @@
         gap: 10px;
         justify-content: flex-end;
         position: fixed;
-        margin-bottom: 0px !important;
-        margin-left: 955px;
-        margin-top: 271px;
+        bottom: 90px;
+        right: 321px;      
+        padding: 10px;
+        border-radius: 8px;
         z-index: 3000;
-    }
+      }
     
     /* Estilos generales para los botones */
     .clearButton, 
