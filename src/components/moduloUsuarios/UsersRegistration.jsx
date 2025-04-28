@@ -364,8 +364,8 @@ const UsersRegistration = () => {
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
                                             {documentTypes.map((tipo) => (
-                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento}>
-                                                    {tipo.nombreTipoDocumento} ({tipo.codigo})
+                                                <option key={tipo.idTipoDocumento} value={tipo.codigo}>
+                                                    {tipo.nombre} - ({tipo.codigo})
                                                 </option>
                                             ))}
                                         </select>
