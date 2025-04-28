@@ -304,7 +304,7 @@ const DeleteMerchandise = () => {
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Nom. del producto
+                        <th>Nom. del Producto
                             <input
                                 type="text"
                                 name="nombre"
@@ -334,7 +334,7 @@ const DeleteMerchandise = () => {
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Valor Total prod.
+                        <th>Valor Total Prod.
                             <input
                                 type="text"
                                 name="valorTotal"
