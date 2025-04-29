@@ -509,6 +509,7 @@ const UsersRegistration = () => {
                             />
                         </div>
 
+                        {perfilFiltro.trim() !== "" && (
                         <ul>
                             {Array.isArray(perfiles) && perfiles.filter((perfil) =>
                                 perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
@@ -516,7 +517,7 @@ const UsersRegistration = () => {
                                 <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
                             ))}
                         </ul>
-
+                        )}
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
                                 onClick={handleSavePerfil}>
