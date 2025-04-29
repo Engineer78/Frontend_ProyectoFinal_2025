@@ -57,13 +57,17 @@ const UsersRegistration = () => {
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
 
 
-    // Se define la función para abrir los modales de crear perfil y rol
+    // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
     };
 
     const handleOpenModalRol = () => {
         setRolModalOpen(true);
+    };
+
+    const handleOpenModalTipoDocumento = () => {
+        setModalTipoDocumentoOpen(true);
     };
 
     // Manejar cambio de pestaña
