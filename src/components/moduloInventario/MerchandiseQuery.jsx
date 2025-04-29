@@ -47,19 +47,9 @@ const MerchandiseQuery = () => {
     const fetchData = async () => {
       try {
         let resp;
-        if (searchMode === 'advanced') {
-          // Búsqueda avanzada
-          resp = await api.get('/productos/busqueda-avanzada', {
-            params: {
-              nitProveedor: filters.nitProveedor || null,
-              nombreProveedor: filters.nombreProveedor || null,
-              cantidad: filters.cantidad || null,
-              valorUnitarioProducto: filters.valorUnitarioProducto || null,
-              valorTotalProducto: filters.valorTotalProducto || null,
-            }
-          });
-        } else {
-          // Búsqueda normal
+    
+        // 4) Si los filtros principales están llenos, usar búsqueda normal
+        if (filters.codigoProducto || filters.nombreCategoria || filters.nombreProducto) {
           resp = await api.get('/productos/buscar', {
             params: {
               nombreCategoria: filters.nombreCategoria || null,
@@ -71,30 +61,48 @@ const MerchandiseQuery = () => {
               valorTotalProducto: filters.valorTotalProducto || null,
             }
           });
+        } else {
+          // 5) Sino, usar búsqueda avanzada
+          resp = await api.get('/productos/busqueda-avanzada', {
+            params: {
+              nitProveedor: filters.nitProveedor || null,
+              nombreProveedor: filters.nombreProveedor || null,
+              cantidad: filters.cantidad || null,
+              valorUnitarioProducto: filters.valorUnitarioProducto || null,
+              valorTotalProducto: filters.valorTotalProducto || null,
+            }
+          });
         }
-
+    
         let lista = resp.data || [];
-
-        // Filtrar por código en frontend
+    
+        // 6) Filtrado adicional por código en frontend si es necesario
         if (filters.codigoProducto) {
           lista = lista.filter(p =>
             p.codigoProducto.toString().includes(filters.codigoProducto)
           );
         }
-
+    
         setData(lista);
-        setSelectedProduct(lista.length === 1 ? lista[0] : null);
+    
+        // 7) Siempre tomar el primer resultado
+        if (lista.length > 0) {
+          setSelectedProduct(lista[0]);
+        } else {
+          setSelectedProduct(null);
+        }
       } catch (error) {
         console.error('Error al obtener datos:', error);
         setData([]);
         setSelectedProduct(null);
       }
     };
+    
 
     fetchData();
   }, [filters, isSearching, searchMode]);
 
-  // 4) Handlers
+  // 8) Handlers
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
@@ -103,7 +111,7 @@ const MerchandiseQuery = () => {
 
   const handleRowClick = (item) => {
     setSelectedProduct(item);
-    // Cerrar modal avanzado
+    // 9) Cerrar modal avanzado
     setIsAdvancedSearchOpen(false);
   };
 
@@ -120,7 +128,6 @@ const MerchandiseQuery = () => {
     });
     setIsSearching(false);
     setSearchMode('normal');
-    setIsAdvancedSearchOpen(false);
     setSelectedProduct(null);
   };
 
@@ -132,7 +139,7 @@ const MerchandiseQuery = () => {
   const closeModalImage = () => setModalImage(null);
   const handleImageClick = (url) => setModalImage(url);
 
-  // 5) Render
+  // 10) Render
   return (
     <div className={styles.scrollContainer}>
       <Header
