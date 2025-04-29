@@ -62,25 +62,7 @@ const UpdateUsers = () => {
         setActiveTab(tab);
     };
 
-    // Se define una función para validar los campos vacios del formulario.
-    const validateFields = () => {
-        return (
-            userID &&
-            userName &&
-            userLastName &&
-            userSecondLastName &&
-            userAlias &&
-            userPassword &&
-            userPhone &&
-            userAddress &&
-            userEmergencyContact &&
-            userContactPhone &&
-            documentType &&
-            rolType
-        );
-    };
-
-    // Limpiar el formulario
+    // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
         setUserNames("");
@@ -96,148 +78,17 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
-    // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
+    // Función para buscar un usuario por su ID
     const handleSearch = async () => {
-        const trimmedUserID = userID.trim();
-    
-        if (!trimmedUserID) {
-            alert("Por favor, ingrese el Número de Identificación del usuario para buscar.");
-            return;
-        }
-    
-        /*try {
-            //const response = await api.get(`/usuarios/cedula/${trimmedProductCode}`);
-    
-            if (!response.data) {
-                alert("No se encontraron datos para el Número de Identificación del usuario proporcionado.");
-                setOriginalUserIndex(-1);
-                handleClear();
-                return;
-            }
-    
-            // Si se encuentra el producto, llenar el formulario con los datos
-            const product = response.data;
-            setOriginalUserIndex(user.idUser);
-            setUserID(Number(user.idUser) || "");
-            setUserNames(user.userName || "");
-            setUserLastName(user.userLastName || "");
-            setUserSecondLastName(user.userSecondLastName || "");
-            setUserAlias(user.userAlias || "");
-            setUserPassword(user.userPassword || "");
-            setUserPhone(user.userPhone || "");
-            setUserAddress(user.userAddress || "");
-            setUserEmergencyContact(user.userEmergencyContact || "");
-            setUserContactPhone(user.userContactPhone || "");
-            setDocumentType(user.documentType || "");
-            setRolType(user.rolType || "");
-
-            // Buscar el ID del usuario basado en el nombre del tipo de documento
-            const tipoDocumentoEncontrado = documentTypes.find(
-                (tipo) => tipo.nombreTipoDocumento === user.documentType
-            );
-            if (tipoDocumentoEncontrado) {
-                setSelectedDocumentTypeId(tipoDocumentoEncontrado.idTipoDocumento);
-            }
-
-            // Buscar el ID del rol basado en el nombre del tipo de rol
-            const rolEncontrado = roles.find(
-                (rol) => rol.nombreTipoRol === user.rolType
-            );
-            if (rolEncontrado) {
-                setSelectedRolId(rolEncontrado.idTipoRol);
-            }
-
-            // Deshabilitar el campo de búsqueda después de encontrar el usuario
-            // setIsUserIdDisable(true);
-    
-            console.log("Usuario recibido:", response.data);
-        
-            alert("Datos encontrados. Puede actualizarlos ahora.");
-        } catch (error) {
-            console.error("Error al buscar el usuario:", error);
-            alert("Hubo un error al buscar el usuario. Por favor, inténtelo de nuevo.");
-            setOriginalUserIndex(-1);
-            handleClear();
-        }*/
+        // Búsqueda del usuario
     };
 
-    // Maneja la actualización del usuario tras validar los campos, y enviar los datos al backend
+    // Función para guardar los cambios realizados en el formulario
     const handleSave = async () => {
-        if (!validateFields()) {
-            alert("Por favor, complete todos los campos obligatorios.");
-            return;
-        }
-    
-        /*if (originalUserIndex === -1) {
-            alert("No se encontró el usuaroio para actualizar. Realice una búsqueda primero.");
-            return;
-        }
-    
-        try {
-          
-            const tipoDocumentoSeleccionado = documentType.find(
-                (tipo) => tipo.idTipoDocumento === parseInt(selectedDocumentTypeId)
-            );
-            const rolSeleccionado = rolType.find(
-                (rol) => rol.idTipoRol === parseInt(selectedRolId)
-            );
-        
-            // Construir el objeto con los datos actualizados del usuario
-            const updatedUser = {
-                idUser: originalUserIndex,
-                numeroDocumento: parseInt(userID),
-                nombreUsuario: userName,
-                primerApellidoUsuario: parseInt(userLastName),
-                segundoApellidoUsuario: parseInt(userSecondLastName),
-                aliasUsuario: userAlias,
-                contrasenaUsuario: userPassword,
-                telefonoMovilUsuario: userPhone,
-                direccionResidenciaUsuario: userAddress,
-                contactoEmergenciaUsuario: userEmergencyContact,
-                telefonoContactoUsuario: userContactPhone,
-                idTipoDocumento: tipoDocumentoSeleccionado ? parseInt(tipoDocumentoSeleccionado.idTipoDocumento) : null,
-                idTipoRol: rolSeleccionado ? parseInt(rolSeleccionado.idTipoRol) : null
-            };
-        
-            console.log("Datos a enviar:", updatedUser);
-        
-            // Hacer la llamada a la API para actualizar el usuario
-            const response = await api.put(`/usuarios/${originalUserIndex}`, updatedUser);
-        
-            if (response.status === 200) {
-                alert("usuario actualizado exitosamente.");
-        
-            // Actualizar la interfaz con los datos nuevos que retorna el backend
-                const updated = response.data;
-                setUserID(updated.numeroDocumento || "");
-                setUserNames(updated.nombreUsuario || ""); 
-                setUserLastName(updated.primerApellidoUsuario || "");
-                setUserSecondLastName(updated.segundoApellidoUsuario || "");
-                setUserAlias(updated.aliasUsuario || "");
-                setUserPassword(updated.contrasenaUsuario || "");
-                setUserPhone(updated.telefonoMovilUsuario || "");
-                setUserAddress(updated.direccionResidenciaUsuario || "");
-                setUserEmergencyContact(updated.contactoEmergenciaUsuario || "");
-                setUserContactPhone(updated.telefonoContactoUsuario || "");
-                setDocumentType(updated.idTipoDocumento || "");
-                setRolType(updated.idTipoRol || "");
-        
-                handleClear(); // Limpiar los campos del formulario
-            }
-            else {
-                alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
-            }
-        
-        } catch (error) {
-            console.error("Error al actualizar el usuario:", error);
-            if (error.response) {
-                console.log("Respuesta del servidor:", error.response.data);
-            }
-            alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
-        }*/
+        // Actualización del usuario
     };
 
-     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
+
      useEffect(() => {
         setActiveTab('actualizar');
     }, []);
