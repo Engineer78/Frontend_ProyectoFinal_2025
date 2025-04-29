@@ -72,24 +72,32 @@ const UpdateUsers = () => {
         // Actualización del usuario
     };
 
+    // Función para cargar los tipos de documento, perfiles y roles.
+    useEffect(() => {
+        setActiveTab('actualizar');
+        cargarTiposDocumento();
+        cargarPerfiles();
+        cargarRoles();
+    }, []);
 
-        // Función para limpiar los campos del formulario
-        const handleClear = () => {
-            setUserID("");
-            setUserNames("");
-            setUserLastName("");
-            setUserSecondLastName("");
-            setUserAlias("");
-            setUserPassword("");
-            setUserPhone("");
-            setUserAddress("");
-            setUserEmergencyContact("");
-            setUserContactPhone("");
-            setDocumentType("");
-            setRolType("");
-        };
 
-     useEffect(() => {
+    // Función para limpiar los campos del formulario
+    const handleClear = () => {
+        setUserID("");
+        setUserNames("");
+        setUserLastName("");
+        setUserSecondLastName("");
+        setUserAlias("");
+        setUserPassword("");
+        setUserPhone("");
+        setUserAddress("");
+        setUserEmergencyContact("");
+        setUserContactPhone("");
+        setDocumentType("");
+        setRolType("");
+    };
+
+    useEffect(() => {
         setActiveTab('actualizar');
     }, []);
 
@@ -309,8 +317,8 @@ const UpdateUsers = () => {
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton} >
-                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} /> 
-                            </button>
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                        </button>
                     </div>
                 </div>
             )}
