@@ -62,22 +62,6 @@ const UpdateUsers = () => {
         setActiveTab(tab);
     };
 
-    // Función para limpiar los campos del formulario
-    const handleClear = () => {
-        setUserID("");
-        setUserNames("");
-        setUserLastName("");
-        setUserSecondLastName("");
-        setUserAlias("");
-        setUserPassword("");
-        setUserPhone("");
-        setUserAddress("");
-        setUserEmergencyContact("");
-        setUserContactPhone("");
-        setDocumentType("");
-        setRolType("");
-    };
-
     // Función para buscar un usuario por su ID
     const handleSearch = async () => {
         // Búsqueda del usuario
@@ -88,6 +72,22 @@ const UpdateUsers = () => {
         // Actualización del usuario
     };
 
+
+        // Función para limpiar los campos del formulario
+        const handleClear = () => {
+            setUserID("");
+            setUserNames("");
+            setUserLastName("");
+            setUserSecondLastName("");
+            setUserAlias("");
+            setUserPassword("");
+            setUserPhone("");
+            setUserAddress("");
+            setUserEmergencyContact("");
+            setUserContactPhone("");
+            setDocumentType("");
+            setRolType("");
+        };
 
      useEffect(() => {
         setActiveTab('actualizar');
