@@ -39,6 +39,9 @@ const [filters, setFilters] = useState({
 //    - data: almacena los resultados de la búsqueda
 const [data, setData] = useState([]);
 
+//    - selectedUser: usuario seleccionado actualmente
+const [selectedUser, setSelectedUser] = useState(null);
+
 
 
 
