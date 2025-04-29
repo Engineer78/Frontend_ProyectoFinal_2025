@@ -36,13 +36,14 @@ const [filters, setFilters] = useState({
   telefonoContacto: '',
 });
 
+//    - data: almacena los resultados de la búsqueda
+const [data, setData] = useState([]);
+
 
 
 
   
-  // Estado que contiene los datos obtenidos desde el backend
-    const [data, /*setData*/] = useState([]);
-       
+
   // Cambia la pestaña activa al hacer clic en una opción
   const handleTabClick = (tab) => {
     setActiveTab(tab);
