@@ -30,9 +30,32 @@ const UpdateUsers = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
-    const [documentType, setDocumentType] = useState("");
+    const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
+    const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
+
     const [activeTab, setActiveTab] = useState("registro");
+
+    // Estados de modal Perfil
+    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
+    const [perfilNombre, setPerfilNombre] = useState("");
+    const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [perfilFiltro, setPerfilFiltro] = useState("");
+    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
+    const [perfiles, setPerfiles] = useState([]);
+
+    // Estados de modal Rol
+    const [isRolModalOpen, setRolModalOpen] = useState(false);
+    const [rolNombre, setRolNombre] = useState("");
+    const [rolDescripcion, setRolDescripcion] = useState("");
+    const [rolFiltro, setRolFiltro] = useState("");
+    const [roles, setRoles] = useState([]);
+
+    // Estados de modal tipo de documento
+    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
+    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
+    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+
 
     // Manejar cambio de pestaña
     const handleTabClick = (tab) => {
