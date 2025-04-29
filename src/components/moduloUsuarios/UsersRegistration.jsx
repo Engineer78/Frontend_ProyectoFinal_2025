@@ -479,6 +479,7 @@ const UsersRegistration = () => {
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
                             <input
+                            className="{styles.inputModalBuscar}"
                                 type="text"
                                 id="BuscarPerfil"
                                 placeholder="Buscar Perfil"
@@ -486,6 +487,15 @@ const UsersRegistration = () => {
                                 onChange={(e) => setPerfilFiltro(e.target.value)}
                             />
                         </div>
+                        {perfilFiltro.trim() !== "" && (
+                        <ul>
+                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                            ).map((perfil) => (
+                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                            ))}
+                        </ul>
+                        )}
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
@@ -508,16 +518,6 @@ const UsersRegistration = () => {
                                 className={styles.textareaModal}
                             />
                         </div>
-
-                        {perfilFiltro.trim() !== "" && (
-                        <ul>
-                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
-                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                            ).map((perfil) => (
-                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
-                            ))}
-                        </ul>
-                        )}
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
                                 onClick={handleSavePerfil}>
