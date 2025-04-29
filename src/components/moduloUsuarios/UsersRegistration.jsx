@@ -206,6 +206,7 @@ const UsersRegistration = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
+        setPerfilSeleccionado("");
     };
 
     // Función para limpiar los campos de el formulario de registro de usuarios. 🧹
