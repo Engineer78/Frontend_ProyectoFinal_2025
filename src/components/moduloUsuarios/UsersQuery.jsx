@@ -21,25 +21,28 @@ const [activeTab, setActiveTab] = useState("consulta");
 //    - isSearching: indica si se está realizando una búsqueda
 const [isSearching, setIsSearching] = useState(false);
 
+//    - filters: contiene los filtros de búsqueda de usuarios
+const [filters, setFilters] = useState({
+  numeroDocumento: '',
+  nombreTipoDocumento: '',
+  nombreUsuario: '',
+  nombreRol: '',
+  nombres: '',
+  apellidoPaterno: '',
+  apellidoMaterno: '',
+  telefonoMovil: '',
+  direccionResidencia: '',
+  contactoEmergencia: '',
+  telefonoContacto: '',
+});
+
 
 
 
   
   // Estado que contiene los datos obtenidos desde el backend
     const [data, /*setData*/] = useState([]);
- // Estado con los filtros de búsqueda ingresados por el usuario
-    const [filters, setFilters] = useState({
-        numeroDocumento: "",
-        tipoDocumento : "",
-        nombreUsuario: "",
-        rol: "",
-        nombreCompletos: "",
-        telefono: "",
-        direccion: "",
-        contactoEmergencia: "",
-        telefonoContacto: "",
-});
-      
+       
   // Cambia la pestaña activa al hacer clic en una opción
   const handleTabClick = (tab) => {
     setActiveTab(tab);
