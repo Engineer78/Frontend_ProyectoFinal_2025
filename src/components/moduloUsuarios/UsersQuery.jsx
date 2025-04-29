@@ -18,6 +18,9 @@ const UsersQuery = () => {
 //    - activeTab: controla la pestaña activa
 const [activeTab, setActiveTab] = useState("consulta");
 
+//    - isSearching: indica si se está realizando una búsqueda
+const [isSearching, setIsSearching] = useState(false);
+
 
 
 
@@ -42,8 +45,6 @@ const [activeTab, setActiveTab] = useState("consulta");
     setActiveTab(tab);
   };
 
-  // Estado que indica si el usuario ha iniciado una búsqueda
-  const [isSearching, setIsSearching] = useState(false);
 
   // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
   const [HeaderInputs, setHeaderInputs] = useState({
