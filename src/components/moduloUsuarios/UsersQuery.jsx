@@ -264,13 +264,12 @@ const handleClear = () => {
               Selección
               <input type="checkbox" disabled />
             </th>
-
             <th>
               N° de Documento
               <input
                 type="text"
                 name="numeroDocumento"
-                value={filters.numeroDocumento} // Vincula el valor con el estado de los filtros
+                value={filters.numeroDocumento || ""} // Vincula el valor con el estado de los filtros
                 onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
@@ -281,7 +280,7 @@ const handleClear = () => {
               <input
                 type="text"
                 name="tipoDocumento"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreTipoDocumento : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -292,7 +291,7 @@ const handleClear = () => {
               <input
                 type="text"
                 name="nombreUsuario"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreUsuario : ''}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -303,67 +302,62 @@ const handleClear = () => {
               <input
                 type="text"
                 name="rol"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreRol : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Nombre(s) Completos
               <input
                 type="text"
                 name="nombreCompletos"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? [selectedUser.nombres, selectedUser.apellidoPaterno, selectedUser.apellidoMaterno] .filter(Boolean) .join(" ") : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Teléfono
               <input
                 type="text"
                 name="telefono"
-                /*value={selectedUser  ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.telefonoMovil : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Dirección
               <input
                 type="text"
                 name="direccion"
-                /*value={selectedUser ? selectedUser.valorUnitarioProducto : ''}*/
+                value={selectedUser ? selectedUser.direccionResidencia : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Contacto de Emergencia
               <input
                 type="text"
                 name="contactoEmergencia"
-                /*value={selectedUser  ? selectedUser.nombreProveedor : ''}*/
+                value={selectedUser ? selectedUser.contactoEmergencia : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Teléfono de Contacto
               <input
                 type="text"
                 name="telefonoContacto"
-                /*value={selectedUser ? selectedUser.nitProveedor : ''}*/
+                value={selectedUser ? selectedUser.telefonoContacto : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -372,33 +366,43 @@ const handleClear = () => {
           </tr>
         </thead>
         <tbody>
-          {isSearching ? (
-            data.length > 0 ? (
-              data.map((item, index) => (
-                <tr key={index} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{item.numeroDocumento}</td>
-                  <td>{item.rol}</td>
-                  <td>{item.nombreCompletos}</td>
-                  <td>{item.telefono}</td>
-                  <td>{item.direccion}</td>
-                  <td>{item.contactoEmergencia}</td>
-                  <td>{item.telefonoContacto}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10">No se encontraron resultados</td>
-              </tr>
-            )
-          ) : (
-            <tr>
-              <td colSpan="10">Realiza una búsqueda para ver los registros</td>
-            </tr>
-          )}
-        </tbody>
+  {isSearching ? (
+    data.length > 0 ? (
+      data.map((item, index) => (
+        <tr
+          key={item.idEmpleado || index} // Usa el idEmpleado o, si no, el índice
+          onClick={() => handleRowClick(item)} // Al hacer click, selecciona el usuario
+          style={{ cursor: "pointer" }}
+        >
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>{item.numeroDocumento}</td>
+          <td>{item.nombreTipoDocumento}</td>
+          <td>{item.nombreUsuario}</td>
+          <td>{item.nombreRol}</td>
+          <td>{`${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno}`.trim()}</td>
+          <td>{item.telefonoMovil}</td>
+          <td>{item.direccionResidencia}</td>
+          <td>{item.contactoEmergencia}</td>
+          <td>{item.telefonoContacto}</td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="10" className="text-center">
+          No se encontraron resultados
+        </td>
+      </tr>
+    )
+  ) : (
+    <tr>
+      <td colSpan="10" className="text-center">
+        Realiza una búsqueda para ver los registros
+      </td>
+    </tr>
+  )}
+</tbody>
       </table>
       {/* Botones de acción */}
       <div className={styles.actionButtons}>
