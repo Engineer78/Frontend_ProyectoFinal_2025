@@ -141,24 +141,32 @@ const DeleteUsers = () => {
     // Manejo del checkbox de selección
     const handleCheckboxChange = (e, item) => {
         if (e.target.checked) {
-            setSelectedItems((prev) => [...prev, item]); // Agregar usuario seleccionado
-            setDisabledInputs({ // Mostrar info del usuario seleccionado
-                tipoDocumento: item.tipoDocumento || '',
-                nombreUsuario: item.nombreUsuario || '',
-                rol: item.rol || '',
-                nombresCompletos: item.nombresCompletos || '',
-                telefono: item.telefono || '',
-                direccion: item.direccion || '',
-                contactoEmergencia: item.contactoEmergencia || '',
-                telefonoContacto: item.telefonoContacto || '',
-            });
+          setSelectedItems([item]); // Solo permitir UN solo seleccionado a la vez
+          setDisabledInputs({
+            tipoDocumento: item.nombreTipoDocumento || "",
+            nombreUsuario: item.nombreUsuario || "",
+            rol: item.nombreRol || "",
+            nombresCompletos:
+              `${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno}`.trim(),
+            telefono: item.telefonoMovil || "",
+            direccion: item.direccionResidencia || "",
+            contactoEmergencia: item.contactoEmergencia || "",
+            telefonoContacto: item.telefonoContacto || "",
+          });
         } else {
-            // Eliminar de la lista de seleccionados si se desmarca
-            setSelectedItems((prev) =>
-                prev.filter((selected) => selected.idUsuario !== item.idUsuario)
-            );
+          setSelectedItems([]);
+          setDisabledInputs({
+            tipoDocumento: "",
+            nombreUsuario: "",
+            rol: "",
+            nombresCompletos: "",
+            telefono: "",
+            direccion: "",
+            contactoEmergencia: "",
+            telefonoContacto: "",
+          });
         }
-    };
+      };
 
     // Lógica para mostrar u ocultar el modal de confirmación
     const openDeleteConfirmationModal = () => {
