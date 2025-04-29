@@ -13,10 +13,15 @@ const api = axios.create({
 
 // Declarar el componente UsersQuery como función flecha para mayor consistencia con el estilo del proyecto
 const UsersQuery = () => {
-  
-  // Estado para controlar la pestaña activa
-  const [activeTab, setActiveTab] = useState("consulta");
 
+ // 1) Definición de estados principales del componente
+//    - activeTab: controla la pestaña activa
+const [activeTab, setActiveTab] = useState("consulta");
+
+
+
+
+  
   // Estado que contiene los datos obtenidos desde el backend
     const [data, /*setData*/] = useState([]);
  // Estado con los filtros de búsqueda ingresados por el usuario
