@@ -4,7 +4,7 @@ import styles from "../../styles/usersquery.module.css";
 import { Link } from "react-router-dom";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
+import axios from "axios";
 
 function UsersQuery() {
   // Estado para controlar la pestaña activa
