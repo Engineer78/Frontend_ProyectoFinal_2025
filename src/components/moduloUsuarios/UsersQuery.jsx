@@ -47,6 +47,121 @@ const handleTabClick = (tab) => {
   setActiveTab(tab);
 };
 
+// 3) Efecto combinado para manejar la búsqueda dinámica y la selección de usuarios
+useEffect(() => {
+  console.log('Ejecutando fetchData con filtros:', filters);
+
+  // Verificar si no hay filtros activos
+  const noFilters = Object.values(filters).every(v => !v);
+
+  // Si no hay filtros o no se está buscando, limpiar los datos
+  if (!isSearching || noFilters) {
+    setData([]);
+    setSelectedUser(null);
+    ({
+      nombreTipoDocumento: "",
+      nombreUsuario: "",
+      rol: "",
+      nombreCompletos: "",
+      telefono: "",
+      direccion: "",
+      contactoEmergencia: "",
+      telefonoContacto: "",
+    });
+    return;
+  }
+
+  // Función para obtener los datos desde la API
+  const fetchData = async () => {
+    try {
+
+      // Construir el nombre completo del usuario a partir de nombres y apellidos
+      const nombreCompletos = `${filters.nombres} ${filters.apellidoPaterno} ${filters.apellidoMaterno}`.trim();
+
+      // Hacer la solicitud a la API con los filtros actuales
+      const response = await api.get(`/empleados`, {
+        params: { 
+          nombreTipoDocumento: filters.nombreTipoDocumento || null,
+          nombreUsuario: filters.nombreUsuario || null,
+          rol: filters.rol || null,
+          nombreCompletos: nombreCompletos || null,
+          telefono: filters.telefonoMovil || null,
+          direccion: filters.direccionResidencia || null,
+          contactoEmergencia: filters.contactoEmergencia || null,
+          telefonoContacto: filters.telefonoContacto || null,
+        }
+      });
+
+      let lista = response.data || [];
+
+      // Filtrar en frontend por número de documento si se proporcionó      
+      if (filters.numeroDocumento) {
+        lista = lista.filter(p =>
+          p.numeroDocumento?.toString().includes(filters.numeroDocumento)
+        );
+      }
+
+      // Actualizar el estado con la lista de resultados
+      setData(lista);
+
+      // Si hay solo un resultado, seleccionarlo automáticamente
+      setSelectedUser(lista.length === 1 ? lista[0] : null);
+
+      // Lógica adicional: si hay filtros activos y resultados, mostrar el primer usuario en los inputs
+      const hasActiveFilters = filters.numeroDocumento.trim() !== "";
+      const itemsToShow = lista;
+
+          // Si hay resultados, mostrar el primero en los campos deshabilitados
+    if (hasActiveFilters && itemsToShow.length > 0) {
+      const firstItem = itemsToShow[0];
+      setSelectedUser({
+        nombreTipoDocumento: firstItem.nombreTipoDocumento || "",
+        nombreUsuario: firstItem.nombreUsuario || "",
+        nombreRol: firstItem.nombreRol || "",
+        nombres: `${firstItem.nombres} ${firstItem.apellidoPaterno} ${firstItem.apellidoMaterno}`.trim() || "",
+        telefonoMovil: firstItem.telefonoMovil || "",
+        direccionResidencia: firstItem.direccionResidencia || "",
+        contactoEmergencia: firstItem.contactoEmergencia || "",
+        telefonoContacto: firstItem.telefonoContacto || "",
+      });
+      } else {
+        
+        // Si no hay resultados, limpiar los campos de selección
+        setSelectedUser({
+          tipoDocumento: "",
+          nombreUsuario: "",
+          rol: "",
+          nombresCompletos: "",
+          telefono: "",
+          direccion: "",
+          contactoEmergencia: "",
+          telefonoContacto: "",
+        });
+      }
+
+    } catch (error) {
+      console.error('Error al obtener datos:', error);
+
+      // En caso de error, limpiar estados
+      setData([]);
+      setSelectedUser(null);
+      ({
+        tipoDocumento: "",
+        nombreUsuario: "",
+        rol: "",
+        nombresCompletos: "",
+        telefono: "",
+        direccion: "",
+        contactoEmergencia: "",
+        telefonoContacto: "",
+      });
+    }
+  };
+
+   // Ejecutar la función de búsqueda
+  fetchData();
+}, [filters, isSearching]);
+
 
   
 };
