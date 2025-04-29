@@ -75,7 +75,7 @@ const DeleteUsers = () => {
         }
 
         // Filtrar usuarios que coincidan con el número de documento
-        const filtered = fullUserList.filter((item) =>
+        const filtered = fullEmployeeList.filter((item) =>
             item.numeroDocumento.toString().includes(filters.numeroDocumento)
         );
 
