@@ -86,32 +86,34 @@ const DeleteUsers = () => {
         if (hasActiveFilters && itemsToShow.length > 0) {
             const firstItem = itemsToShow[0];
             setDisabledInputs({
-                tipoDocumento: firstItem.tipoDocumento || '',
-                nombreUsuario: firstItem.nombreUsuario || '',
-                rol: firstItem.rol || '',
-                nombresCompletos: firstItem.nombresCompletos || '',
-                telefono: firstItem.telefono || '',
-                direccion: firstItem.direccion || '',
-                contactoEmergencia: firstItem.contactoEmergencia || '',
-                telefonoContacto: firstItem.telefonoContacto || '',
+              tipoDocumento: firstItem.nombreTipoDocumento || "",
+              nombreUsuario: firstItem.nombreUsuario || "",
+              rol: firstItem.nombreRol || "",
+              nombresCompletos:
+                `${firstItem.nombres} ${firstItem.apellidoPaterno} ${firstItem.apellidoMaterno}`.trim() ||
+                "",
+              telefono: firstItem.telefonoMovil || "",
+              direccion: firstItem.direccionResidencia || "",
+              contactoEmergencia: firstItem.contactoEmergencia || "",
+              telefonoContacto: firstItem.telefonoContacto || "",
             });
-        } else {
+          } else {
             setDisabledInputs({
-                tipoDocumento: '',
-                nombreUsuario: '',
-                rol: '',
-                nombresCompletos: '',
-                telefono: '',
-                direccion: '',
-                contactoEmergencia: '',
-                telefonoContacto: '',
+              tipoDocumento: "",
+              nombreUsuario: "",
+              rol: "",
+              nombresCompletos: "",
+              telefono: "",
+              direccion: "",
+              contactoEmergencia: "",
+              telefonoContacto: "",
             }); // Limpiar si no hay coincidencias
-        }
+          }
 
         if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
             setIsSearching(true); // Activar estado de búsqueda
         }
-    }, [filters, visibleItems, fullUserList, isSearching]);
+    }, [filters, visibleItems, fullEmployeeList, isSearching]);
 
     // Manejo del cambio en el input de búsqueda
     const handleInputChange = (e) => {
