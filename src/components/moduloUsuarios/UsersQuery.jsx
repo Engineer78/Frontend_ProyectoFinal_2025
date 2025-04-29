@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../Header";
 import styles from "../../styles/usersquery.module.css";
 import { Link } from "react-router-dom";
@@ -206,7 +206,6 @@ const handleClear = () => {
         showLogo={true}
         showHelp={true}
       />
-
       {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
         <Link
@@ -218,7 +217,6 @@ const handleClear = () => {
         >
           Registrar Usuarios
         </Link>
-
         <Link
           to="/users-query"
           className={`${styles.tabButton} ${
@@ -228,7 +226,6 @@ const handleClear = () => {
         >
           Consultar Usuarios
         </Link>
-
         <Link
           to="/update-users"
           className={`${styles.tabButton} ${
@@ -238,7 +235,6 @@ const handleClear = () => {
         >
           Actualizar Usuarios
         </Link>
-
         <Link
           to="/delete-users"
           className={`${styles.tabButton} ${
