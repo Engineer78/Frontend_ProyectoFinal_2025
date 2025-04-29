@@ -12,7 +12,7 @@ import {
     crearPerfil,
     listarRoles,
     crearRol,
-    crearTipoDocumento
+    crearTipoDocumento,
     listarTiposDocumento,
     crearEmpleado
 } from "../../api"; // Asegúrate de que la ruta sea correcta
@@ -127,7 +127,6 @@ const UsersRegistration = () => {
             });
             await cargarTiposDocumento(); // Recargar el select principal
             alert("✅ Tipo de documento creado exitosamente.");
-            handleClearTipoDocumento();
             setModalTipoDocumentoOpen(false);
         } catch (error) {
             console.error("Error creando tipo de documento:", error);
@@ -238,6 +237,12 @@ const UsersRegistration = () => {
         setRolDescripcion("");
         setRolFiltro("");
         setPerfilSeleccionado("");
+    };
+
+    // Función para limpiar los campos dentro del modal para crear tipos de documento.
+    const handleClearTipoDocumento = () => {
+        setCodigoTipoDocumento("");
+        setNombreTipoDocumento("");
     };
 
     // Función para limpiar los campos de el formulario de registro de usuarios. 🧹
@@ -444,11 +449,6 @@ const UsersRegistration = () => {
                                         </select>
                                     </div>
                                 </div>
-
-                                {/* Botoón para abrir el modal de tipo de documento */}
-
-
-
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
@@ -472,7 +472,7 @@ const UsersRegistration = () => {
                             <div className={styles.formGroupButtos}>
                                 <button
                                     className={styles.createButton}
-                                    onClick={() => setModalTipoDocumentoOpen(true)}
+                                    onClick={() => handleOpenModalTipoDocumento(true)}
                                 >
                                     D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
                                 </button>
@@ -507,6 +507,45 @@ const UsersRegistration = () => {
                         >
                             Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                         </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Crear Tipo de Documento */}
+            {isModalTipoDocumentoOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
+                        <div className={styles.modalFormGroup}>
+                            <label>Código</label>
+                            <input
+                                type="text"
+                                value={codigoTipoDocumento}
+                                onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <label>Nombre</label>
+                            <input
+                                type="text"
+                                value={nombreTipoDocumento}
+                                onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave} onClick={handleSaveTipoDocumento}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
