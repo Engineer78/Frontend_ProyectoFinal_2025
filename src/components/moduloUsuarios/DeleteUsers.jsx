@@ -51,8 +51,8 @@ const DeleteUsers = () => {
 
     // Cargar usuarios una vez al montar el componente
     useEffect(() => {
-        fetchUsers();
-    }, [fetchUsers]);
+        fetchEmployees();
+    }, []);
 
     // Filtrar usuarios por número de documento
     useEffect(() => {
