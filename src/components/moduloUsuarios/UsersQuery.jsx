@@ -6,6 +6,11 @@ import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import axios from "axios";
 
+// Crear instancia de Axios con la URL base del backend para facilitar las solicitudes HTTP
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api'
+});
+
 function UsersQuery() {
   // Estado para controlar la pestaña activa
   const [activeTab, setActiveTab] = useState("consulta");
