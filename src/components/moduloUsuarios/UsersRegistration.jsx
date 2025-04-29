@@ -51,6 +51,12 @@ const UsersRegistration = () => {
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
 
+    // Estados de modal tipo de documento
+    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
+    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
+    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+
+
     // Se define la función para abrir los modales de crear perfil y rol
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
@@ -112,7 +118,7 @@ const UsersRegistration = () => {
         if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
             alert("⚠️ Por favor completa el nombre y la descripción del perfil antes de guardar.");
             return;
-          }
+        }
 
         try {
             await crearPerfil({
@@ -135,7 +141,7 @@ const UsersRegistration = () => {
         if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
             alert("⚠️ Por favor completa todos los campos del rol antes de guardar.");
             return;
-          }
+        }
 
         try {
             await crearRol({
@@ -144,7 +150,7 @@ const UsersRegistration = () => {
                 idPerfil: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
             await cargarRoles(); // 📢 recargar roles después de guardar
-            alert("✅ Rol creado exitosamente."); 
+            alert("✅ Rol creado exitosamente.");
             setRolNombre("");
             setRolDescripcion("");
             setPerfilSeleccionado(""); // Limpiar selección de perfil
@@ -480,7 +486,7 @@ const UsersRegistration = () => {
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
                             <input
-                            className="{styles.inputModalBuscar}"
+                                className="{styles.inputModalBuscar}"
                                 type="text"
                                 id="BuscarPerfil"
                                 placeholder="Buscar Perfil"
@@ -489,13 +495,13 @@ const UsersRegistration = () => {
                             />
                         </div>
                         {perfilFiltro.trim() !== "" && (
-                        <ul>
-                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
-                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                            ).map((perfil) => (
-                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
-                            ))}
-                        </ul>
+                            <ul>
+                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                ).map((perfil) => (
+                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                ))}
+                            </ul>
                         )}
 
                         <div className={styles.modalFormGroup}>
@@ -578,13 +584,13 @@ const UsersRegistration = () => {
                                 />
                             </div>
                             {rolFiltro.trim() !== "" && (
-                            <ul>
-                                {Array.isArray(roles) && roles.filter((rol) =>
-                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                                ).map((rol) => (
-                                    <li key={rol.idRol}>{rol.nombreRol}</li>
-                                ))}
-                            </ul>
+                                <ul>
+                                    {Array.isArray(roles) && roles.filter((rol) =>
+                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                    ).map((rol) => (
+                                        <li key={rol.idRol}>{rol.nombreRol}</li>
+                                    ))}
+                                </ul>
                             )}
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
