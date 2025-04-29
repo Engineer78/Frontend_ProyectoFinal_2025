@@ -16,7 +16,7 @@ const DeleteUsers = () => {
     // Estados para manejar pestañas, datos, filtros, selección y carga
     const [activeTab, setActiveTab] = useState('eliminar'); // Pestaña activa
     const [data, setData] = useState([]); // Datos filtrados para mostrar en la tabla
-    const [fullUserList, setFullUserList] = useState([]); // Lista completa de usuarios desde el backend
+    const [fullEmployeeList, setFullEmployeeList] = useState([]); // Lista completa de usuarios desde el backend
     const [filters, setFilters] = useState({ numeroDocumento: '' }); // Filtros de búsqueda
 
     // Campos mostrados en los inputs deshabilitados al seleccionar un usuario
