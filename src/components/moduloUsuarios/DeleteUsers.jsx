@@ -37,16 +37,17 @@ const DeleteUsers = () => {
     const [visibleItems, setVisibleItems] = useState(10); // Cantidad de usuarios visibles
     const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
 
-    // Cargar usuarios desde la API
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const fetchUsers = async () => {
-        try {
-            const response = await api.get('/usuarios'); // Petición GET a la API
-            setFullUserList(response.data); // Guardar respuesta en el estado
-        } catch (error) {
-            console.error('Error al cargar los usuarios:', error); // Manejo de errores
-        }
-    };
+    // Cargar usuarios desde la API
+  const fetchEmployees = async () => {
+    try {
+      const response = await api.get("/empleados");
+      console.log("Datos recibidos:", response.data); // Petición GET a la API
+      setFullEmployeeList(response.data); // Guardar respuesta en el estado
+    } catch (error) {
+      console.error("Error al cargar los usuarios:", error); // Manejo de errores
+    }
+  };
 
     // Cargar usuarios una vez al montar el componente
     useEffect(() => {
