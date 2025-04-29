@@ -576,6 +576,15 @@ const UsersRegistration = () => {
                                     onChange={(e) => setRolFiltro(e.target.value)}
                                 />
                             </div>
+                            {rolFiltro.trim() !== "" && (
+                            <ul>
+                                {Array.isArray(roles) && roles.filter((rol) =>
+                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                ).map((rol) => (
+                                    <li key={rol.idRol}>{rol.nombreRol}</li>
+                                ))}
+                            </ul>
+                            )}
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
                                 <input
@@ -597,15 +606,6 @@ const UsersRegistration = () => {
                                     className={styles.textareaModal}
                                 />
                             </div>
-
-                            <ul>
-                                {Array.isArray(roles) && roles.filter((rol) =>
-                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                                ).map((rol) => (
-                                    <li key={rol.idRol}>{rol.nombreRol}</li>
-                                ))}
-                            </ul>
-
                             <div className={styles.modalButtonsRol}>
                                 <button className={styles.modalButtonSave}
                                     onClick={handleSaveRol}>

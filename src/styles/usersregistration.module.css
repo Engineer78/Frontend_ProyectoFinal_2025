@@ -458,8 +458,15 @@ body {
 }
 
 .textareaModal {
-  height: 100px;
-  resize: none;
+  height: 50px;
+  resize: vertical;
+}
+
+/* Estilo del input para buscar perfil  */
+.inputModalBuscar {
+  margin-bottom: 0px;
+  height: 30px;
+  font-size: 0.9rem;
 }
 
 /* Estilo de los botones */
@@ -592,7 +599,7 @@ body {
   max-height: 100px;
   overflow-y: auto;
   text-align: left;
-  margin-top: 1rem;
+  margin-top: 0px;
   padding-left: 0;
   list-style: none;
 }
@@ -600,4 +607,5 @@ body {
 .listaResultados li {
   padding: 5px 10px;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
 }
