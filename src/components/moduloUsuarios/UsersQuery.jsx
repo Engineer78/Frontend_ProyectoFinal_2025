@@ -11,7 +11,9 @@ const api = axios.create({
   baseURL: 'http://localhost:8080/api'
 });
 
-function UsersQuery() {
+// Declarar el componente UsersQuery como función flecha para mayor consistencia con el estilo del proyecto
+const UsersQuery = () => {
+  
   // Estado para controlar la pestaña activa
   const [activeTab, setActiveTab] = useState("consulta");
 
