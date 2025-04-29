@@ -180,43 +180,46 @@ const DeleteUsers = () => {
     //Eliminar usuario
     const handleDeleteItems = async () => {
         if (selectedItems.length === 0) {
-            alert('Por favor, selecciona un usuario para eliminar.');
-            return;
+          alert("Por favor, selecciona un empleado para eliminar.");
+          return;
         }
-
+    
         try {
-            const idUsuario = selectedItems[0].idUsuario;
-            const confirm = window.confirm('¿Estás seguro que deseas eliminar este usuario?');
-            if (!confirm) return;
-
-            await api.delete(`/usuarios/${idUsuario}`); // Llamada DELETE a la API
-
-            closeDeleteConfirmationModal(); // Cierra el modal
-            setSelectedItems([]); // Limpia selección
-            setFilters({ numeroDocumento: '' }); // Limpia filtro
-            setDisabledInputs({
-                tipoDocumento: '',
-                nombreUsuario: '',
-                rol: '',
-                nombresCompletos: '',
-                telefono: '',
-                direccion: '',
-                contactoEmergencia: '',
-                telefonoContacto: '',
-            }); // Limpia campos
-
-            setData([]);
-            setIsSearching(false);
-            fetchUsers(); // Recarga usuarios
-
-            setTimeout(() => {
-                alert('Usuario eliminado exitosamente');
-            }, 150);
+          const confirm = window.confirm(
+            "¿Estás seguro que deseas eliminar los empleados seleccionados?"
+          );
+          if (!confirm) return;
+    
+          // Recorrer todos los empleados seleccionados y eliminar
+          for (const item of selectedItems) {
+            await api.delete(`/empleados/${item.idEmpleado}`);
+          }
+    
+          closeDeleteConfirmationModal();
+          setSelectedItems([]);
+          setFilters({ numeroDocumento: "" });
+          setDisabledInputs({
+            tipoDocumento: "",
+            nombreUsuario: "",
+            rol: "",
+            nombresCompletos: "",
+            telefono: "",
+            direccion: "",
+            contactoEmergencia: "",
+            telefonoContacto: "",
+          });
+          setData([]);
+          setIsSearching(false);
+    
+          fetchEmployees();
+          setTimeout(() => {
+            alert("Empleados eliminados exitosamente");
+          }, 150);
         } catch (error) {
-            console.error('Error al eliminar el usuario:', error);
-            alert('Hubo un error al intentar eliminar el usuario.');
+          console.error("Error al eliminar los empleados:", error);
+          alert("Hubo un error al intentar eliminar los empleados.");
         }
-    };
+      };
 
     // Cargar más resultados (paginación)
     const handleLoadMore = () => {
