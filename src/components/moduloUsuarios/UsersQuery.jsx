@@ -162,8 +162,37 @@ useEffect(() => {
   fetchData();
 }, [filters, isSearching]);
 
+ // 4) Handlers
+// Actualiza los filtros de búsqueda mientras el usuario escribe
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFilters(prev => ({ ...prev, [name]: value }));
+  if (!isSearching) setIsSearching(true);
+};
 
-  
+// Selecciona un usuario al hacer clic en una fila y muestra solo ese usuario
+const handleRowClick = (item) => {
+  setSelectedUser(item);
+  setData([item]); // Mostrar solo el usuario seleccionado
+};
+
+// Limpia los filtros, detiene la búsqueda y deselecciona el usuario actual
+const handleClear = () => {
+  setFilters({
+    numeroDocumento: '',
+    tipoDocumento: '',
+    nombreUsuario: '',
+    rol: '',
+    nombres: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    telefonoMovil: '',
+    direccionResidencia: '',
+    contactoEmergencia: '',
+    telefonoContacto: '',
+  });
+  setIsSearching(false);
+  setSelectedUser(null);
 };
 
   // Renderiza la vista principal del módulo de consulta de usuarios:
