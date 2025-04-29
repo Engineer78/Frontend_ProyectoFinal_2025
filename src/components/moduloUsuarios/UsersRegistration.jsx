@@ -141,7 +141,7 @@ const UsersRegistration = () => {
             await crearRol({
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
-                perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
+                idPerfil: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
             await cargarRoles(); // 📢 recargar roles después de guardar
             alert("✅ Rol creado exitosamente."); 
@@ -174,12 +174,12 @@ const UsersRegistration = () => {
                 apellidoPaterno: userLastName,
                 apellidoMaterno: userSecondLastName,
                 nombreUsuario: userAlias,
-                contraseñaUsuario: userPassword,
+                contrasena: userPassword,
                 telefonoMovil: userPhone,
                 direccionResidencia: userAddress,
                 contactoEmergencia: userEmergencyContact,
                 telefonoContacto: userContactPhone,
-                idtipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
+                idTipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
                 idRol: rolType,                 // cuidado aquí también... verificar🔍
             };
 
@@ -554,7 +554,7 @@ const UsersRegistration = () => {
                                             id="PerfilRol"
                                             className={styles.selectPerfil}
                                             value={perfilSeleccionado}
-                                            onChange={(e) => setPerfilSeleccionado(e.target.value)}
+                                            onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
                                         >
                                             <option value="">Seleccionar perfil</option>
                                             {perfiles.map((perfil) => (
