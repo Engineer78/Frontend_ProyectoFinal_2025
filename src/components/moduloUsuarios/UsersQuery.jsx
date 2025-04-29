@@ -42,89 +42,13 @@ const [data, setData] = useState([]);
 //    - selectedUser: usuario seleccionado actualmente
 const [selectedUser, setSelectedUser] = useState(null);
 
-
+// 2) Función para cambiar entre pestañas
+const handleTabClick = (tab) => {
+  setActiveTab(tab);
+};
 
 
   
-
-  // Cambia la pestaña activa al hacer clic en una opción
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
-
-  // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
-  const [HeaderInputs, setHeaderInputs] = useState({
-    numeroDocumento: "",
-    tipoDocumento : "",
-    nombreUsuario: "",
-    rol: "",
-    nombreCompletos: "",
-    telefono: "",
-    direccion: "",
-    contactoEmergencia: "",
-    telefonoContacto: "",
-  });
-
-  // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
-  // También reinicia el estado de búsqueda.
-  const handleClear = () => {
-    setFilters({
-      numeroDocumento: "",
-      tipoDocumento : "",
-      nombreUsuario: "",
-      rol: "",
-      nombreCompletos: "",
-      telefono: "",
-      direccion: "",
-      contactoEmergencia: "",
-      telefonoContacto: "",
-    });
-    setIsSearching(false);
-    setHeaderInputs({
-      numeroDocumento: "",
-      tipoDocumento : "",
-      nombreUsuario: "",
-      rol: "",
-      nombreCompletos: "",
-      telefono: "",
-      direccion: "",
-      contactoEmergencia: "",
-      telefonoContacto: "",
-    });
-  };
-  // Actualiza los filtros al escribir en los inputs
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    if (!isSearching) setIsSearching(true);
-}; 
-
-// Carga los datos de los usuarios seleccionados en los filtros e inputs
-const handleRowClick = (users) => {
-    setFilters({
-        numeroDocumento: users.numeroDocumento || '',
-        tipoDocumento: users.tipoDocumento || '',
-        nombreUsuario: users.nombreUsuario || '',
-        rol: users.rol || '',
-        nombreCompletos: users.nombreCompletos| '',
-        telefono: users. telefono || '',
-        direccion: users.direccion || '',
-        contactoEmergencia: users.contactoEmergencia|| '',
-        telefonoContacto: users.telefonoContacto || '',
-    });
-
-    setHeaderInputs({
-        numeroDocumento: users.numeroDocumento || '',
-        tipoDocumento: users.tipoDocumento || '',
-        nombreUsuario: users.nombreUsuario || '',
-        rol: users.rol || '',
-        nombreCompletos: users.nombreCompletos| '',
-        telefono: users. telefono || '',
-        direccion: users.direccion || '',
-        contactoEmergencia: users.contactoEmergencia|| '',
-        telefonoContacto: users.telefonoContacto || '',
-    });
 };
 
   // Renderiza la vista principal del módulo de consulta de usuarios:
