@@ -6,6 +6,15 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import {
+    listarPerfiles,
+    listarRoles,
+    listarTiposDocumento,
+    actualizarPerfil,
+    actualizarRol,
+    actualizarTipoDocumento,
+    actualizarEmpleadoPorDocumento
+} from "../../api"; // Asegúrate de que la ruta sea correcta
 
 
 const UpdateUsers = () => {
