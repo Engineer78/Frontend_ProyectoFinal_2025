@@ -12,6 +12,7 @@ import {
     crearPerfil,
     listarRoles,
     crearRol,
+    crearTipoDocumento
     listarTiposDocumento,
     crearEmpleado
 } from "../../api"; // Asegúrate de que la ruta sea correcta
@@ -114,7 +115,27 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Perfil
+    const handleSaveTipoDocumento = async () => {
+        if (!codigoTipoDocumento || !nombreTipoDocumento) {
+            alert("⚠️ Completa todos los campos.");
+            return;
+        }
+        try {
+            await crearTipoDocumento({
+                codigo: codigoTipoDocumento,
+                nombre: nombreTipoDocumento
+            });
+            await cargarTiposDocumento(); // Recargar el select principal
+            alert("✅ Tipo de documento creado exitosamente.");
+            handleClearTipoDocumento();
+            setModalTipoDocumentoOpen(false);
+        } catch (error) {
+            console.error("Error creando tipo de documento:", error);
+            alert("❌ Error al crear tipo de documento.");
+        }
+    };
+
+    // Función para Guardar Perfil
     const handleSavePerfil = async () => {
 
         // Validar que el nombre y la descripción no estén vacíos
@@ -140,7 +161,7 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Rol
+    // Función para Guardar Rol
     const handleSaveRol = async () => {
         if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
             alert("⚠️ Por favor completa todos los campos del rol antes de guardar.");
@@ -424,6 +445,10 @@ const UsersRegistration = () => {
                                     </div>
                                 </div>
 
+                                {/* Botoón para abrir el modal de tipo de documento */}
+
+
+
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
@@ -444,18 +469,26 @@ const UsersRegistration = () => {
                                 </div>
                             </div>
                             {/* Botones Abrir Modales */}
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalPerfil}
-                            >
-                                Perfil <AddIcon style={{ marginLeft: 8 }} />
-                            </button>
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalRol}
-                            >
-                                Roles<AddIcon style={{ marginLeft: 8 }} />
-                            </button>
+                            <div className={styles.formGroupButtos}>
+                                <button
+                                    className={styles.createButton}
+                                    onClick={() => setModalTipoDocumentoOpen(true)}
+                                >
+                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalPerfil}
+                                >
+                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalRol}
+                                >
+                                    Roles<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
                         </form>
                     </div>
 
