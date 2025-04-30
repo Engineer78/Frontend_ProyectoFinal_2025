@@ -151,6 +151,42 @@ const UpdateUsers = () => {
         }
       };
       
+      // Función para validar los campos del formulario
+      const handleSave = async () => {
+        if (!validateFields()) {
+          alert("⚠️ Por favor, completa todos los campos obligatorios.");
+          return;
+        }
+      
+        try {
+          const updatedEmpleado = {
+            numeroDocumento: userID,
+            nombres: userName,
+            apellidoPaterno: userLastName,
+            apellidoMaterno: userSecondLastName,
+            telefonoMovil: userPhone,
+            direccionResidencia: userAddress,
+            contactoEmergencia: userEmergencyContact,
+            telefonoContacto: userContactPhone,
+            nombreUsuario: userAlias,
+            contraseñaUsuario: userPassword, // Esta sí la enviamos
+            idRol: parseInt(rolType),
+            idtipoDocumento: parseInt(documentType)
+          };
+      
+          const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
+      
+          if (response.status === 200) {
+            alert("✅ Empleado actualizado exitosamente.");
+            handleClear();
+          } else {
+            alert("❌ Error al actualizar el empleado.");
+          }
+        } catch (error) {
+          console.error("Error al actualizar el empleado:", error);
+          alert("❌ Error al actualizar el empleado.");
+        }
+      };      
 
     // Función para limpiar los campos del formulario
     const handleClear = () => {
