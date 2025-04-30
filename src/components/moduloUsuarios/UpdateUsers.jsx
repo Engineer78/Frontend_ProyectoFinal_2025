@@ -178,6 +178,37 @@ const UpdateUsers = () => {
         }
       };      
 
+      // función para actualizar perfil desde el modal.
+      const handleUpdatePerfil = async () => {
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+          alert("⚠️ Completa todos los campos del perfil.");
+          return;
+        }
+      
+        try {
+          const perfil = perfiles.find(p => p.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase());
+      
+          if (!perfil) {
+            alert("⚠️ No se encontró el perfil a actualizar.");
+            return;
+          }
+      
+          await actualizarPerfil(perfil.idPerfil, {
+            nombrePerfil: perfilNombre,
+            descripcion: perfilDescripcion,
+          });
+      
+          await cargarPerfiles();
+          alert("✅ Perfil actualizado exitosamente.");
+          handleClearPerfil();
+          setPerfilModalOpen(false);
+        } catch (error) {
+          console.error("Error actualizando perfil:", error);
+          alert("❌ Error al actualizar el perfil.");
+        }
+      };
+      
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
