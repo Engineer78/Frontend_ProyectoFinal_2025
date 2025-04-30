@@ -207,7 +207,37 @@ const UpdateUsers = () => {
           alert("❌ Error al actualizar el perfil.");
         }
       };
+    
+    // Función para actualizar rol desde el modal.
+    const handleUpdateRol = async () => {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+          alert("⚠️ Completa todos los campos del rol.");
+          return;
+        }
       
+        try {
+          const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
+      
+          if (!rol) {
+            alert("⚠️ No se encontró el rol a actualizar.");
+            return;
+          }
+      
+          await actualizarRol(rol.idRol, {
+            nombreRol: rolNombre,
+            descripcion: rolDescripcion,
+            perfilId: perfilSeleccionado,
+          });
+      
+          await cargarRoles();
+          alert("✅ Rol actualizado exitosamente.");
+          handleClearRol();
+          setRolModalOpen(false);
+        } catch (error) {
+          console.error("Error actualizando rol:", error);
+          alert("❌ Error al actualizar el rol.");
+        }
+      };      
 
     // Función para limpiar los campos del formulario
     const handleClear = () => {
