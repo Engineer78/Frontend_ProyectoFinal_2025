@@ -542,10 +542,11 @@ const UpdateUsers = () => {
                                             required
                                         >
                                             <option value=""> Seleccione un Rol </option>
-                                            <option value="administrador">Administrador</option>
-                                            <option value="almacenista">Almacenista</option>
-                                            <option value="propietario">Propietario</option>
-                                            <option value="vendedor">Vendedor</option>
+                                            {roles.map((rol) => (
+                                                <option key={rol.idRol} value={rol.idRol}>
+                                                    {rol.nombreRol}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
