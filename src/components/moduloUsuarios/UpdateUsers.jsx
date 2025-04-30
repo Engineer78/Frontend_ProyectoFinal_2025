@@ -62,8 +62,6 @@ const UpdateUsers = () => {
     const [tipoDocumentoAEditar, setTipoDocumentoAEditar] = useState(null);
 
 
-
-
     // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
@@ -73,7 +71,8 @@ const UpdateUsers = () => {
         setRolModalOpen(true);
     };
 
-    const handleOpenModalTipoDocumento = () => {
+    const handleOpenModalTipoDocumento = (tipo) => {
+        setTipoDocumentoAEditar(tipo);
         setModalTipoDocumentoOpen(true);
     };
 
