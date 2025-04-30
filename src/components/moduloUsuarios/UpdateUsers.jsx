@@ -312,6 +312,14 @@ const UpdateUsers = () => {
         setPerfilFiltro("");
     };
 
+    // Función para limpiar los campos dentro del modal para crear roles.
+    const handleClearRol = () => {
+        setRolNombre("");
+        setRolDescripcion("");
+        setRolFiltro("");
+        setPerfilSeleccionado("");
+    };
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
