@@ -15,7 +15,7 @@ import {
     actualizarTipoDocumento,
     actualizarEmpleadoPorDocumento
 } from "../../api"; // Asegúrate de que la ruta sea correcta
-import { buscarEmpleadoPorDocumento } from "../../api"; 
+import { buscarEmpleadoPorDocumento } from "../../api";
 
 
 const UpdateUsers = () => {
@@ -63,7 +63,7 @@ const UpdateUsers = () => {
         setActiveTab(tab);
     };
 
-     // Función para cargar los tipos de documento, perfiles y roles.
+    // Función para cargar los tipos de documento, perfiles y roles.
     useEffect(() => {
         setActiveTab('actualizar');
         cargarTiposDocumento();
@@ -74,199 +74,199 @@ const UpdateUsers = () => {
     // Función para cargar los tipos de documento usando los endpoints de la API
     const cargarTiposDocumento = async () => {
         try {
-          const response = await listarTiposDocumento();
-          setDocumentTypes(response.data);
+            const response = await listarTiposDocumento();
+            setDocumentTypes(response.data);
         } catch (error) {
-          console.error("Error al cargar tipos de documento:", error);
+            console.error("Error al cargar tipos de documento:", error);
         }
-      };
+    };
 
     // Función para cargar los perfiles usando los endpoints de la API
     const cargarPerfiles = async () => {
         try {
-          const response = await listarPerfiles();
-          setPerfiles(response.data);
+            const response = await listarPerfiles();
+            setPerfiles(response.data);
         } catch (error) {
-          console.error("Error al cargar perfiles:", error);
+            console.error("Error al cargar perfiles:", error);
         }
-      };
+    };
 
     // Función para cargar los roles usando los endpoints de la API
     const cargarRoles = async () => {
         try {
-          const response = await listarRoles();
-          setRoles(response.data);
+            const response = await listarRoles();
+            setRoles(response.data);
         } catch (error) {
-          console.error("Error al cargar roles:", error);
+            console.error("Error al cargar roles:", error);
         }
-      };
+    };
 
     // Función para buscar un empleado por su número de documento
     // y cargar los datos en el formulario.
-      const handleSearch = async () => {
+    const handleSearch = async () => {
         const trimmedUserID = userID.trim();
-      
-        if (!trimmedUserID) {
-          alert("⚠️ Por favor, ingrese el número de documento.");
-          return;
-        }
-      
-        try {
-          const response = await buscarEmpleadoPorDocumento(trimmedUserID);
-          const empleado = response.data;
-      
-          if (!empleado) {
-            alert("No se encontró un empleado con ese documento.");
-            return;
-          }
-      
-          // Rellenar campos
-          setUserID(empleado.numeroDocumento || "");
-          setUserNames(empleado.nombres || "");
-          setUserLastName(empleado.apellidoPaterno || "");
-          setUserSecondLastName(empleado.apellidoMaterno || "");
-          setUserAlias(empleado.nombreUsuario || "");
-          setUserPassword(""); // No cargamos la contraseña
-          setUserPhone(empleado.telefonoMovil || "");
-          setUserAddress(empleado.direccionResidencia || "");
-          setUserEmergencyContact(empleado.contactoEmergencia || "");
-          setUserContactPhone(empleado.telefonoContacto || "");
-          setDocumentType(empleado.idtipoDocumento?.toString() || "");
-          setRolType(empleado.idRol?.toString() || "");
-      
-          alert("✅ Datos cargados. Ahora puedes editar y guardar.");
-        } catch (error) {
-          console.error("Error al buscar el empleado:", error);
-          alert("❌ Error al buscar el empleado.");
-        }
-      };
-      
-      // Función para validar los campos del formulario
-      const handleSave = async () => {
-        if (!validateFields()) {
-          alert("⚠️ Por favor, completa todos los campos obligatorios.");
-          return;
-        }
-      
-        try {
-          const updatedEmpleado = {
-            numeroDocumento: userID,
-            nombres: userName,
-            apellidoPaterno: userLastName,
-            apellidoMaterno: userSecondLastName,
-            telefonoMovil: userPhone,
-            direccionResidencia: userAddress,
-            contactoEmergencia: userEmergencyContact,
-            telefonoContacto: userContactPhone,
-            nombreUsuario: userAlias,
-            contraseñaUsuario: userPassword, // Esta sí la enviamos
-            idRol: parseInt(rolType),
-            idtipoDocumento: parseInt(documentType)
-          };
-      
-          const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
-      
-          if (response.status === 200) {
-            alert("✅ Empleado actualizado exitosamente.");
-            handleClear();
-          } else {
-            alert("❌ Error al actualizar el empleado.");
-          }
-        } catch (error) {
-          console.error("Error al actualizar el empleado:", error);
-          alert("❌ Error al actualizar el empleado.");
-        }
-      };      
 
-      // función para actualizar perfil desde el modal.
-      const handleUpdatePerfil = async () => {
-        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
-          alert("⚠️ Completa todos los campos del perfil.");
-          return;
-        }
-      
-        try {
-          const perfil = perfiles.find(p => p.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase());
-      
-          if (!perfil) {
-            alert("⚠️ No se encontró el perfil a actualizar.");
+        if (!trimmedUserID) {
+            alert("⚠️ Por favor, ingrese el número de documento.");
             return;
-          }
-      
-          await actualizarPerfil(perfil.idPerfil, {
-            nombrePerfil: perfilNombre,
-            descripcion: perfilDescripcion,
-          });
-      
-          await cargarPerfiles();
-          alert("✅ Perfil actualizado exitosamente.");
-          handleClearPerfil();
-          setPerfilModalOpen(false);
-        } catch (error) {
-          console.error("Error actualizando perfil:", error);
-          alert("❌ Error al actualizar el perfil.");
         }
-      };
+
+        try {
+            const response = await buscarEmpleadoPorDocumento(trimmedUserID);
+            const empleado = response.data;
+
+            if (!empleado) {
+                alert("No se encontró un empleado con ese documento.");
+                return;
+            }
+
+            // Rellenar campos
+            setUserID(empleado.numeroDocumento || "");
+            setUserNames(empleado.nombres || "");
+            setUserLastName(empleado.apellidoPaterno || "");
+            setUserSecondLastName(empleado.apellidoMaterno || "");
+            setUserAlias(empleado.nombreUsuario || "");
+            setUserPassword(""); // No cargamos la contraseña
+            setUserPhone(empleado.telefonoMovil || "");
+            setUserAddress(empleado.direccionResidencia || "");
+            setUserEmergencyContact(empleado.contactoEmergencia || "");
+            setUserContactPhone(empleado.telefonoContacto || "");
+            setDocumentType(empleado.idtipoDocumento?.toString() || "");
+            setRolType(empleado.idRol?.toString() || "");
+
+            alert("✅ Datos cargados. Ahora puedes editar y guardar.");
+        } catch (error) {
+            console.error("Error al buscar el empleado:", error);
+            alert("❌ Error al buscar el empleado.");
+        }
+    };
+
+    // Función para validar los campos del formulario
+    const handleSave = async () => {
+        if (!validateFields()) {
+            alert("⚠️ Por favor, completa todos los campos obligatorios.");
+            return;
+        }
+
+        try {
+            const updatedEmpleado = {
+                numeroDocumento: userID,
+                nombres: userName,
+                apellidoPaterno: userLastName,
+                apellidoMaterno: userSecondLastName,
+                telefonoMovil: userPhone,
+                direccionResidencia: userAddress,
+                contactoEmergencia: userEmergencyContact,
+                telefonoContacto: userContactPhone,
+                nombreUsuario: userAlias,
+                contraseñaUsuario: userPassword, // Esta sí la enviamos
+                idRol: parseInt(rolType),
+                idtipoDocumento: parseInt(documentType)
+            };
+
+            const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
+
+            if (response.status === 200) {
+                alert("✅ Empleado actualizado exitosamente.");
+                handleClear();
+            } else {
+                alert("❌ Error al actualizar el empleado.");
+            }
+        } catch (error) {
+            console.error("Error al actualizar el empleado:", error);
+            alert("❌ Error al actualizar el empleado.");
+        }
+    };
+
+    // función para actualizar perfil desde el modal.
+    const handleUpdatePerfil = async () => {
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+            alert("⚠️ Completa todos los campos del perfil.");
+            return;
+        }
+
+        try {
+            const perfil = perfiles.find(p => p.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase());
+
+            if (!perfil) {
+                alert("⚠️ No se encontró el perfil a actualizar.");
+                return;
+            }
+
+            await actualizarPerfil(perfil.idPerfil, {
+                nombrePerfil: perfilNombre,
+                descripcion: perfilDescripcion,
+            });
+
+            await cargarPerfiles();
+            alert("✅ Perfil actualizado exitosamente.");
+            handleClearPerfil();
+            setPerfilModalOpen(false);
+        } catch (error) {
+            console.error("Error actualizando perfil:", error);
+            alert("❌ Error al actualizar el perfil.");
+        }
+    };
 
     // función para actualizar tipo de documento desde el modal.
     const handleUpdateTipoDocumento = async () => {
         if (!codigoTipoDocumento.trim() || !nombreTipoDocumento.trim()) {
-          alert("⚠️ Completa los campos del tipo de documento.");
-          return;
-        }
-      
-        try {
-          const doc = documentTypes.find(d => d.nombre === nombreTipoDocumento);
-      
-          if (!doc) {
-            alert("⚠️ No se encontró el tipo de documento.");
+            alert("⚠️ Completa los campos del tipo de documento.");
             return;
-          }
-      
-          await actualizarTipoDocumento(doc.idTipoDocumento, {
-            codigo: codigoTipoDocumento,
-            nombre: nombreTipoDocumento
-          });
-      
-          await cargarTiposDocumento();
-          alert("✅ Tipo de documento actualizado.");
-          setModalTipoDocumentoOpen(false);
-        } catch (error) {
-          console.error("Error actualizando tipo de documento:", error);
-          alert("❌ Error al actualizar tipo de documento.");
         }
-      };      
-    
+
+        try {
+            const doc = documentTypes.find(d => d.nombre === nombreTipoDocumento);
+
+            if (!doc) {
+                alert("⚠️ No se encontró el tipo de documento.");
+                return;
+            }
+
+            await actualizarTipoDocumento(doc.idTipoDocumento, {
+                codigo: codigoTipoDocumento,
+                nombre: nombreTipoDocumento
+            });
+
+            await cargarTiposDocumento();
+            alert("✅ Tipo de documento actualizado.");
+            setModalTipoDocumentoOpen(false);
+        } catch (error) {
+            console.error("Error actualizando tipo de documento:", error);
+            alert("❌ Error al actualizar tipo de documento.");
+        }
+    };
+
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
         if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
-          alert("⚠️ Completa todos los campos del rol.");
-          return;
-        }
-      
-        try {
-          const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
-      
-          if (!rol) {
-            alert("⚠️ No se encontró el rol a actualizar.");
+            alert("⚠️ Completa todos los campos del rol.");
             return;
-          }
-      
-          await actualizarRol(rol.idRol, {
-            nombreRol: rolNombre,
-            descripcion: rolDescripcion,
-            perfilId: perfilSeleccionado,
-          });
-      
-          await cargarRoles();
-          alert("✅ Rol actualizado exitosamente.");
-          handleClearRol();
-          setRolModalOpen(false);
-        } catch (error) {
-          console.error("Error actualizando rol:", error);
-          alert("❌ Error al actualizar el rol.");
         }
-      };      
+
+        try {
+            const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
+
+            if (!rol) {
+                alert("⚠️ No se encontró el rol a actualizar.");
+                return;
+            }
+
+            await actualizarRol(rol.idRol, {
+                nombreRol: rolNombre,
+                descripcion: rolDescripcion,
+                perfilId: perfilSeleccionado,
+            });
+
+            await cargarRoles();
+            alert("✅ Rol actualizado exitosamente.");
+            handleClearRol();
+            setRolModalOpen(false);
+        } catch (error) {
+            console.error("Error actualizando rol:", error);
+            alert("❌ Error al actualizar el rol.");
+        }
+    };
 
     // Función para limpiar los campos del formulario
     const handleClear = () => {
@@ -489,6 +489,27 @@ const UpdateUsers = () => {
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            {/* Botones Abrir Modales */}
+                            <div className={styles.formGroupButtos}>
+                                <button
+                                    className={styles.createButton}
+                                    onClick={() => handleOpenModalTipoDocumento(true)}
+                                >
+                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalPerfil}
+                                >
+                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalRol}
+                                >
+                                    Roles<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
                             </div>
                         </form>
                     </div>
