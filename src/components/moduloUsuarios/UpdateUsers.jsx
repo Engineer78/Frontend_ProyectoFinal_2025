@@ -58,6 +58,20 @@ const UpdateUsers = () => {
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
 
 
+    
+    // Se define la función para abrir los modales de crear perfil, rol y tipo documento
+    const handleOpenModalPerfil = () => {
+        setPerfilModalOpen(true);
+    };
+
+    const handleOpenModalRol = () => {
+        setRolModalOpen(true);
+    };
+
+    const handleOpenModalTipoDocumento = () => {
+        setModalTipoDocumentoOpen(true);
+    };
+
     // Manejar cambio de pestaña
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -517,7 +531,7 @@ const UpdateUsers = () => {
                     {/* Botones de acción para guardar, limpiar y salir */}
                     <div className={styles.actionButtons}>
                         <button className={styles.saveButton} onClick={handleSave}>
-                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
                             Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
@@ -531,7 +545,7 @@ const UpdateUsers = () => {
                     </div>
                 </div>
             )}
-            {/* Modal Crear Tipo de Documento */}
+            {/* Modal Actualizar Tipo de Documento */}
             {isModalTipoDocumentoOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -556,7 +570,7 @@ const UpdateUsers = () => {
                             />
                         </div>
                         <div className={styles.modalButtons}>
-                            <button className={styles.modalButtonSave} onClick={handleSaveTipoDocumento}>
+                            <button className={styles.modalButtonSave} onClick={handleUpdateTipoDocumento}>
                                 Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
@@ -569,7 +583,7 @@ const UpdateUsers = () => {
                     </div>
                 </div>
             )}
-            {/* Modal Crear Perfil */}
+            {/* Modal Actualizar Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -577,7 +591,7 @@ const UpdateUsers = () => {
                             <CloseIcon />
                         </button>
 
-                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Perfil</h2>
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Actualizar Perfil</h2>
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
@@ -623,7 +637,7 @@ const UpdateUsers = () => {
                         </div>
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
-                                onClick={handleSavePerfil}>
+                                onClick={handleUpdatePerfil }>
                                 Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.clearButtonModal}
@@ -639,7 +653,7 @@ const UpdateUsers = () => {
                 </div>
             )}
 
-            {/* Modal Crear Rol */}
+            {/* Modal Actualizar Rol */}
             {isRolModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -647,7 +661,7 @@ const UpdateUsers = () => {
                             <CloseIcon />
                         </button>
 
-                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Rol</h2>
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Actualizar Rol</h2>
                         <div className={styles.modalFormGroup}>
                             <div className={styles.selectGroupRol}>
                                 <div className={styles.formGroupRol}>
@@ -711,7 +725,7 @@ const UpdateUsers = () => {
                             </div>
                             <div className={styles.modalButtonsRol}>
                                 <button className={styles.modalButtonSave}
-                                    onClick={handleSaveRol}>
+                                    onClick={handleUpdateRol}>
                                     Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                                 </button>
                                 <button className={styles.clearButtonModal}
