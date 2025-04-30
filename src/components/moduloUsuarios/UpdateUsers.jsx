@@ -320,6 +320,12 @@ const UpdateUsers = () => {
         setPerfilSeleccionado("");
     };
 
+    // Función para limpiar los campos dentro del modal para crear tipos de documento.
+    const handleClearTipoDocumento = () => {
+        setCodigoTipoDocumento("");
+        setNombreTipoDocumento("");
+    };
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
