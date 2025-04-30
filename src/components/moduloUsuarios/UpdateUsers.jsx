@@ -18,6 +18,7 @@ import {
     actualizarEmpleadoPorDocumento
 } from "../../api"; // Asegúrate de que la ruta sea correcta
 import { buscarEmpleadoPorDocumento } from "../../api";
+import { actualizarTipoDocumento, listarTiposDocumento } from "../../api";
 
 
 const UpdateUsers = () => {
@@ -188,13 +189,17 @@ const UpdateUsers = () => {
         }
 
         try {
+            console.log("Datos a enviar:", {
+                userID, userPassword, // verifica que haya contraseña
+                // ...otros campos
+            });
             const updatedEmpleado = {
                 numeroDocumento: userID,
                 nombres: userName,
                 apellidoPaterno: userLastName,
                 apellidoMaterno: userSecondLastName,
                 nombreUsuario: userAlias,
-                contraseñaUsuario: userPassword, // Esta sí sew envía
+                contrasena: userPassword, // Esta sí sew envía
                 telefonoMovil: userPhone,
                 direccionResidencia: userAddress,
                 contactoEmergencia: userEmergencyContact,
