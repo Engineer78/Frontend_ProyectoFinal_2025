@@ -58,7 +58,7 @@ const UpdateUsers = () => {
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
 
 
-    
+
     // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
@@ -121,7 +121,7 @@ const UpdateUsers = () => {
         const trimmedUserID = userID.trim();
 
         if (!trimmedUserID) {
-            alert("⚠️ Por favor, ingrese el número de documento.");
+            alert("⚠️ Por favor, ingrese el número de documento para buscar.");
             return;
         }
 
@@ -130,7 +130,7 @@ const UpdateUsers = () => {
             const empleado = response.data;
 
             if (!empleado) {
-                alert("No se encontró un empleado con ese documento.");
+                alert("No se encontró un empleado con ese número de documento.");
                 return;
             }
 
@@ -148,10 +148,14 @@ const UpdateUsers = () => {
             setDocumentType(empleado.idtipoDocumento?.toString() || "");
             setRolType(empleado.idRol?.toString() || "");
 
-            alert("✅ Datos cargados. Ahora puedes editar y guardar.");
+            // Relacionar selects
+            setDocumentType(empleado.idtipoDocumento); // ID
+            setRolType(empleado.idRol); // ID
+
+            alert("✅ Usuario encontrado. Ahora puedes actualizarlo.");
         } catch (error) {
-            console.error("Error al buscar el empleado:", error);
-            alert("❌ Error al buscar el empleado.");
+            console.error("Error al buscar el Usuario:", error);
+            alert("❌ Error al buscar el Usuario.");
         }
     };
 
@@ -571,7 +575,7 @@ const UpdateUsers = () => {
                         </div>
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave} onClick={handleUpdateTipoDocumento}>
-                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
                                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
@@ -637,8 +641,8 @@ const UpdateUsers = () => {
                         </div>
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
-                                onClick={handleUpdatePerfil }>
-                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                onClick={handleUpdatePerfil}>
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.clearButtonModal}
                                 onClick={handleClearPerfil}>
@@ -726,7 +730,7 @@ const UpdateUsers = () => {
                             <div className={styles.modalButtonsRol}>
                                 <button className={styles.modalButtonSave}
                                     onClick={handleUpdateRol}>
-                                    Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                    Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                                 </button>
                                 <button className={styles.clearButtonModal}
                                     onClick={handleClearRol}>
