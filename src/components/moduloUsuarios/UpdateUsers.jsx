@@ -90,6 +90,16 @@ const UpdateUsers = () => {
         }
       };
 
+    // Función para cargar los perfiles usando los endpoints de la API
+    const cargarPerfiles = async () => {
+        try {
+          const response = await listarPerfiles();
+          setPerfiles(response.data);
+        } catch (error) {
+          console.error("Error al cargar perfiles:", error);
+        }
+      };
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
