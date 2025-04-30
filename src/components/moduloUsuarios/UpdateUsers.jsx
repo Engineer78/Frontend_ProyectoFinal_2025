@@ -305,6 +305,13 @@ const UpdateUsers = () => {
         }
     };
 
+     // Función para limpiar los campos dentro del modal para crear perfiles.
+     const handleClearPerfil = () => {
+        setPerfilNombre("");
+        setPerfilDescripcion("");
+        setPerfilFiltro("");
+    };
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
