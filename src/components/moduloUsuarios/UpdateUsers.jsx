@@ -15,6 +15,7 @@ import {
     actualizarTipoDocumento,
     actualizarEmpleadoPorDocumento
 } from "../../api"; // Asegúrate de que la ruta sea correcta
+import { buscarEmpleadoPorDocumento } from "../../api"; 
 
 
 const UpdateUsers = () => {
