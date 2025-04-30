@@ -60,6 +60,8 @@ const UpdateUsers = () => {
     const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
     const [tipoDocumentoAEditar, setTipoDocumentoAEditar] = useState(null);
+    const [documentoFiltro, setDocumentoFiltro] = useState("");
+
 
 
     // Se define la función para abrir los modales de crear perfil, rol y tipo documento
