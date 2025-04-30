@@ -59,6 +59,8 @@ const UpdateUsers = () => {
     const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
     const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+    const [tipoDocumentoAEditar, setTipoDocumentoAEditar] = useState(null);
+
 
 
 
