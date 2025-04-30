@@ -207,6 +207,35 @@ const UpdateUsers = () => {
           alert("❌ Error al actualizar el perfil.");
         }
       };
+
+    // función para actualizar tipo de documento desde el modal.
+    const handleUpdateTipoDocumento = async () => {
+        if (!codigoTipoDocumento.trim() || !nombreTipoDocumento.trim()) {
+          alert("⚠️ Completa los campos del tipo de documento.");
+          return;
+        }
+      
+        try {
+          const doc = documentTypes.find(d => d.nombre === nombreTipoDocumento);
+      
+          if (!doc) {
+            alert("⚠️ No se encontró el tipo de documento.");
+            return;
+          }
+      
+          await actualizarTipoDocumento(doc.idTipoDocumento, {
+            codigo: codigoTipoDocumento,
+            nombre: nombreTipoDocumento
+          });
+      
+          await cargarTiposDocumento();
+          alert("✅ Tipo de documento actualizado.");
+          setModalTipoDocumentoOpen(false);
+        } catch (error) {
+          console.error("Error actualizando tipo de documento:", error);
+          alert("❌ Error al actualizar tipo de documento.");
+        }
+      };      
     
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
