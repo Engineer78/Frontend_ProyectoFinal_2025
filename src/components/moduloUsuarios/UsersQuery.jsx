@@ -1,110 +1,198 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../Header";
 import styles from "../../styles/usersquery.module.css";
 import { Link } from "react-router-dom";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import axios from "axios";
 
+// Crear instancia de Axios con la URL base del backend para facilitar las solicitudes HTTP
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api'
+});
 
-function UsersQuery() {
-  // Estado para controlar la pestaña activa
-  const [activeTab, setActiveTab] = useState("consulta");
+// Declarar el componente UsersQuery como función flecha para mayor consistencia con el estilo del proyecto
+const UsersQuery = () => {
 
-  // Estado que contiene los datos obtenidos desde el backend
-    const [data, /*setData*/] = useState([]);
- // Estado con los filtros de búsqueda ingresados por el usuario
-    const [filters, setFilters] = useState({
-        numeroDocumento: "",
-        tipoDocumento : "",
+ // 1) Definición de estados principales del componente
+//    - activeTab: controla la pestaña activa
+const [activeTab, setActiveTab] = useState("consulta");
+
+//    - isSearching: indica si se está realizando una búsqueda
+const [isSearching, setIsSearching] = useState(false);
+
+//    - filters: contiene los filtros de búsqueda de usuarios
+const [filters, setFilters] = useState({
+  numeroDocumento: '',
+  nombreTipoDocumento: '',
+  nombreUsuario: '',
+  nombreRol: '',
+  nombres: '',
+  apellidoPaterno: '',
+  apellidoMaterno: '',
+  telefonoMovil: '',
+  direccionResidencia: '',
+  contactoEmergencia: '',
+  telefonoContacto: '',
+});
+
+//    - data: almacena los resultados de la búsqueda
+const [data, setData] = useState([]);
+
+//    - selectedUser: usuario seleccionado actualmente
+const [selectedUser, setSelectedUser] = useState(null);
+
+// 2) Función para cambiar entre pestañas
+const handleTabClick = (tab) => {
+  setActiveTab(tab);
+};
+
+// 3) Efecto combinado para manejar la búsqueda dinámica y la selección de usuarios
+useEffect(() => {
+  console.log('Ejecutando fetchData con filtros:', filters);
+
+  // Verificar si no hay filtros activos
+  const noFilters = Object.values(filters).every(v => !v);
+
+  // Si no hay filtros o no se está buscando, limpiar los datos
+  if (!isSearching || noFilters) {
+    setData([]);
+    setSelectedUser(null);
+    ({
+      nombreTipoDocumento: "",
+      nombreUsuario: "",
+      rol: "",
+      nombreCompletos: "",
+      telefono: "",
+      direccion: "",
+      contactoEmergencia: "",
+      telefonoContacto: "",
+    });
+    return;
+  }
+
+  // Función para obtener los datos desde la API
+  const fetchData = async () => {
+    try {
+
+      // Construir el nombre completo del usuario a partir de nombres y apellidos
+      const nombreCompletos = `${filters.nombres} ${filters.apellidoPaterno} ${filters.apellidoMaterno}`.trim();
+
+      // Hacer la solicitud a la API con los filtros actuales
+      const response = await api.get(`/empleados`, {
+        params: { 
+          nombreTipoDocumento: filters.nombreTipoDocumento || null,
+          nombreUsuario: filters.nombreUsuario || null,
+          rol: filters.rol || null,
+          nombreCompletos: nombreCompletos || null,
+          telefono: filters.telefonoMovil || null,
+          direccion: filters.direccionResidencia || null,
+          contactoEmergencia: filters.contactoEmergencia || null,
+          telefonoContacto: filters.telefonoContacto || null,
+        }
+      });
+
+      let lista = response.data || [];
+
+      // Filtrar en frontend por número de documento si se proporcionó      
+      if (filters.numeroDocumento) {
+        lista = lista.filter(p =>
+          p.numeroDocumento?.toString().includes(filters.numeroDocumento)
+        );
+      }
+
+      // Actualizar el estado con la lista de resultados
+      setData(lista);
+
+      // Si hay solo un resultado, seleccionarlo automáticamente
+      setSelectedUser(lista.length === 1 ? lista[0] : null);
+
+      // Lógica adicional: si hay filtros activos y resultados, mostrar el primer usuario en los inputs
+      const hasActiveFilters = filters.numeroDocumento.trim() !== "";
+      const itemsToShow = lista;
+
+          // Si hay resultados, mostrar el primero en los campos deshabilitados
+    if (hasActiveFilters && itemsToShow.length > 0) {
+      const firstItem = itemsToShow[0];
+      setSelectedUser({
+        nombreTipoDocumento: firstItem.nombreTipoDocumento || "",
+        nombreUsuario: firstItem.nombreUsuario || "",
+        nombreRol: firstItem.nombreRol || "",
+        nombres: `${firstItem.nombres} ${firstItem.apellidoPaterno} ${firstItem.apellidoMaterno}`.trim() || "",
+        telefonoMovil: firstItem.telefonoMovil || "",
+        direccionResidencia: firstItem.direccionResidencia || "",
+        contactoEmergencia: firstItem.contactoEmergencia || "",
+        telefonoContacto: firstItem.telefonoContacto || "",
+      });
+      } else {
+        
+        // Si no hay resultados, limpiar los campos de selección
+        setSelectedUser({
+          tipoDocumento: "",
+          nombreUsuario: "",
+          rol: "",
+          nombresCompletos: "",
+          telefono: "",
+          direccion: "",
+          contactoEmergencia: "",
+          telefonoContacto: "",
+        });
+      }
+
+    } catch (error) {
+      console.error('Error al obtener datos:', error);
+
+      // En caso de error, limpiar estados
+      setData([]);
+      setSelectedUser(null);
+      ({
+        tipoDocumento: "",
         nombreUsuario: "",
         rol: "",
-        nombreCompletos: "",
+        nombresCompletos: "",
         telefono: "",
         direccion: "",
         contactoEmergencia: "",
         telefonoContacto: "",
-});
-      
-  // Cambia la pestaña activa al hacer clic en una opción
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
+      });
+    }
   };
 
-  // Estado que indica si el usuario ha iniciado una búsqueda
-  const [isSearching, setIsSearching] = useState(false);
+   // Ejecutar la función de búsqueda
+  fetchData();
+}, [filters, isSearching]);
 
-  // Estado para mostrar los datos del usuario seleccionado en los inputs deshabilitados
-  const [HeaderInputs, setHeaderInputs] = useState({
-    numeroDocumento: "",
-    tipoDocumento : "",
-    nombreUsuario: "",
-    rol: "",
-    nombreCompletos: "",
-    telefono: "",
-    direccion: "",
-    contactoEmergencia: "",
-    telefonoContacto: "",
+ // 4) Handlers
+// Actualiza los filtros de búsqueda mientras el usuario escribe
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFilters(prev => ({ ...prev, [name]: value }));
+  if (!isSearching) setIsSearching(true);
+};
+
+// Selecciona un usuario al hacer clic en una fila y muestra solo ese usuario
+const handleRowClick = (item) => {
+  setSelectedUser(item);
+  setData([item]); // Mostrar solo el usuario seleccionado
+};
+
+// Limpia los filtros, detiene la búsqueda y deselecciona el usuario actual
+const handleClear = () => {
+  setFilters({
+    numeroDocumento: '',
+    tipoDocumento: '',
+    nombreUsuario: '',
+    rol: '',
+    nombres: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    telefonoMovil: '',
+    direccionResidencia: '',
+    contactoEmergencia: '',
+    telefonoContacto: '',
   });
-
-  // Limpia los filtros, los campos de entrada del encabezado y la tabla de resultados.
-  // También reinicia el estado de búsqueda.
-  const handleClear = () => {
-    setFilters({
-      numeroDocumento: "",
-      tipoDocumento : "",
-      nombreUsuario: "",
-      rol: "",
-      nombreCompletos: "",
-      telefono: "",
-      direccion: "",
-      contactoEmergencia: "",
-      telefonoContacto: "",
-    });
-    setIsSearching(false);
-    setHeaderInputs({
-      numeroDocumento: "",
-      tipoDocumento : "",
-      nombreUsuario: "",
-      rol: "",
-      nombreCompletos: "",
-      telefono: "",
-      direccion: "",
-      contactoEmergencia: "",
-      telefonoContacto: "",
-    });
-  };
-  // Actualiza los filtros al escribir en los inputs
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    if (!isSearching) setIsSearching(true);
-}; 
-
-// Carga los datos de los usuarios seleccionados en los filtros e inputs
-const handleRowClick = (users) => {
-    setFilters({
-        numeroDocumento: users.numeroDocumento || '',
-        tipoDocumento: users.tipoDocumento || '',
-        nombreUsuario: users.nombreUsuario || '',
-        rol: users.rol || '',
-        nombreCompletos: users.nombreCompletos| '',
-        telefono: users. telefono || '',
-        direccion: users.direccion || '',
-        contactoEmergencia: users.contactoEmergencia|| '',
-        telefonoContacto: users.telefonoContacto || '',
-    });
-
-    setHeaderInputs({
-        numeroDocumento: users.numeroDocumento || '',
-        tipoDocumento: users.tipoDocumento || '',
-        nombreUsuario: users.nombreUsuario || '',
-        rol: users.rol || '',
-        nombreCompletos: users.nombreCompletos| '',
-        telefono: users. telefono || '',
-        direccion: users.direccion || '',
-        contactoEmergencia: users.contactoEmergencia|| '',
-        telefonoContacto: users.telefonoContacto || '',
-    });
+  setIsSearching(false);
+  setSelectedUser(null);
 };
 
   // Renderiza la vista principal del módulo de consulta de usuarios:
@@ -118,7 +206,6 @@ const handleRowClick = (users) => {
         showLogo={true}
         showHelp={true}
       />
-
       {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
         <Link
@@ -130,7 +217,6 @@ const handleRowClick = (users) => {
         >
           Registrar Usuarios
         </Link>
-
         <Link
           to="/users-query"
           className={`${styles.tabButton} ${
@@ -140,7 +226,6 @@ const handleRowClick = (users) => {
         >
           Consultar Usuarios
         </Link>
-
         <Link
           to="/update-users"
           className={`${styles.tabButton} ${
@@ -150,7 +235,6 @@ const handleRowClick = (users) => {
         >
           Actualizar Usuarios
         </Link>
-
         <Link
           to="/delete-users"
           className={`${styles.tabButton} ${
@@ -176,13 +260,12 @@ const handleRowClick = (users) => {
               Selección
               <input type="checkbox" disabled />
             </th>
-
             <th>
               N° de Documento
               <input
                 type="text"
                 name="numeroDocumento"
-                value={filters.numeroDocumento} // Vincula el valor con el estado de los filtros
+                value={filters.numeroDocumento || ""} // Vincula el valor con el estado de los filtros
                 onChange={handleInputChange}
                 placeholder="Buscar"
                 style={{ fontStyle: "italic" }} // Esto aplica directamente el estilo en línea
@@ -193,7 +276,7 @@ const handleRowClick = (users) => {
               <input
                 type="text"
                 name="tipoDocumento"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreTipoDocumento : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -204,7 +287,7 @@ const handleRowClick = (users) => {
               <input
                 type="text"
                 name="nombreUsuario"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreUsuario : ''}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -215,67 +298,62 @@ const handleRowClick = (users) => {
               <input
                 type="text"
                 name="rol"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.nombreRol : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Nombre(s) Completos
               <input
                 type="text"
                 name="nombreCompletos"
-                /*value={selectedUser ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? [selectedUser.nombres, selectedUser.apellidoPaterno, selectedUser.apellidoMaterno] .filter(Boolean) .join(" ") : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Teléfono
               <input
                 type="text"
                 name="telefono"
-                /*value={selectedUser  ? selectedUser.cantidad : ''}*/
+                value={selectedUser ? selectedUser.telefonoMovil : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Dirección
               <input
                 type="text"
                 name="direccion"
-                /*value={selectedUser ? selectedUser.valorUnitarioProducto : ''}*/
+                value={selectedUser ? selectedUser.direccionResidencia : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Contacto de Emergencia
               <input
                 type="text"
                 name="contactoEmergencia"
-                /*value={selectedUser  ? selectedUser.nombreProveedor : ''}*/
+                value={selectedUser ? selectedUser.contactoEmergencia : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
               />
             </th>
-
             <th>
               Teléfono de Contacto
               <input
                 type="text"
                 name="telefonoContacto"
-                /*value={selectedUser ? selectedUser.nitProveedor : ''}*/
+                value={selectedUser ? selectedUser.telefonoContacto : ""}
                 disabled
                 placeholder="..."
                 style={{ fontStyle: "italic" }}
@@ -284,33 +362,43 @@ const handleRowClick = (users) => {
           </tr>
         </thead>
         <tbody>
-          {isSearching ? (
-            data.length > 0 ? (
-              data.map((item, index) => (
-                <tr key={index} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{item.numeroDocumento}</td>
-                  <td>{item.rol}</td>
-                  <td>{item.nombreCompletos}</td>
-                  <td>{item.telefono}</td>
-                  <td>{item.direccion}</td>
-                  <td>{item.contactoEmergencia}</td>
-                  <td>{item.telefonoContacto}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10">No se encontraron resultados</td>
-              </tr>
-            )
-          ) : (
-            <tr>
-              <td colSpan="10">Realiza una búsqueda para ver los registros</td>
-            </tr>
-          )}
-        </tbody>
+  {isSearching ? (
+    data.length > 0 ? (
+      data.map((item, index) => (
+        <tr
+          key={item.idEmpleado || index} // Usa el idEmpleado o, si no, el índice
+          onClick={() => handleRowClick(item)} // Al hacer click, selecciona el usuario
+          style={{ cursor: "pointer" }}
+        >
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>{item.numeroDocumento}</td>
+          <td>{item.nombreTipoDocumento}</td>
+          <td>{item.nombreUsuario}</td>
+          <td>{item.nombreRol}</td>
+          <td>{`${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno}`.trim()}</td>
+          <td>{item.telefonoMovil}</td>
+          <td>{item.direccionResidencia}</td>
+          <td>{item.contactoEmergencia}</td>
+          <td>{item.telefonoContacto}</td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="10" className="text-center">
+          No se encontraron resultados
+        </td>
+      </tr>
+    )
+  ) : (
+    <tr>
+      <td colSpan="10" className="text-center">
+        Realiza una búsqueda para ver los registros
+      </td>
+    </tr>
+  )}
+</tbody>
       </table>
       {/* Botones de acción */}
       <div className={styles.actionButtons}>
