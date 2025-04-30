@@ -280,7 +280,6 @@ const UpdateUsers = () => {
         }
     };
 
-
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
         if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
