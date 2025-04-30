@@ -80,6 +80,15 @@ const UpdateUsers = () => {
         cargarRoles();
     }, []);
 
+    // Función para cargar los tipos de documento usando los endpoints de la API
+    const cargarTiposDocumento = async () => {
+        try {
+          const response = await listarTiposDocumento();
+          setDocumentTypes(response.data);
+        } catch (error) {
+          console.error("Error al cargar tipos de documento:", error);
+        }
+      };
 
     // Función para limpiar los campos del formulario
     const handleClear = () => {
