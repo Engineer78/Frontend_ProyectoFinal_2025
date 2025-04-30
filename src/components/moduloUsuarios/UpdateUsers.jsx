@@ -18,8 +18,6 @@ import {
     actualizarEmpleadoPorDocumento
 } from "../../api"; // Asegúrate de que la ruta sea correcta
 import { buscarEmpleadoPorDocumento } from "../../api";
-import { actualizarTipoDocumento, listarTiposDocumento } from "../../api";
-
 
 const UpdateUsers = () => {
 
@@ -59,7 +57,7 @@ const UpdateUsers = () => {
     const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
     const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
     const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
-    const [tipoDocumentoAEditar, setTipoDocumentoAEditar] = useState(null);
+    const [tipoDocumentoIdSeleccionado, setTipoDocumentoIdSeleccionado] = useState(null);
     const [documentoFiltro, setDocumentoFiltro] = useState("");
 
 
@@ -73,8 +71,7 @@ const UpdateUsers = () => {
         setRolModalOpen(true);
     };
 
-    const handleOpenModalTipoDocumento = (tipo) => {
-        setTipoDocumentoAEditar(tipo);
+    const handleOpenModalTipoDocumento = () => {
         setModalTipoDocumentoOpen(true);
     };
 
@@ -262,27 +259,27 @@ const UpdateUsers = () => {
             return;
         }
 
+        if (!tipoDocumentoIdSeleccionado) {
+            alert("⚠️ Debes seleccionar un tipo de documento antes de actualizar.");
+            return;
+        }
+
         try {
-            const doc = documentTypes.find(d => d.nombre === nombreTipoDocumento);
-
-            if (!doc) {
-                alert("⚠️ No se encontró el tipo de documento.");
-                return;
-            }
-
-            await actualizarTipoDocumento(doc.idTipoDocumento, {
+            await actualizarTipoDocumento(tipoDocumentoIdSeleccionado, {
                 codigo: codigoTipoDocumento,
                 nombre: nombreTipoDocumento
             });
 
             await cargarTiposDocumento();
             alert("✅ Tipo de documento actualizado.");
+            handleClearTipoDocumento();
             setModalTipoDocumentoOpen(false);
         } catch (error) {
             console.error("Error actualizando tipo de documento:", error);
             alert("❌ Error al actualizar tipo de documento.");
         }
     };
+
 
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
@@ -334,6 +331,7 @@ const UpdateUsers = () => {
     const handleClearTipoDocumento = () => {
         setCodigoTipoDocumento("");
         setNombreTipoDocumento("");
+        setTipoDocumentoIdSeleccionado(null);
     };
 
     // Función para limpiar los campos del formulario
@@ -419,7 +417,6 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
-                            //disabled={isCodeDisabled} // Deshabilita el input si se busca un producto
                             />
 
                             <button
@@ -608,7 +605,40 @@ const UpdateUsers = () => {
                         <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
                             <CloseIcon />
                         </button>
-                        <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
+                        <h2 style={{ textAlign: "center" }}>Actualizar Tipo de Documento</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarDocumento" className={styles.labelModal}>Buscar tipo de documento</label>
+                            <input
+                                type="text"
+                                id="BuscarDocumento"
+                                placeholder="Buscar tipo de documento"
+                                value={documentoFiltro}
+                                onChange={(e) => setDocumentoFiltro(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Lista dinámica que se muestra solo si hay texto en el input */}
+                        {documentoFiltro.trim() !== "" && (
+                            <ul className={styles.listaResultados}>
+                                {documentTypes
+                                    .filter((doc) =>
+                                        doc.nombre.toLowerCase().includes(documentoFiltro.toLowerCase())
+                                    )
+                                    .map((doc) => (
+                                        <li
+                                            key={doc.idTipoDocumento}
+                                            onClick={() => {
+                                                setCodigoTipoDocumento(doc.codigo);
+                                                setNombreTipoDocumento(doc.nombre);
+                                                setTipoDocumentoIdSeleccionado(doc.idTipoDocumento);
+                                            }}
+                                        >
+                                            {doc.nombre}
+                                        </li>
+                                    ))}
+                            </ul>
+                        )}
                         <div className={styles.modalFormGroup}>
                             <label>Código</label>
                             <input
