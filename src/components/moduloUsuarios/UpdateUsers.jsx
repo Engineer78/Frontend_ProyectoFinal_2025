@@ -111,6 +111,47 @@ const UpdateUsers = () => {
         }
       };
 
+    // Función para buscar un empleado por su número de documento
+    // y cargar los datos en el formulario.
+      const handleSearch = async () => {
+        const trimmedUserID = userID.trim();
+      
+        if (!trimmedUserID) {
+          alert("⚠️ Por favor, ingrese el número de documento.");
+          return;
+        }
+      
+        try {
+          const response = await buscarEmpleadoPorDocumento(trimmedUserID);
+          const empleado = response.data;
+      
+          if (!empleado) {
+            alert("No se encontró un empleado con ese documento.");
+            return;
+          }
+      
+          // Rellenar campos
+          setUserID(empleado.numeroDocumento || "");
+          setUserNames(empleado.nombres || "");
+          setUserLastName(empleado.apellidoPaterno || "");
+          setUserSecondLastName(empleado.apellidoMaterno || "");
+          setUserAlias(empleado.nombreUsuario || "");
+          setUserPassword(""); // No cargamos la contraseña
+          setUserPhone(empleado.telefonoMovil || "");
+          setUserAddress(empleado.direccionResidencia || "");
+          setUserEmergencyContact(empleado.contactoEmergencia || "");
+          setUserContactPhone(empleado.telefonoContacto || "");
+          setDocumentType(empleado.idtipoDocumento?.toString() || "");
+          setRolType(empleado.idRol?.toString() || "");
+      
+          alert("✅ Datos cargados. Ahora puedes editar y guardar.");
+        } catch (error) {
+          console.error("Error al buscar el empleado:", error);
+          alert("❌ Error al buscar el empleado.");
+        }
+      };
+      
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
