@@ -63,17 +63,7 @@ const UpdateUsers = () => {
         setActiveTab(tab);
     };
 
-    // Función para buscar un usuario por su ID
-    const handleSearch = async () => {
-        // Búsqueda del usuario
-    };
-
-    // Función para guardar los cambios realizados en el formulario
-    const handleSave = async () => {
-        // Actualización del usuario
-    };
-
-    // Función para cargar los tipos de documento, perfiles y roles.
+     // Función para cargar los tipos de documento, perfiles y roles.
     useEffect(() => {
         setActiveTab('actualizar');
         cargarTiposDocumento();
@@ -413,6 +403,7 @@ const UpdateUsers = () => {
                         </form>
                     </div>
 
+                    {/* Botones de acción para guardar, limpiar y salir */}
                     <div className={styles.actionButtons}>
                         <button className={styles.saveButton} onClick={handleSave}>
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
