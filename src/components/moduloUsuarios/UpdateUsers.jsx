@@ -159,6 +159,25 @@ const UpdateUsers = () => {
         }
     };
 
+    // Función para validar los campos del formulario antes de enviar la solicitud de actualización.
+    // Se asegura de que todos los campos obligatorios estén completos.
+    const validateFields = () => {
+        return (
+          userID &&
+          userName &&
+          userLastName &&
+          userSecondLastName &&
+          userAlias &&
+          userPassword &&
+          userPhone &&
+          userAddress &&
+          userEmergencyContact &&
+          userContactPhone &&
+          documentType &&
+          rolType
+        );
+      };
+
     // Función para validar los campos del formulario
     const handleSave = async () => {
         if (!validateFields()) {
@@ -172,12 +191,12 @@ const UpdateUsers = () => {
                 nombres: userName,
                 apellidoPaterno: userLastName,
                 apellidoMaterno: userSecondLastName,
+                nombreUsuario: userAlias,
+                contraseñaUsuario: userPassword, // Esta sí sew envía
                 telefonoMovil: userPhone,
                 direccionResidencia: userAddress,
                 contactoEmergencia: userEmergencyContact,
                 telefonoContacto: userContactPhone,
-                nombreUsuario: userAlias,
-                contraseñaUsuario: userPassword, // Esta sí la enviamos
                 idRol: parseInt(rolType),
                 idtipoDocumento: parseInt(documentType)
             };
@@ -185,7 +204,7 @@ const UpdateUsers = () => {
             const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
 
             if (response.status === 200) {
-                alert("✅ Empleado actualizado exitosamente.");
+                alert("✅ Usuario actualizado exitosamente.");
                 handleClear();
             } else {
                 alert("❌ Error al actualizar el empleado.");
