@@ -100,6 +100,16 @@ const UpdateUsers = () => {
         }
       };
 
+    // Función para cargar los roles usando los endpoints de la API
+    const cargarRoles = async () => {
+        try {
+          const response = await listarRoles();
+          setRoles(response.data);
+        } catch (error) {
+          console.error("Error al cargar roles:", error);
+        }
+      };
+
     // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
