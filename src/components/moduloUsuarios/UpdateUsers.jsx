@@ -164,20 +164,20 @@ const UpdateUsers = () => {
     // Se asegura de que todos los campos obligatorios estén completos.
     const validateFields = () => {
         return (
-          userID &&
-          userName &&
-          userLastName &&
-          userSecondLastName &&
-          userAlias &&
-          userPassword &&
-          userPhone &&
-          userAddress &&
-          userEmergencyContact &&
-          userContactPhone &&
-          documentType &&
-          rolType
+            userID &&
+            userName &&
+            userLastName &&
+            userSecondLastName &&
+            userAlias &&
+            userPassword &&
+            userPhone &&
+            userAddress &&
+            userEmergencyContact &&
+            userContactPhone &&
+            documentType &&
+            rolType
         );
-      };
+    };
 
     // Función para validar los campos del formulario
     const handleSave = async () => {
@@ -306,8 +306,8 @@ const UpdateUsers = () => {
         }
     };
 
-     // Función para limpiar los campos dentro del modal para crear perfiles.
-     const handleClearPerfil = () => {
+    // Función para limpiar los campos dentro del modal para crear perfiles.
+    const handleClearPerfil = () => {
         setPerfilNombre("");
         setPerfilDescripcion("");
         setPerfilFiltro("");
@@ -523,10 +523,11 @@ const UpdateUsers = () => {
                                             required
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
-                                            <option value="CC">Cédula de Ciudadanía (CC)</option>
-                                            <option value="CE">Cédula de Extranjería (CE)</option>
-                                            <option value="PAS">Pasaporte (PA)</option>
-                                            <option value="TI">Tarjeta de Identidad (TI)</option>
+                                            {documentTypes.map((tipo) => (
+                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento}>
+                                                    {tipo.nombre} - ({tipo.codigo})
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
