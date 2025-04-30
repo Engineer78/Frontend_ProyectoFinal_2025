@@ -15,10 +15,10 @@ const DeleteUsers = () => {
   // Estados para manejar pestañas, datos, filtros, selección y carga
   const [activeTab, setActiveTab] = useState("eliminar"); // Pestaña activa
   const [data, setData] = useState([]); // Datos filtrados para mostrar en la tabla
-  const [fullEmployeeList, setFullEmployeeList] = useState([]); // Lista completa de usuarios desde el backend
+  const [fullEmployeeList, setFullEmployeeList] = useState([]); // Lista completa de empleados desde el backend
   const [filters, setFilters] = useState({ numeroDocumento: "" }); // Filtros de búsqueda
 
-  // Campos mostrados en los inputs deshabilitados al seleccionar un usuario
+  // Campos mostrados en los inputs deshabilitados al seleccionar un emepleado
   const [disabledInputs, setDisabledInputs] = useState({
     tipoDocumento: "",
     nombreUsuario: "",
@@ -33,11 +33,10 @@ const DeleteUsers = () => {
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false); // Modal de confirmación
   const [isSearching, setIsSearching] = useState(false); // Estado de búsqueda activa
-  const [selectedItems, setSelectedItems] = useState([]); // Usuario seleccionado para eliminar
-  const [visibleItems, setVisibleItems] = useState(10); // Cantidad de usuarios visibles
+  const [selectedItems, setSelectedItems] = useState([]); // Empleado seleccionado para eliminar
+  const [visibleItems, setVisibleItems] = useState(10); // Cantidad de empleados visibles
   const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   // Cargar usuarios desde la API
   const fetchEmployees = async () => {
     try {
@@ -49,12 +48,12 @@ const DeleteUsers = () => {
     }
   };
 
-  // Cargar usuarios una vez al montar el componente
+  // Cargar empleados Inmediatamente  al montar el componente
   useEffect(() => {
     fetchEmployees();
   }, []);
 
-  // Filtrar usuarios por número de documento
+  // Filtrar empleados por número de documento
   useEffect(() => {
     const hasActiveFilters = filters.numeroDocumento.trim() !== ""; // Verificar si hay filtros activos
 
@@ -74,7 +73,7 @@ const DeleteUsers = () => {
       return;
     }
 
-    // Filtrar usuarios que coincidan con el número de documento
+    // Filtrar empleados que coincidan con el número de documento
     const filtered = fullEmployeeList.filter((item) =>
       item.numeroDocumento.toString().includes(filters.numeroDocumento)
     );
@@ -141,7 +140,7 @@ const DeleteUsers = () => {
   // Manejo del checkbox de selección
   const handleCheckboxChange = (e, item) => {
     if (e.target.checked) {
-      setSelectedItems([item]); // Solo permitir UN solo seleccionado a la vez
+      setSelectedItems([item]); // Solo permitir seleccionar una vez 
       setDisabledInputs({
         tipoDocumento: item.nombreTipoDocumento || "",
         nombreUsuario: item.nombreUsuario || "",
@@ -177,7 +176,7 @@ const DeleteUsers = () => {
     setIsDeleteConfirmationOpen(false);
   };
 
-  //Eliminar usuario
+  //Eliminar empleado
   const handleDeleteItems = async () => {
     if (selectedItems.length === 0) {
       alert("Por favor, selecciona un empleado para eliminar.");
@@ -436,7 +435,7 @@ const DeleteUsers = () => {
                     />
                   </td>
                   <td>{item.numeroDocumento}</td>
-                  <td>{item.nombreTipoDocumento}</td>{" "}
+                  <td>{item.nombreTipoDocumento}</td>
                   <td>{item.nombreUsuario}</td>
                   {/* nombre del tipo de documento */}
                   <td>{item.nombreRol}</td> {/* nombre del rol */}
