@@ -531,6 +531,202 @@ const UpdateUsers = () => {
                     </div>
                 </div>
             )}
+            {/* Modal Crear Tipo de Documento */}
+            {isModalTipoDocumentoOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
+                        <div className={styles.modalFormGroup}>
+                            <label>Código</label>
+                            <input
+                                type="text"
+                                value={codigoTipoDocumento}
+                                onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <label>Nombre</label>
+                            <input
+                                type="text"
+                                value={nombreTipoDocumento}
+                                onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave} onClick={handleSaveTipoDocumento}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Modal Crear Perfil */}
+            {isPerfilModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Perfil</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
+                            <input
+                                className="{styles.inputModalBuscar}"
+                                type="text"
+                                id="BuscarPerfil"
+                                placeholder="Buscar Perfil"
+                                value={perfilFiltro}
+                                onChange={(e) => setPerfilFiltro(e.target.value)}
+                            />
+                        </div>
+                        {perfilFiltro.trim() !== "" && (
+                            <ul>
+                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                ).map((perfil) => (
+                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
+                            <input
+                                type="text"
+                                id="NombrePerfil"
+                                placeholder="Nombre del Perfil"
+                                value={perfilNombre}
+                                onChange={(e) => setPerfilNombre(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <textarea
+                                id="DescripcionPerfil"
+                                placeholder="Descripción"
+                                value={perfilDescripcion}
+                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                className={styles.textareaModal}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave}
+                                onClick={handleSavePerfil}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal}
+                                onClick={handleClearPerfil}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => setPerfilModalOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Crear Rol */}
+            {isRolModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Crear Rol</h2>
+                        <div className={styles.modalFormGroup}>
+                            <div className={styles.selectGroupRol}>
+                                <div className={styles.formGroupRol}>
+                                    <label htmlFor="PerfilRol" className={styles.labelModal}>Seleccione un perfil para asignarlo al rol</label>
+                                    <div className={styles.selectWrapperRol}>
+                                        <select
+                                            id="PerfilRol"
+                                            className={styles.selectPerfil}
+                                            value={perfilSeleccionado}
+                                            onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
+                                        >
+                                            <option value="">Seleccionar perfil</option>
+                                            {perfiles.map((perfil) => (
+                                                <option key={perfil.idPerfil} value={perfil.idPerfil}>
+                                                    {perfil.nombrePerfil}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
+                                <input
+                                    type="text"
+                                    id="BuscarRol"
+                                    placeholder="Buscar Rol"
+                                    value={rolFiltro}
+                                    onChange={(e) => setRolFiltro(e.target.value)}
+                                />
+                            </div>
+                            {rolFiltro.trim() !== "" && (
+                                <ul>
+                                    {Array.isArray(roles) && roles.filter((rol) =>
+                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                    ).map((rol) => (
+                                        <li key={rol.idRol}>{rol.nombreRol}</li>
+                                    ))}
+                                </ul>
+                            )}
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
+                                <input
+                                    type="text"
+                                    id="NombreRol"
+                                    placeholder="Nombre del Rol"
+                                    value={rolNombre}
+                                    onChange={(e) => setRolNombre(e.target.value)}
+                                />
+                            </div>
+
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <textarea
+                                    id="DescripcionRol"
+                                    placeholder="Descripción"
+                                    value={rolDescripcion}
+                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    className={styles.textareaModal}
+                                />
+                            </div>
+                            <div className={styles.modalButtonsRol}>
+                                <button className={styles.modalButtonSave}
+                                    onClick={handleSaveRol}>
+                                    Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.clearButtonModal}
+                                    onClick={handleClearRol}>
+                                    Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.modalButtonExit}
+                                    onClick={() => setRolModalOpen(false)}>
+                                    Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
