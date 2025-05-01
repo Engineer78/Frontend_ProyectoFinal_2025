@@ -319,7 +319,7 @@ const UpdateUsers = () => {
         setPerfilDescripcion("");
         setPerfilFiltro("");
         setPerfilIdSeleccionado(null);
-        setCaracteresRestantesPerfil(255);// Restablecer contador de caracteres
+        setCaracteresRestantesPerfil(255);//
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
@@ -685,7 +685,7 @@ const UpdateUsers = () => {
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
                             <input
-                                className="{styles.inputModalBuscar}"
+                                className={styles.inputModalBuscar}
                                 type="text"
                                 id="BuscarPerfil"
                                 placeholder="Buscar Perfil"
