@@ -319,6 +319,7 @@ const UpdateUsers = () => {
         setPerfilDescripcion("");
         setPerfilFiltro("");
         setPerfilIdSeleccionado(null);
+        setCaracteresRestantesPerfil(255);// Restablecer contador de caracteres
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
