@@ -42,6 +42,7 @@ const UpdateUsers = () => {
     const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [caracteresRestantesPerfil, setCaracteresRestantesPerfil] = useState(255); // Limite de caracteres
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
     const [perfilIdSeleccionado, setPerfilIdSeleccionado] = useState(null);
