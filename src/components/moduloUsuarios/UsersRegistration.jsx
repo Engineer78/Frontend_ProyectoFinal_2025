@@ -12,6 +12,7 @@ import {
     crearPerfil,
     listarRoles,
     crearRol,
+    crearTipoDocumento,
     listarTiposDocumento,
     crearEmpleado
 } from "../../api"; // Asegúrate de que la ruta sea correcta
@@ -51,13 +52,23 @@ const UsersRegistration = () => {
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
 
-    // Se define la función para abrir los modales de crear perfil y rol
+    // Estados de modal tipo de documento
+    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
+    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
+    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+
+
+    // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
     };
 
     const handleOpenModalRol = () => {
         setRolModalOpen(true);
+    };
+
+    const handleOpenModalTipoDocumento = () => {
+        setModalTipoDocumentoOpen(true);
     };
 
     // Manejar cambio de pestaña
@@ -104,8 +115,35 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Perfil
+    const handleSaveTipoDocumento = async () => {
+        if (!codigoTipoDocumento || !nombreTipoDocumento) {
+            alert("⚠️ Completa todos los campos.");
+            return;
+        }
+        try {
+            await crearTipoDocumento({
+                codigo: codigoTipoDocumento,
+                nombre: nombreTipoDocumento
+            });
+            await cargarTiposDocumento(); // Recargar el select principal
+            alert("✅ Tipo de documento creado exitosamente.");
+            setModalTipoDocumentoOpen(false);
+        } catch (error) {
+            console.error("Error creando tipo de documento:", error);
+            alert("❌ Error al crear tipo de documento.");
+        }
+    };
+
+    // Función para Guardar Perfil
     const handleSavePerfil = async () => {
+
+        // Validar que el nombre y la descripción no estén vacíos
+        // Si están vacíos, mostrar un mensaje de alerta y no continuar con la creación del perfil
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+            alert("⚠️ Por favor completa el nombre y la descripción del perfil antes de guardar.");
+            return;
+        }
+
         try {
             await crearPerfil({
                 nombrePerfil: perfilNombre,
@@ -122,21 +160,28 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Rol
+    // Función para Guardar Rol
     const handleSaveRol = async () => {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+            alert("⚠️ Por favor completa todos los campos del rol antes de guardar.");
+            return;
+        }
+
         try {
-            await crearRol("/api/roles", {
+            await crearRol({
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
-                perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
+                idPerfil: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
-            await cargarRoles();
+            await cargarRoles(); // 📢 recargar roles después de guardar
+            alert("✅ Rol creado exitosamente.");
             setRolNombre("");
             setRolDescripcion("");
             setPerfilSeleccionado(""); // Limpiar selección de perfil
             setRolModalOpen(false);
         } catch (error) {
             console.error("Error guardando rol:", error);
+            alert("❌ Error al guardar el rol.");
         }
     };
 
@@ -159,12 +204,12 @@ const UsersRegistration = () => {
                 apellidoPaterno: userLastName,
                 apellidoMaterno: userSecondLastName,
                 nombreUsuario: userAlias,
-                contraseñaUsuario: userPassword,
+                contrasena: userPassword,
                 telefonoMovil: userPhone,
                 direccionResidencia: userAddress,
                 contactoEmergencia: userEmergencyContact,
                 telefonoContacto: userContactPhone,
-                idtipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
+                idTipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
                 idRol: rolType,                 // cuidado aquí también... verificar🔍
             };
 
@@ -191,6 +236,13 @@ const UsersRegistration = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
+        setPerfilSeleccionado("");
+    };
+
+    // Función para limpiar los campos dentro del modal para crear tipos de documento.
+    const handleClearTipoDocumento = () => {
+        setCodigoTipoDocumento("");
+        setNombreTipoDocumento("");
     };
 
     // Función para limpiar los campos de el formulario de registro de usuarios. 🧹
@@ -397,7 +449,6 @@ const UsersRegistration = () => {
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
@@ -418,18 +469,26 @@ const UsersRegistration = () => {
                                 </div>
                             </div>
                             {/* Botones Abrir Modales */}
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalPerfil}
-                            >
-                                Perfil <AddIcon style={{ marginLeft: 8 }} />
-                            </button>
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalRol}
-                            >
-                                Roles<AddIcon style={{ marginLeft: 8 }} />
-                            </button>
+                            <div className={styles.formGroupButtos}>
+                                <button
+                                    className={styles.createButton}
+                                    onClick={() => handleOpenModalTipoDocumento(true)}
+                                >
+                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalPerfil}
+                                >
+                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalRol}
+                                >
+                                    Roles<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -451,6 +510,45 @@ const UsersRegistration = () => {
                     </div>
                 </div>
             )}
+
+            {/* Modal Crear Tipo de Documento */}
+            {isModalTipoDocumentoOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
+                        <div className={styles.modalFormGroup}>
+                            <label>Código</label>
+                            <input
+                                type="text"
+                                value={codigoTipoDocumento}
+                                onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <label>Nombre</label>
+                            <input
+                                type="text"
+                                value={nombreTipoDocumento}
+                                onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave} onClick={handleSaveTipoDocumento}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             {/* Modal Crear Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
@@ -464,6 +562,7 @@ const UsersRegistration = () => {
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
                             <input
+                                className="{styles.inputModalBuscar}"
                                 type="text"
                                 id="BuscarPerfil"
                                 placeholder="Buscar Perfil"
@@ -471,6 +570,15 @@ const UsersRegistration = () => {
                                 onChange={(e) => setPerfilFiltro(e.target.value)}
                             />
                         </div>
+                        {perfilFiltro.trim() !== "" && (
+                            <ul>
+                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                ).map((perfil) => (
+                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                ))}
+                            </ul>
+                        )}
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
@@ -493,15 +601,6 @@ const UsersRegistration = () => {
                                 className={styles.textareaModal}
                             />
                         </div>
-
-                        <ul>
-                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
-                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                            ).map((perfil) => (
-                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
-                            ))}
-                        </ul>
-
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
                                 onClick={handleSavePerfil}>
@@ -538,7 +637,7 @@ const UsersRegistration = () => {
                                             id="PerfilRol"
                                             className={styles.selectPerfil}
                                             value={perfilSeleccionado}
-                                            onChange={(e) => setPerfilSeleccionado(e.target.value)}
+                                            onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
                                         >
                                             <option value="">Seleccionar perfil</option>
                                             {perfiles.map((perfil) => (
@@ -560,6 +659,15 @@ const UsersRegistration = () => {
                                     onChange={(e) => setRolFiltro(e.target.value)}
                                 />
                             </div>
+                            {rolFiltro.trim() !== "" && (
+                                <ul>
+                                    {Array.isArray(roles) && roles.filter((rol) =>
+                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                    ).map((rol) => (
+                                        <li key={rol.idRol}>{rol.nombreRol}</li>
+                                    ))}
+                                </ul>
+                            )}
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
                                 <input
@@ -581,15 +689,6 @@ const UsersRegistration = () => {
                                     className={styles.textareaModal}
                                 />
                             </div>
-
-                            <ul>
-                                {Array.isArray(roles) && roles.filter((rol) =>
-                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                                ).map((rol) => (
-                                    <li key={rol.idRol}>{rol.nombreRol}</li>
-                                ))}
-                            </ul>
-
                             <div className={styles.modalButtonsRol}>
                                 <button className={styles.modalButtonSave}
                                     onClick={handleSaveRol}>

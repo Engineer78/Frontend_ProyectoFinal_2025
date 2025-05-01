@@ -6,7 +6,18 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+    listarPerfiles,
+    listarRoles,
+    listarTiposDocumento,
+    actualizarPerfil,
+    actualizarRol,
+    actualizarTipoDocumento,
+    actualizarEmpleadoPorDocumento
+} from "../../api"; // Asegúrate de que la ruta sea correcta
+import { buscarEmpleadoPorDocumento } from "../../api";
 
 const UpdateUsers = () => {
 
@@ -21,16 +32,138 @@ const UpdateUsers = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
-    const [documentType, setDocumentType] = useState("");
+    const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
+    const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
+
     const [activeTab, setActiveTab] = useState("registro");
+
+    // Estados de modal Perfil
+    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
+    const [perfilNombre, setPerfilNombre] = useState("");
+    const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [perfilFiltro, setPerfilFiltro] = useState("");
+    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
+    const [perfiles, setPerfiles] = useState([]);
+
+    // Estados de modal Rol
+    const [isRolModalOpen, setRolModalOpen] = useState(false);
+    const [rolNombre, setRolNombre] = useState("");
+    const [rolDescripcion, setRolDescripcion] = useState("");
+    const [rolFiltro, setRolFiltro] = useState("");
+    const [roles, setRoles] = useState([]);
+
+    // Estados de modal tipo de documento
+    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
+    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
+    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+    const [tipoDocumentoIdSeleccionado, setTipoDocumentoIdSeleccionado] = useState(null);
+    const [documentoFiltro, setDocumentoFiltro] = useState("");
+
+
+
+    // Se define la función para abrir los modales de crear perfil, rol y tipo documento
+    const handleOpenModalPerfil = () => {
+        setPerfilModalOpen(true);
+    };
+
+    const handleOpenModalRol = () => {
+        setRolModalOpen(true);
+    };
+
+    const handleOpenModalTipoDocumento = () => {
+        setModalTipoDocumentoOpen(true);
+    };
 
     // Manejar cambio de pestaña
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    // Se define una función para validar los campos vacios del formulario.
+    // Función para cargar los tipos de documento, perfiles y roles.
+    useEffect(() => {
+        setActiveTab('actualizar');
+        cargarTiposDocumento();
+        cargarPerfiles();
+        cargarRoles();
+    }, []);
+
+    // Función para cargar los tipos de documento usando los endpoints de la API
+    const cargarTiposDocumento = async () => {
+        try {
+            const response = await listarTiposDocumento();
+            setDocumentTypes(response.data);
+        } catch (error) {
+            console.error("Error al cargar tipos de documento:", error);
+        }
+    };
+
+    // Función para cargar los perfiles usando los endpoints de la API
+    const cargarPerfiles = async () => {
+        try {
+            const response = await listarPerfiles();
+            setPerfiles(response.data);
+        } catch (error) {
+            console.error("Error al cargar perfiles:", error);
+        }
+    };
+
+    // Función para cargar los roles usando los endpoints de la API
+    const cargarRoles = async () => {
+        try {
+            const response = await listarRoles();
+            setRoles(response.data);
+        } catch (error) {
+            console.error("Error al cargar roles:", error);
+        }
+    };
+
+    // Función para buscar un empleado por su número de documento
+    // y cargar los datos en el formulario.
+    const handleSearch = async () => {
+        const trimmedUserID = userID.trim();
+
+        if (!trimmedUserID) {
+            alert("⚠️ Por favor, ingrese el número de documento para buscar.");
+            return;
+        }
+
+        try {
+            const response = await buscarEmpleadoPorDocumento(trimmedUserID);
+            const empleado = response.data;
+
+            if (!empleado) {
+                alert("No se encontró un empleado con ese número de documento.");
+                return;
+            }
+
+            // Rellenar campos
+            setUserID(empleado.numeroDocumento || "");
+            setUserNames(empleado.nombres || "");
+            setUserLastName(empleado.apellidoPaterno || "");
+            setUserSecondLastName(empleado.apellidoMaterno || "");
+            setUserAlias(empleado.nombreUsuario || "");
+            setUserPassword(""); // No cargamos la contraseña
+            setUserPhone(empleado.telefonoMovil || "");
+            setUserAddress(empleado.direccionResidencia || "");
+            setUserEmergencyContact(empleado.contactoEmergencia || "");
+            setUserContactPhone(empleado.telefonoContacto || "");
+            setDocumentType(empleado.idtipoDocumento?.toString() || "");
+            setRolType(empleado.idRol?.toString() || "");
+
+            // Relacionar selects
+            setDocumentType(empleado.idtipoDocumento); // ID
+            setRolType(empleado.idRol); // ID
+
+            alert("✅ Usuario encontrado. Ahora puedes actualizarlo.");
+        } catch (error) {
+            console.error("Error al buscar el Usuario:", error);
+            alert("❌ Error al buscar el Usuario.");
+        }
+    };
+
+    // Función para validar los campos del formulario antes de enviar la solicitud de actualización.
+    // Se asegura de que todos los campos obligatorios estén completos.
     const validateFields = () => {
         return (
             userID &&
@@ -48,7 +181,159 @@ const UpdateUsers = () => {
         );
     };
 
-    // Limpiar el formulario
+    // Función para validar los campos del formulario
+    const handleSave = async () => {
+        if (!validateFields()) {
+            alert("⚠️ Por favor, completa todos los campos obligatorios.");
+            return;
+        }
+
+        try {
+            console.log("Datos a enviar:", {
+                userID, userPassword, // verifica que haya contraseña
+                // ...otros campos
+            });
+            const updatedEmpleado = {
+                numeroDocumento: userID,
+                nombres: userName,
+                apellidoPaterno: userLastName,
+                apellidoMaterno: userSecondLastName,
+                nombreUsuario: userAlias,
+                contrasena: userPassword, // Esta sí sew envía
+                telefonoMovil: userPhone,
+                direccionResidencia: userAddress,
+                contactoEmergencia: userEmergencyContact,
+                telefonoContacto: userContactPhone,
+                idRol: parseInt(rolType),
+                idtipoDocumento: parseInt(documentType)
+            };
+
+            const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
+
+            if (response.status === 200) {
+                alert("✅ Usuario actualizado exitosamente.");
+                handleClear();
+            } else {
+                alert("❌ Error al actualizar el empleado.");
+            }
+        } catch (error) {
+            console.error("Error al actualizar el empleado:", error);
+            alert("❌ Error al actualizar el empleado.");
+        }
+    };
+
+    // función para actualizar perfil desde el modal.
+    const handleUpdatePerfil = async () => {
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+            alert("⚠️ Completa todos los campos del perfil.");
+            return;
+        }
+
+        try {
+            const perfil = perfiles.find(p => p.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase());
+
+            if (!perfil) {
+                alert("⚠️ No se encontró el perfil a actualizar.");
+                return;
+            }
+
+            await actualizarPerfil(perfil.idPerfil, {
+                nombrePerfil: perfilNombre,
+                descripcion: perfilDescripcion,
+            });
+
+            await cargarPerfiles();
+            alert("✅ Perfil actualizado exitosamente.");
+            handleClearPerfil();
+            setPerfilModalOpen(false);
+        } catch (error) {
+            console.error("Error actualizando perfil:", error);
+            alert("❌ Error al actualizar el perfil.");
+        }
+    };
+
+    // función para actualizar tipo de documento desde el modal.
+    const handleUpdateTipoDocumento = async () => {
+        if (!codigoTipoDocumento.trim() || !nombreTipoDocumento.trim()) {
+            alert("⚠️ Completa los campos del tipo de documento.");
+            return;
+        }
+
+        if (!tipoDocumentoIdSeleccionado) {
+            alert("⚠️ Debes seleccionar un tipo de documento antes de actualizar.");
+            return;
+        }
+
+        try {
+            await actualizarTipoDocumento(tipoDocumentoIdSeleccionado, {
+                codigo: codigoTipoDocumento,
+                nombre: nombreTipoDocumento
+            });
+
+            await cargarTiposDocumento();
+            alert("✅ Tipo de documento actualizado.");
+            handleClearTipoDocumento();
+            setModalTipoDocumentoOpen(false);
+        } catch (error) {
+            console.error("Error actualizando tipo de documento:", error);
+            alert("❌ Error al actualizar tipo de documento.");
+        }
+    };
+
+    // Función para actualizar rol desde el modal.
+    const handleUpdateRol = async () => {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+            alert("⚠️ Completa todos los campos del rol.");
+            return;
+        }
+
+        try {
+            const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
+
+            if (!rol) {
+                alert("⚠️ No se encontró el rol a actualizar.");
+                return;
+            }
+
+            await actualizarRol(rol.idRol, {
+                nombreRol: rolNombre,
+                descripcion: rolDescripcion,
+                perfilId: perfilSeleccionado,
+            });
+
+            await cargarRoles();
+            alert("✅ Rol actualizado exitosamente.");
+            handleClearRol();
+            setRolModalOpen(false);
+        } catch (error) {
+            console.error("Error actualizando rol:", error);
+            alert("❌ Error al actualizar el rol.");
+        }
+    };
+
+    // Función para limpiar los campos dentro del modal para crear perfiles.
+    const handleClearPerfil = () => {
+        setPerfilNombre("");
+        setPerfilDescripcion("");
+        setPerfilFiltro("");
+    };
+
+    // Función para limpiar los campos dentro del modal para crear roles.
+    const handleClearRol = () => {
+        setRolNombre("");
+        setRolDescripcion("");
+        setRolFiltro("");
+        setPerfilSeleccionado("");
+    };
+
+    // Función para limpiar los campos dentro del modal para crear tipos de documento.
+    const handleClearTipoDocumento = () => {
+        setCodigoTipoDocumento("");
+        setNombreTipoDocumento("");
+        setTipoDocumentoIdSeleccionado(null);
+    };
+
+    // Función para limpiar los campos del formulario
     const handleClear = () => {
         setUserID("");
         setUserNames("");
@@ -64,149 +349,7 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
-    // Busca un usuario por su Número de Identificación y llenar el formulario con los datos del usuario encontrado
-    const handleSearch = async () => {
-        const trimmedUserID = userID.trim();
-    
-        if (!trimmedUserID) {
-            alert("Por favor, ingrese el Número de Identificación del usuario para buscar.");
-            return;
-        }
-    
-        /*try {
-            //const response = await api.get(`/usuarios/cedula/${trimmedProductCode}`);
-    
-            if (!response.data) {
-                alert("No se encontraron datos para el Número de Identificación del usuario proporcionado.");
-                setOriginalUserIndex(-1);
-                handleClear();
-                return;
-            }
-    
-            // Si se encuentra el producto, llenar el formulario con los datos
-            const product = response.data;
-            setOriginalUserIndex(user.idUser);
-            setUserID(Number(user.idUser) || "");
-            setUserNames(user.userName || "");
-            setUserLastName(user.userLastName || "");
-            setUserSecondLastName(user.userSecondLastName || "");
-            setUserAlias(user.userAlias || "");
-            setUserPassword(user.userPassword || "");
-            setUserPhone(user.userPhone || "");
-            setUserAddress(user.userAddress || "");
-            setUserEmergencyContact(user.userEmergencyContact || "");
-            setUserContactPhone(user.userContactPhone || "");
-            setDocumentType(user.documentType || "");
-            setRolType(user.rolType || "");
-
-            // Buscar el ID del usuario basado en el nombre del tipo de documento
-            const tipoDocumentoEncontrado = documentTypes.find(
-                (tipo) => tipo.nombreTipoDocumento === user.documentType
-            );
-            if (tipoDocumentoEncontrado) {
-                setSelectedDocumentTypeId(tipoDocumentoEncontrado.idTipoDocumento);
-            }
-
-            // Buscar el ID del rol basado en el nombre del tipo de rol
-            const rolEncontrado = roles.find(
-                (rol) => rol.nombreTipoRol === user.rolType
-            );
-            if (rolEncontrado) {
-                setSelectedRolId(rolEncontrado.idTipoRol);
-            }
-
-            // Deshabilitar el campo de búsqueda después de encontrar el usuario
-            // setIsUserIdDisable(true);
-    
-            console.log("Usuario recibido:", response.data);
-        
-            alert("Datos encontrados. Puede actualizarlos ahora.");
-        } catch (error) {
-            console.error("Error al buscar el usuario:", error);
-            alert("Hubo un error al buscar el usuario. Por favor, inténtelo de nuevo.");
-            setOriginalUserIndex(-1);
-            handleClear();
-        }*/
-    };
-
-    // Maneja la actualización del usuario tras validar los campos, y enviar los datos al backend
-    const handleSave = async () => {
-        if (!validateFields()) {
-            alert("Por favor, complete todos los campos obligatorios.");
-            return;
-        }
-    
-        /*if (originalUserIndex === -1) {
-            alert("No se encontró el usuaroio para actualizar. Realice una búsqueda primero.");
-            return;
-        }
-    
-        try {
-          
-            const tipoDocumentoSeleccionado = documentType.find(
-                (tipo) => tipo.idTipoDocumento === parseInt(selectedDocumentTypeId)
-            );
-            const rolSeleccionado = rolType.find(
-                (rol) => rol.idTipoRol === parseInt(selectedRolId)
-            );
-        
-            // Construir el objeto con los datos actualizados del usuario
-            const updatedUser = {
-                idUser: originalUserIndex,
-                numeroDocumento: parseInt(userID),
-                nombreUsuario: userName,
-                primerApellidoUsuario: parseInt(userLastName),
-                segundoApellidoUsuario: parseInt(userSecondLastName),
-                aliasUsuario: userAlias,
-                contrasenaUsuario: userPassword,
-                telefonoMovilUsuario: userPhone,
-                direccionResidenciaUsuario: userAddress,
-                contactoEmergenciaUsuario: userEmergencyContact,
-                telefonoContactoUsuario: userContactPhone,
-                idTipoDocumento: tipoDocumentoSeleccionado ? parseInt(tipoDocumentoSeleccionado.idTipoDocumento) : null,
-                idTipoRol: rolSeleccionado ? parseInt(rolSeleccionado.idTipoRol) : null
-            };
-        
-            console.log("Datos a enviar:", updatedUser);
-        
-            // Hacer la llamada a la API para actualizar el usuario
-            const response = await api.put(`/usuarios/${originalUserIndex}`, updatedUser);
-        
-            if (response.status === 200) {
-                alert("usuario actualizado exitosamente.");
-        
-            // Actualizar la interfaz con los datos nuevos que retorna el backend
-                const updated = response.data;
-                setUserID(updated.numeroDocumento || "");
-                setUserNames(updated.nombreUsuario || ""); 
-                setUserLastName(updated.primerApellidoUsuario || "");
-                setUserSecondLastName(updated.segundoApellidoUsuario || "");
-                setUserAlias(updated.aliasUsuario || "");
-                setUserPassword(updated.contrasenaUsuario || "");
-                setUserPhone(updated.telefonoMovilUsuario || "");
-                setUserAddress(updated.direccionResidenciaUsuario || "");
-                setUserEmergencyContact(updated.contactoEmergenciaUsuario || "");
-                setUserContactPhone(updated.telefonoContactoUsuario || "");
-                setDocumentType(updated.idTipoDocumento || "");
-                setRolType(updated.idTipoRol || "");
-        
-                handleClear(); // Limpiar los campos del formulario
-            }
-            else {
-                alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
-            }
-        
-        } catch (error) {
-            console.error("Error al actualizar el usuario:", error);
-            if (error.response) {
-                console.log("Respuesta del servidor:", error.response.data);
-            }
-            alert("Hubo un error al actualizar el usuario. Por favor, inténtelo de nuevo.");
-        }*/
-    };
-
-     // Se utiliza el hook useEffect para establecer la pestaña activa al cargar el componente.
-     useEffect(() => {
+    useEffect(() => {
         setActiveTab('actualizar');
     }, []);
 
@@ -273,7 +416,6 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
-                            //disabled={isCodeDisabled} // Deshabilita el input si se busca un producto
                             />
 
                             <button
@@ -386,10 +528,11 @@ const UpdateUsers = () => {
                                             required
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
-                                            <option value="CC">Cédula de Ciudadanía (CC)</option>
-                                            <option value="CE">Cédula de Extranjería (CE)</option>
-                                            <option value="PAS">Pasaporte (PA)</option>
-                                            <option value="TI">Tarjeta de Identidad (TI)</option>
+                                            {documentTypes.map((tipo) => (
+                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento}>
+                                                    {tipo.nombre} - ({tipo.codigo})
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -404,20 +547,43 @@ const UpdateUsers = () => {
                                             required
                                         >
                                             <option value=""> Seleccione un Rol </option>
-                                            <option value="administrador">Administrador</option>
-                                            <option value="almacenista">Almacenista</option>
-                                            <option value="propietario">Propietario</option>
-                                            <option value="vendedor">Vendedor</option>
+                                            {roles.map((rol) => (
+                                                <option key={rol.idRol} value={rol.idRol}>
+                                                    {rol.nombreRol}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                            {/* Botones Abrir Modales */}
+                            <div className={styles.formGroupButtos}>
+                                <button
+                                    className={styles.createButton}
+                                    onClick={() => handleOpenModalTipoDocumento(true)}
+                                >
+                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalPerfil}
+                                >
+                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalRol}
+                                >
+                                    Roles<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
                         </form>
                     </div>
 
+                    {/* Botones de acción para guardar, limpiar y salir */}
                     <div className={styles.actionButtons}>
                         <button className={styles.saveButton} onClick={handleSave}>
-                            Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button className={styles.clearButton} onClick={handleClear}>
                             Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
@@ -426,8 +592,237 @@ const UpdateUsers = () => {
                             type="button"
                             onClick={() => (window.location.href = "/menu-principal")}
                             className={styles.exitButton} >
-                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} /> 
+                            Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                        </button>
+                    </div>
+                </div>
+            )}
+            {/* Modal Actualizar Tipo de Documento */}
+            {isModalTipoDocumentoOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2 style={{ textAlign: "center" }}>Actualizar Tipo de Documento</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarDocumento" className={styles.labelModal}>Buscar tipo de documento</label>
+                            <input
+                                type="text"
+                                id="BuscarDocumento"
+                                placeholder="Buscar tipo de documento"
+                                value={documentoFiltro}
+                                onChange={(e) => setDocumentoFiltro(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Lista dinámica que se muestra solo si hay texto en el input */}
+                        {documentoFiltro.trim() !== "" && (
+                            <ul className={styles.listaResultados}>
+                                {documentTypes
+                                    .filter((doc) =>
+                                        doc.nombre.toLowerCase().includes(documentoFiltro.toLowerCase())
+                                    )
+                                    .map((doc) => (
+                                        <li
+                                            key={doc.idTipoDocumento}
+                                            onClick={() => {
+                                                setCodigoTipoDocumento(doc.codigo);
+                                                setNombreTipoDocumento(doc.nombre);
+                                                setTipoDocumentoIdSeleccionado(doc.idTipoDocumento);
+                                            }}
+                                        >
+                                            {doc.nombre}
+                                        </li>
+                                    ))}
+                            </ul>
+                        )}
+                        <div className={styles.modalFormGroup}>
+                            <label>Código</label>
+                            <input
+                                type="text"
+                                value={codigoTipoDocumento}
+                                onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <label>Nombre</label>
+                            <input
+                                type="text"
+                                value={nombreTipoDocumento}
+                                onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave} onClick={handleUpdateTipoDocumento}>
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                             </button>
+                            <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Modal Actualizar Perfil */}
+            {isPerfilModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Actualizar Perfil</h2>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
+                            <input
+                                className="{styles.inputModalBuscar}"
+                                type="text"
+                                id="BuscarPerfil"
+                                placeholder="Buscar Perfil"
+                                value={perfilFiltro}
+                                onChange={(e) => setPerfilFiltro(e.target.value)}
+                            />
+                        </div>
+                        {perfilFiltro.trim() !== "" && (
+                            <ul>
+                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                ).map((perfil) => (
+                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
+                            <input
+                                type="text"
+                                id="NombrePerfil"
+                                placeholder="Nombre del Perfil"
+                                value={perfilNombre}
+                                onChange={(e) => setPerfilNombre(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <textarea
+                                id="DescripcionPerfil"
+                                placeholder="Descripción"
+                                value={perfilDescripcion}
+                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                className={styles.textareaModal}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave}
+                                onClick={handleUpdatePerfil}>
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal}
+                                onClick={handleClearPerfil}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => setPerfilModalOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Actualizar Rol */}
+            {isRolModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Actualizar Rol</h2>
+                        <div className={styles.modalFormGroup}>
+                            <div className={styles.selectGroupRol}>
+                                <div className={styles.formGroupRol}>
+                                    <label htmlFor="PerfilRol" className={styles.labelModal}>Seleccione un perfil para asignarlo al rol</label>
+                                    <div className={styles.selectWrapperRol}>
+                                        <select
+                                            id="PerfilRol"
+                                            className={styles.selectPerfil}
+                                            value={perfilSeleccionado}
+                                            onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
+                                        >
+                                            <option value="">Seleccionar perfil</option>
+                                            {perfiles.map((perfil) => (
+                                                <option key={perfil.idPerfil} value={perfil.idPerfil}>
+                                                    {perfil.nombrePerfil}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="BuscarRol" className={styles.labelModal}>Buscar Rol</label>
+                                <input
+                                    type="text"
+                                    id="BuscarRol"
+                                    placeholder="Buscar Rol"
+                                    value={rolFiltro}
+                                    onChange={(e) => setRolFiltro(e.target.value)}
+                                />
+                            </div>
+                            {rolFiltro.trim() !== "" && (
+                                <ul>
+                                    {Array.isArray(roles) && roles.filter((rol) =>
+                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                    ).map((rol) => (
+                                        <li key={rol.idRol}>{rol.nombreRol}</li>
+                                    ))}
+                                </ul>
+                            )}
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
+                                <input
+                                    type="text"
+                                    id="NombreRol"
+                                    placeholder="Nombre del Rol"
+                                    value={rolNombre}
+                                    onChange={(e) => setRolNombre(e.target.value)}
+                                />
+                            </div>
+
+                            <div className={styles.modalFormGroup}>
+                                <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <textarea
+                                    id="DescripcionRol"
+                                    placeholder="Descripción"
+                                    value={rolDescripcion}
+                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    className={styles.textareaModal}
+                                />
+                            </div>
+                            <div className={styles.modalButtonsRol}>
+                                <button className={styles.modalButtonSave}
+                                    onClick={handleUpdateRol}>
+                                    Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.clearButtonModal}
+                                    onClick={handleClearRol}>
+                                    Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button className={styles.modalButtonExit}
+                                    onClick={() => setRolModalOpen(false)}>
+                                    Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
