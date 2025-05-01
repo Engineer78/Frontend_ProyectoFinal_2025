@@ -43,7 +43,8 @@ const UpdateUsers = () => {
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
     const [perfilFiltro, setPerfilFiltro] = useState("");
-    const [perfilSeleccionado, setPerfilSeleccionado] = useState("null");
+    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
+    const [perfilIdSeleccionado, setPerfilIdSeleccionado] = useState(null);
     const [perfiles, setPerfiles] = useState([]);
 
     // Estados de modal Rol
@@ -690,11 +691,20 @@ const UpdateUsers = () => {
                             />
                         </div>
                         {perfilFiltro.trim() !== "" && (
-                            <ul>
+                            <ul className={styles.listaResultados}>
                                 {Array.isArray(perfiles) && perfiles.filter((perfil) =>
                                     perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
                                 ).map((perfil) => (
-                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                    <li
+                                        key={perfil.idPerfil}
+                                        onClick={() => {
+                                            setPerfilNombre(perfil.nombrePerfil);
+                                            setPerfilDescripcion(perfil.descripcion);
+                                            setPerfilIdSeleccionado(perfil.idPerfil);
+                                        }}
+                                    >
+                                        {perfil.nombrePerfil}
+                                    </li>
                                 ))}
                             </ul>
                         )}
