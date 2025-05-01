@@ -43,7 +43,7 @@ const UpdateUsers = () => {
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
     const [perfilFiltro, setPerfilFiltro] = useState("");
-    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
+    const [perfilSeleccionado, setPerfilSeleccionado] = useState("null");
     const [perfiles, setPerfiles] = useState([]);
 
     // Estados de modal Rol
