@@ -739,8 +739,8 @@ const UpdateUsers = () => {
                                 onChange={(e) => {
                                     setPerfilDescripcion(e.target.value);
                                     setCaracteresRestantesPerfil(255 - e.target.value.length);
-                                  }}
-                                  maxLength={255}
+                                }}
+                                maxLength={255}
                                 className={styles.textareaModal}
                             />
                         </div>
@@ -803,12 +803,24 @@ const UpdateUsers = () => {
                                 />
                             </div>
                             {rolFiltro.trim() !== "" && (
-                                <ul>
-                                    {Array.isArray(roles) && roles.filter((rol) =>
-                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                                    ).map((rol) => (
-                                        <li key={rol.idRol}>{rol.nombreRol}</li>
-                                    ))}
+                                <ul className={styles.listaResultados}>
+                                    {roles
+                                        .filter((rol) =>
+                                            rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                        )
+                                        .map((rol) => (
+                                            <li
+                                                key={rol.idRol}
+                                                onClick={() => {
+                                                    setRolNombre(rol.nombreRol);
+                                                    setRolDescripcion(rol.descripcion);
+                                                    setPerfilSeleccionado(rol.perfilId); // asegúrate que sea ID
+                                                    setRolIdSeleccionado(rol.idRol);
+                                                }}
+                                            >
+                                                {rol.nombreRol}
+                                            </li>
+                                        ))}
                                 </ul>
                             )}
                             <div className={styles.modalFormGroup}>
