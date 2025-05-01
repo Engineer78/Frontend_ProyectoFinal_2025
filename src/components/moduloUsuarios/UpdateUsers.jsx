@@ -317,6 +317,7 @@ const UpdateUsers = () => {
         setPerfilNombre("");
         setPerfilDescripcion("");
         setPerfilFiltro("");
+        setPerfilIdSeleccionado(null);
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
