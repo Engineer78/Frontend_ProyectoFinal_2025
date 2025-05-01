@@ -693,9 +693,11 @@ const UpdateUsers = () => {
                         </div>
                         {perfilFiltro.trim() !== "" && (
                             <ul className={styles.listaResultados}>
-                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                {perfiles
+                                .filter((perfil) =>
                                     perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                                ).map((perfil) => (
+                                )
+                                .map((perfil) => (
                                     <li
                                         key={perfil.idPerfil}
                                         onClick={() => {
