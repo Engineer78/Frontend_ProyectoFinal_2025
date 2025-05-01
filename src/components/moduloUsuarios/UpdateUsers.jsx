@@ -294,7 +294,7 @@ const UpdateUsers = () => {
         try {
             const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
 
-            if (!rol) {
+            if (!rolIdSeleccionado) {
                 alert("⚠️ No se encontró el rol a actualizar.");
                 return;
             }
