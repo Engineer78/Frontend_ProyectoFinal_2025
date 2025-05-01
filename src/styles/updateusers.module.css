@@ -469,6 +469,15 @@ body {
     line-height: 0.7;
     font-weight: bold;
   }
+
+  /* Estilo del contador de caracteres */
+  .charCounter {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 2px;
+    margin-top: -19px;
+    margin-left: 355px;
+  }
   
   /* Inputs y textarea */
   .modalContent input,
