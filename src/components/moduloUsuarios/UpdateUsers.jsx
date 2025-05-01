@@ -54,6 +54,8 @@ const UpdateUsers = () => {
     const [rolDescripcion, setRolDescripcion] = useState("");
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
+    const [rolIdSeleccionado, setRolIdSeleccionado] = useState(null);
+
 
     // Estados de modal tipo de documento
     const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
