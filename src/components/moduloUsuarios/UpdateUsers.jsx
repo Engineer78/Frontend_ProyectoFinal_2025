@@ -695,21 +695,21 @@ const UpdateUsers = () => {
                         {perfilFiltro.trim() !== "" && (
                             <ul className={styles.listaResultados}>
                                 {perfiles
-                                .filter((perfil) =>
-                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                                )
-                                .map((perfil) => (
-                                    <li
-                                        key={perfil.idPerfil}
-                                        onClick={() => {
-                                            setPerfilNombre(perfil.nombrePerfil);
-                                            setPerfilDescripcion(perfil.descripcion);
-                                            setPerfilIdSeleccionado(perfil.idPerfil);
-                                        }}
-                                    >
-                                        {perfil.nombrePerfil}
-                                    </li>
-                                ))}
+                                    .filter((perfil) =>
+                                        perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                    )
+                                    .map((perfil) => (
+                                        <li
+                                            key={perfil.idPerfil}
+                                            onClick={() => {
+                                                setPerfilNombre(perfil.nombrePerfil);
+                                                setPerfilDescripcion(perfil.descripcion);
+                                                setPerfilIdSeleccionado(perfil.idPerfil);
+                                            }}
+                                        >
+                                            {perfil.nombrePerfil}
+                                        </li>
+                                    ))}
                             </ul>
                         )}
 
@@ -726,11 +726,18 @@ const UpdateUsers = () => {
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <p className={styles.charCounter}>
+                                Caracteres restantes: {caracteresRestantesPerfil}
+                            </p>
                             <textarea
                                 id="DescripcionPerfil"
                                 placeholder="Descripción"
                                 value={perfilDescripcion}
-                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                onChange={(e) => {
+                                    setPerfilDescripcion(e.target.value);
+                                    setCaracteresRestantesPerfil(255 - e.target.value.length);
+                                  }}
+                                  maxLength={255}
                                 className={styles.textareaModal}
                             />
                         </div>
