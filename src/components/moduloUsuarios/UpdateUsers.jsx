@@ -330,6 +330,7 @@ const UpdateUsers = () => {
         setRolDescripcion("");
         setRolFiltro("");
         setPerfilSeleccionado("");
+        setRolIdSeleccionado(null);
     };
 
     // Función para limpiar los campos dentro del modal para crear tipos de documento.
