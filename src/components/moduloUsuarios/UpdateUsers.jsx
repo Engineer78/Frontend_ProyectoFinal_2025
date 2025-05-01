@@ -225,8 +225,8 @@ const UpdateUsers = () => {
 
     // función para actualizar perfil desde el modal.
     const handleUpdatePerfil = async () => {
-        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
-            alert("⚠️ Completa todos los campos del perfil.");
+        if (!perfilNombre.trim() || !perfilDescripcion.trim() || !perfilIdSeleccionado) {
+            alert("⚠️ Completa todos los campos y selecciona un perfil de la lista.");
             return;
         }
 
