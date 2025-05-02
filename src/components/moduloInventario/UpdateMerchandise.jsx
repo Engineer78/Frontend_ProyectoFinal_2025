@@ -459,7 +459,7 @@ const UpdateMerchandise = () => {
                                     id="fileInput"
                                 />
                                 <label htmlFor="fileInput" className={styles.customFileInput}>
-                                    Cargar Imagen <UploadFileIcon style={{ marginLeft: 5 }} />
+                                    Cargar Imagen <UploadFileIcon style={{ marginLeft: 8 }} />
                                 </label>
                             </div>
                         </form>
