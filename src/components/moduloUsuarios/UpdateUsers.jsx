@@ -234,8 +234,20 @@ const UpdateUsers = () => {
             return;
         }
 
+        // Verificar si el perfil ya existe
+        const duplicado = perfiles.find(
+            (d) =>
+              d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() &&
+              d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
+          );
+        
+          if (duplicado) {
+            alert("⚠️ Ya existe un perfil con ese nombre y esa descripción.");
+            return;
+          }
+
         try {
-            const perfil = perfiles.find(p => p.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase());
+            const perfil = perfiles.find(p => p.idPerfil === perfilIdSeleccionado);
 
             if (!perfil) {
                 alert("⚠️ No se encontró el perfil a actualizar.");
@@ -269,6 +281,18 @@ const UpdateUsers = () => {
             return;
         }
 
+        // Verificar si el tipo de documento ya existe
+        const duplicado = documentTypes.find(
+            (d) =>
+              d.codigo.toLowerCase() === codigoTipoDocumento.toLowerCase() ||
+              d.nombre.toLowerCase() === nombreTipoDocumento.toLowerCase()
+          );
+        
+          if (duplicado) {
+            alert("⚠️ Ya existe un tipo de documento con ese código o nombre.");
+            return;
+          }
+
         try {
             await actualizarTipoDocumento(tipoDocumentoIdSeleccionado, {
                 codigo: codigoTipoDocumento,
@@ -287,23 +311,42 @@ const UpdateUsers = () => {
 
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
-        if (!rolNombre.trim() || !rolDescripcion.trim() || !rolIdSeleccionado) {
+
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
             alert("⚠️ Completa todos los campos del rol.");
             return;
         }
 
-        try {
-            const rol = roles.find(r => r.nombreRol.toLowerCase() === rolNombre.toLowerCase());
+        if (!rolIdSeleccionado) {
+            alert("⚠️ No se encontró el rol a actualizar.");
+            return;
+        }
 
-            if (!rolIdSeleccionado) {
-                alert("⚠️ No se encontró el rol a actualizar.");
-                return;
-            }
+        const rol = roles.find(r => r.idRol === rolIdSeleccionado);
+
+        if (!rol) {
+            alert("⚠️ El rol seleccionado no se encuentra en la lista.");
+            return;
+        }
+
+        // Verificar si el rol ya exists
+        const duplicado = roles.find(
+            (d) =>
+              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() &&
+              d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
+          );
+        
+          if (duplicado) {
+            alert("⚠️ Ya existe un rol con ese nombre y descripción.");
+            return;
+          }
+
+        try {
 
             await actualizarRol(rol.idRol, {
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
-                rolId: rolIdSeleccionado,
+                idPerfil: perfilSeleccionado,
             });
 
             await cargarRoles();
@@ -330,6 +373,7 @@ const UpdateUsers = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
+        setPerfilSeleccionado("");
         setRolIdSeleccionado(null);
         setCaracteresRestantesRol(255);
     };
@@ -338,6 +382,7 @@ const UpdateUsers = () => {
     const handleClearTipoDocumento = () => {
         setCodigoTipoDocumento("");
         setNombreTipoDocumento("");
+        setDocumentoFiltro("");
         setTipoDocumentoIdSeleccionado(null);
     };
 
@@ -619,7 +664,7 @@ const UpdateUsers = () => {
                             <input
                                 type="text"
                                 id="BuscarDocumento"
-                                placeholder="Buscar tipo de documento"
+                                placeholder="Buscar Tipo de Documento (Obligatorio)"
                                 value={documentoFiltro}
                                 onChange={(e) => setDocumentoFiltro(e.target.value)}
                             />
@@ -647,19 +692,23 @@ const UpdateUsers = () => {
                             </ul>
                         )}
                         <div className={styles.modalFormGroup}>
-                            <label>Código</label>
+                            <label htmlFor="codigo" className={styles.labelModal}>Nomenclatura</label>
                             <input
                                 type="text"
                                 value={codigoTipoDocumento}
                                 onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                                placeholder="Nomenclatura Ejemplo: CC (Obligatorio)"
+                                className={styles.input}
                             />
                         </div>
                         <div className={styles.modalFormGroup}>
-                            <label>Nombre</label>
+                            <label tmlFor="codigo" className={styles.labelModal}>Nombre</label>
                             <input
                                 type="text"
                                 value={nombreTipoDocumento}
                                 onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                                placeholder="Nombre Tipo de Documento (Obligatorio)"
+                                className={styles.input}
                             />
                         </div>
                         <div className={styles.modalButtons}>
@@ -687,7 +736,7 @@ const UpdateUsers = () => {
                         <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Actualizar Perfil</h2>
 
                         <div className={styles.modalFormGroup}>
-                            <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
+                            <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar Perfil</label>
                             <input
                                 className={styles.inputModalBuscar}
                                 type="text"
@@ -719,24 +768,24 @@ const UpdateUsers = () => {
                         )}
 
                         <div className={styles.modalFormGroup}>
-                            <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
+                            <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre Perfil</label>
                             <input
                                 type="text"
                                 id="NombrePerfil"
-                                placeholder="Nombre del Perfil"
+                                placeholder="Nombre del Perfil (Obligatorio)"
                                 value={perfilNombre}
                                 onChange={(e) => setPerfilNombre(e.target.value)}
                             />
                         </div>
 
                         <div className={styles.modalFormGroup}>
-                            <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción Perfil</label>
                             <p className={styles.charCounter}>
-                                Caracteres restantes: {caracteresRestantesPerfil}
+                                Caracteres Restantes: {caracteresRestantesPerfil}
                             </p>
                             <textarea
                                 id="DescripcionPerfil"
-                                placeholder="Descripción"
+                                placeholder="Descripción del Perfil (Obligatorio)"
                                 value={perfilDescripcion}
                                 onChange={(e) => {
                                     setPerfilDescripcion(e.target.value);
@@ -776,7 +825,7 @@ const UpdateUsers = () => {
                         <div className={styles.modalFormGroup}>
                             <div className={styles.selectGroupRol}>
                                 <div className={styles.formGroupRol}>
-                                    <label htmlFor="PerfilRol" className={styles.labelModal}>Seleccione un perfil para asignarlo al rol</label>
+                                    <label htmlFor="PerfilRol" className={styles.labelModal}>Seleccione un Perfil para asignarlo al Rol (Obligatorio)</label>
                                     <div className={styles.selectWrapperRol}>
                                         <select
                                             id="PerfilRol"
@@ -784,7 +833,7 @@ const UpdateUsers = () => {
                                             value={perfilSeleccionado}
                                             onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
                                         >
-                                            <option value="">Seleccionar perfil</option>
+                                            <option value="">Seleccionar Perfil</option>
                                             {perfiles.map((perfil) => (
                                                 <option key={perfil.idPerfil} value={perfil.idPerfil}>
                                                     {perfil.nombrePerfil}
@@ -814,10 +863,11 @@ const UpdateUsers = () => {
                                             <li
                                                 key={rol.idRol}
                                                 onClick={() => {
-                                                    console.log("Rol seleccionado:", rol);
+                                                    alert("Seleccionaste: " + rol.nombreRol);
+                                                    console.log("ROL ID:", rol.idRol);
                                                     setRolNombre(rol.nombreRol);
                                                     setRolDescripcion(rol.descripcion);
-                                                    setRolIdSeleccionado(rol.rolId); // asegúrate que sea ID
+                                                    setRolIdSeleccionado(rol.idRol); // asegúrate que sea ID
                                                 }}
                                             >
                                                 {rol.nombreRol}
@@ -830,7 +880,7 @@ const UpdateUsers = () => {
                                 <input
                                     type="text"
                                     id="NombreRol"
-                                    placeholder="Nombre del Rol"
+                                    placeholder="Nombre del Rol (Obligatorio)"
                                     value={rolNombre}
                                     onChange={(e) => setRolNombre(e.target.value)}
                                 />
@@ -839,11 +889,11 @@ const UpdateUsers = () => {
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
                                 <p className={styles.charCounter}>
-                                    Caracteres restantes: {caracteresRestantesRol}
+                                    Caracteres Restantes: {caracteresRestantesRol}
                                 </p>
                                 <textarea
                                     id="DescripcionRol"
-                                    placeholder="Descripción"
+                                    placeholder="Descripción del Rol (Obligatorio)"
                                     value={rolDescripcion}
                                     onChange={(e) => {
                                         setRolDescripcion(e.target.value);
