@@ -12,6 +12,7 @@ import {
     listarPerfiles,
     listarRoles,
     listarTiposDocumento,
+    listarEmpleados,
     actualizarPerfil,
     actualizarRol,
     actualizarTipoDocumento,
@@ -193,6 +194,28 @@ const UpdateUsers = () => {
             return;
         }
 
+        const empleados = await listarEmpleados();
+
+        // Validar duplicado de número de documento (excepto el mismo que se está actualizando)
+        const documentoRepetido = empleados.data.find(
+            (emp) => emp.numeroDocumento === userID && emp.nombreUsuario !== userAlias
+        );
+
+        // Validar duplicado de alias (correo) en otro usuario
+        const aliasRepetido = empleados.data.find(
+            (emp) => emp.nombreUsuario === userAlias && emp.numeroDocumento !== userID
+        );
+
+        if (documentoRepetido) {
+            alert("⚠️ Ya existe un usuario con ese número de documento.");
+            return;
+        }
+
+        if (aliasRepetido) {
+            alert("⚠️ Ya existe un usuario con ese nombre de usuario (correo).");
+            return;
+        }
+
         try {
             console.log("Datos a enviar:", {
                 userID, userPassword, // verifica que haya contraseña
@@ -237,14 +260,14 @@ const UpdateUsers = () => {
         // Verificar si el perfil ya existe
         const duplicado = perfiles.find(
             (d) =>
-              d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() ||
-              d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
-          );
-        
-          if (duplicado) {
+                d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() ||
+                d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
+        );
+
+        if (duplicado) {
             alert("⚠️ Ya existe un perfil con ese nombre y esa descripción.");
             return;
-          }
+        }
 
         try {
             const perfil = perfiles.find(p => p.idPerfil === perfilIdSeleccionado);
@@ -284,14 +307,14 @@ const UpdateUsers = () => {
         // Verificar si el tipo de documento ya existe
         const duplicado = documentTypes.find(
             (d) =>
-              d.codigo.toLowerCase() === codigoTipoDocumento.toLowerCase() ||
-              d.nombre.toLowerCase() === nombreTipoDocumento.toLowerCase()
-          );
-        
-          if (duplicado) {
+                d.codigo.toLowerCase() === codigoTipoDocumento.toLowerCase() ||
+                d.nombre.toLowerCase() === nombreTipoDocumento.toLowerCase()
+        );
+
+        if (duplicado) {
             alert("⚠️ Ya existe un tipo de documento con ese código o nombre.");
             return;
-          }
+        }
 
         try {
             await actualizarTipoDocumento(tipoDocumentoIdSeleccionado, {
@@ -332,14 +355,14 @@ const UpdateUsers = () => {
         // Verificar si el rol ya exists
         const duplicado = roles.find(
             (d) =>
-              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() ||
-              d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
-          );
-        
-          if (duplicado) {
+                d.nombreRol.toLowerCase() === rolNombre.toLowerCase() ||
+                d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
+        );
+
+        if (duplicado) {
             alert("⚠️ Ya existe un rol con ese nombre y descripción.");
             return;
-          }
+        }
 
         try {
 
@@ -863,8 +886,8 @@ const UpdateUsers = () => {
                                             <li
                                                 key={rol.idRol}
                                                 onClick={() => {
-                                                    {/*alert("Seleccionaste: " + rol.nombreRol);*/}
-                                                    {/*console.log("ROL ID:", rol.idRol);*/}
+                                                    {/*alert("Seleccionaste: " + rol.nombreRol);*/ }
+                                                    {/*console.log("ROL ID:", rol.idRol);*/ }
                                                     setRolNombre(rol.nombreRol);
                                                     setRolDescripcion(rol.descripcion);
                                                     setRolIdSeleccionado(rol.idRol); // asegúrate que sea ID
