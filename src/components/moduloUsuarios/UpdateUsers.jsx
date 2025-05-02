@@ -52,6 +52,7 @@ const UpdateUsers = () => {
     const [isRolModalOpen, setRolModalOpen] = useState(false);
     const [rolNombre, setRolNombre] = useState("");
     const [rolDescripcion, setRolDescripcion] = useState("");
+    const [caracteresRestantesRol, setCaracteresRestantesRol] = useState(255); // Limite de caracteres
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
     const [rolIdSeleccionado, setRolIdSeleccionado] = useState(null);
@@ -286,7 +287,7 @@ const UpdateUsers = () => {
 
     // Función para actualizar rol desde el modal.
     const handleUpdateRol = async () => {
-        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !rolIdSeleccionado) {
             alert("⚠️ Completa todos los campos del rol.");
             return;
         }
@@ -302,7 +303,7 @@ const UpdateUsers = () => {
             await actualizarRol(rol.idRol, {
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
-                perfilId: perfilSeleccionado,
+                rolId: rolIdSeleccionado,
             });
 
             await cargarRoles();
@@ -321,7 +322,7 @@ const UpdateUsers = () => {
         setPerfilDescripcion("");
         setPerfilFiltro("");
         setPerfilIdSeleccionado(null);
-        setCaracteresRestantesPerfil(255);//
+        setCaracteresRestantesPerfil(255);
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
@@ -329,8 +330,8 @@ const UpdateUsers = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
-        setPerfilSeleccionado("");
         setRolIdSeleccionado(null);
+        setCaracteresRestantesRol(255);
     };
 
     // Función para limpiar los campos dentro del modal para crear tipos de documento.
@@ -813,10 +814,10 @@ const UpdateUsers = () => {
                                             <li
                                                 key={rol.idRol}
                                                 onClick={() => {
+                                                    console.log("Rol seleccionado:", rol);
                                                     setRolNombre(rol.nombreRol);
                                                     setRolDescripcion(rol.descripcion);
-                                                    setPerfilSeleccionado(rol.perfilId); // asegúrate que sea ID
-                                                    setRolIdSeleccionado(rol.idRol);
+                                                    setRolIdSeleccionado(rol.rolId); // asegúrate que sea ID
                                                 }}
                                             >
                                                 {rol.nombreRol}
@@ -837,11 +838,18 @@ const UpdateUsers = () => {
 
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <p className={styles.charCounter}>
+                                    Caracteres restantes: {caracteresRestantesRol}
+                                </p>
                                 <textarea
                                     id="DescripcionRol"
                                     placeholder="Descripción"
                                     value={rolDescripcion}
-                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    onChange={(e) => {
+                                        setRolDescripcion(e.target.value);
+                                        setCaracteresRestantesRol(255 - e.target.value.length);
+                                    }}
+                                    maxLength={255}
                                     className={styles.textareaModal}
                                 />
                             </div>
