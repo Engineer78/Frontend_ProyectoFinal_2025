@@ -14,7 +14,8 @@ import {
     crearRol,
     crearTipoDocumento,
     listarTiposDocumento,
-    crearEmpleado
+    crearEmpleado,
+    listarEmpleados
 } from "../../api"; // Asegúrate de que la ruta sea correcta
 
 // se crea el componente UsersRegistration
@@ -31,6 +32,7 @@ const UsersRegistration = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
+    const [usuarios, setUsuarios] = useState([]); //almacena los usuarios existentes
     const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
     const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
@@ -41,6 +43,7 @@ const UsersRegistration = () => {
     const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [caracteresRestantesPerfil, setCaracteresRestantesPerfil] = useState(255); // Limite de caracteres
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
     const [perfiles, setPerfiles] = useState([]);
@@ -49,6 +52,7 @@ const UsersRegistration = () => {
     const [isRolModalOpen, setRolModalOpen] = useState(false);
     const [rolNombre, setRolNombre] = useState("");
     const [rolDescripcion, setRolDescripcion] = useState("");
+    const [caracteresRestantesRol, setCaracteresRestantesRol] = useState(255); // Limite de caracteres
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
 
@@ -115,11 +119,40 @@ const UsersRegistration = () => {
         }
     };
 
+    // Cargar Usuarios existentes
+    // Se utiliza el hook useEffect para cargar los usuarios existentes al iniciar el componente
+    useEffect(() => {
+        const cargarUsuarios = async () => {
+            try {
+                const response = await listarEmpleados(); // 👈 asegúrate que esta función exista en api.js
+                setUsuarios(response.data);
+            } catch (error) {
+                console.error("Error al cargar usuarios:", error);
+            }
+        };
+    
+        cargarUsuarios();
+    }, []);
+    
+
     const handleSaveTipoDocumento = async () => {
         if (!codigoTipoDocumento || !nombreTipoDocumento) {
             alert("⚠️ Completa todos los campos.");
             return;
         }
+
+        // Verificar si el tipo de documento ya existe
+        const duplicado = documentTypes.find(
+            (d) =>
+                d.codigo.toLowerCase() === codigoTipoDocumento.toLowerCase() ||
+                d.nombre.toLowerCase() === nombreTipoDocumento.toLowerCase()
+        );
+
+        if (duplicado) {
+            alert("⚠️ Ya existe un tipo de documento con ese código o nombre.");
+            return;
+        }
+
         try {
             await crearTipoDocumento({
                 codigo: codigoTipoDocumento,
@@ -141,6 +174,18 @@ const UsersRegistration = () => {
         // Si están vacíos, mostrar un mensaje de alerta y no continuar con la creación del perfil
         if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
             alert("⚠️ Por favor completa el nombre y la descripción del perfil antes de guardar.");
+            return;
+        }
+
+        // Verificar si el perfil ya existe
+        const duplicado = perfiles.find(
+            (d) =>
+                d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() ||
+                d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
+        );
+
+        if (duplicado) {
+            alert("⚠️ Ya existe un perfil con ese nombre y esa descripción.");
             return;
         }
 
@@ -167,6 +212,18 @@ const UsersRegistration = () => {
             return;
         }
 
+        // Verificar si el rol ya exists
+        const duplicado = roles.find(
+            (d) =>
+              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() ||
+              d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
+          );
+        
+          if (duplicado) {
+            alert("⚠️ Ya existe un rol con ese nombre y descripción.");
+            return;
+          }
+
         try {
             await crearRol({
                 nombreRol: rolNombre,
@@ -188,6 +245,18 @@ const UsersRegistration = () => {
     // Función para guardar el empleado
     // Se crea el objeto que se enviará al backend y se llama a la API para crear el empleado.
     const handleSaveUser = async () => {
+
+        const usuarioDuplicado = usuarios.find(
+            (u) =>
+                u.numeroDocumento === userID || // Duplicado por número de documento
+                u.nombreUsuario === userAlias   // Duplicado por alias (correo)
+        );
+    
+        if (usuarioDuplicado) {
+            alert("⚠️ Ya existe un usuario con ese número de identificación o nombre de usuario.");
+            return;
+        }
+
         try {
 
             // ☑️ Validar que el nombre de usaurio (alias) sea un correo electrónico válido
@@ -229,6 +298,7 @@ const UsersRegistration = () => {
         setPerfilNombre("");
         setPerfilDescripcion("");
         setPerfilFiltro("");
+        setCaracteresRestantesPerfil(255);
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
@@ -237,6 +307,7 @@ const UsersRegistration = () => {
         setRolDescripcion("");
         setRolFiltro("");
         setPerfilSeleccionado("");
+        setCaracteresRestantesRol(255);
     };
 
     // Función para limpiar los campos dentro del modal para crear tipos de documento.
@@ -263,6 +334,10 @@ const UsersRegistration = () => {
         setDocumentType("");
         setRolType("");
     };
+
+    useEffect(() => {
+        setActiveTab('registro');
+    }, []);
 
     // Se renderiza el componente
     return (
@@ -520,19 +595,25 @@ const UsersRegistration = () => {
                         </button>
                         <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
                         <div className={styles.modalFormGroup}>
-                            <label>Código</label>
+                            <label htmlFor="código" className={styles.labelModal}>Nomenclatura</label>
                             <input
                                 type="text"
                                 value={codigoTipoDocumento}
                                 onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                                placeholder="Nomenclatura Ejemplo: CC (Obligatotio)"
+                                className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
                         </div>
                         <div className={styles.modalFormGroup}>
-                            <label>Nombre</label>
+                            <label htmlFor="Nombre" className={styles.labelModal}>Nombre</label>
                             <input
                                 type="text"
                                 value={nombreTipoDocumento}
                                 onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                                placeholder="Nombre del Tipo de Documento (Obligatotio)"
+                                className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
                         </div>
                         <div className={styles.modalButtons}>
@@ -593,11 +674,18 @@ const UsersRegistration = () => {
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <p className={styles.charCounter}>
+                                Caracteres Restantes: {caracteresRestantesPerfil}
+                            </p>
                             <textarea
                                 id="DescripcionPerfil"
                                 placeholder="Descripción"
                                 value={perfilDescripcion}
-                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                onChange={(e) => {
+                                    setPerfilDescripcion(e.target.value);
+                                    setCaracteresRestantesPerfil(255 - e.target.value.length);
+                                }}
+                                maxLength={255}
                                 className={styles.textareaModal}
                             />
                         </div>
@@ -639,7 +727,7 @@ const UsersRegistration = () => {
                                             value={perfilSeleccionado}
                                             onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
                                         >
-                                            <option value="">Seleccionar perfil</option>
+                                            <option value="">Seleccionar Perfil</option>
                                             {perfiles.map((perfil) => (
                                                 <option key={perfil.idPerfil} value={perfil.idPerfil}>
                                                     {perfil.nombrePerfil}
@@ -678,14 +766,20 @@ const UsersRegistration = () => {
                                     onChange={(e) => setRolNombre(e.target.value)}
                                 />
                             </div>
-
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <p className={styles.charCounter}>
+                                    Caracteres Restantes: {caracteresRestantesRol}
+                                </p>
                                 <textarea
                                     id="DescripcionRol"
                                     placeholder="Descripción"
                                     value={rolDescripcion}
-                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    onChange={(e) => {
+                                        setRolDescripcion(e.target.value);
+                                        setCaracteresRestantesRol(255 - e.target.value.length);
+                                    }}
+                                    maxLength={255}
                                     className={styles.textareaModal}
                                 />
                             </div>
