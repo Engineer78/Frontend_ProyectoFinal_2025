@@ -237,7 +237,7 @@ const UpdateUsers = () => {
         // Verificar si el perfil ya existe
         const duplicado = perfiles.find(
             (d) =>
-              d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() &&
+              d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() ||
               d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
           );
         
@@ -332,7 +332,7 @@ const UpdateUsers = () => {
         // Verificar si el rol ya exists
         const duplicado = roles.find(
             (d) =>
-              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() &&
+              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() ||
               d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
           );
         
