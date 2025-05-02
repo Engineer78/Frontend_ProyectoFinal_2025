@@ -474,6 +474,7 @@ body {
   .charCounter {
     font-size: 0.8rem;
     color: #999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-bottom: 2px;
     margin-top: -19px;
     margin-left: 355px;
@@ -640,7 +641,7 @@ body {
     padding-left: 0;
     position: relative;
     list-style: none;
-    z-index: 10; 
+    z-index: 9999; 
   }
 
   .listaResultados li {
