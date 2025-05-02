@@ -863,8 +863,8 @@ const UpdateUsers = () => {
                                             <li
                                                 key={rol.idRol}
                                                 onClick={() => {
-                                                    alert("Seleccionaste: " + rol.nombreRol);
-                                                    console.log("ROL ID:", rol.idRol);
+                                                    {/*alert("Seleccionaste: " + rol.nombreRol);*/}
+                                                    {/*console.log("ROL ID:", rol.idRol);*/}
                                                     setRolNombre(rol.nombreRol);
                                                     setRolDescripcion(rol.descripcion);
                                                     setRolIdSeleccionado(rol.idRol); // asegúrate que sea ID
