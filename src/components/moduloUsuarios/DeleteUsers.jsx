@@ -34,8 +34,8 @@ const DeleteUsers = () => {
     useState(false); // Modal de confirmación
   const [isSearching, setIsSearching] = useState(false); // Estado de búsqueda activa
   const [selectedItems, setSelectedItems] = useState([]); // Empleado seleccionado para eliminar
-  const [visibleItems, setVisibleItems] = useState(10); // Cantidad de empleados visibles
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // Estado de carga adicional
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 6;
 
   // Cargar usuarios desde la API
   const fetchEmployees = async () => {
@@ -78,7 +78,7 @@ const DeleteUsers = () => {
       item.numeroDocumento.toString().includes(filters.numeroDocumento)
     );
 
-    const itemsToShow = filtered.slice(0, visibleItems); // Aplicar paginación
+    const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage); // Paginación de resultados
     setData(itemsToShow); // Guardar datos filtrados
 
     // Si hay resultados, mostrar el primero en los campos deshabilitados
@@ -112,12 +112,14 @@ const DeleteUsers = () => {
     if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
       setIsSearching(true); // Activar estado de búsqueda
     }
-  }, [filters, visibleItems, fullEmployeeList, isSearching]);
+  }, [filters, currentPage, fullEmployeeList, isSearching]);
 
   // Manejo del cambio en el input de búsqueda
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+
+    setCurrentPage(1); // 🔄 Reinicia la página cuando se cambia el filtro
 
     // Si se limpia el campo, reiniciar datos y campos visibles
     if (name === "numeroDocumento" && value === "") {
@@ -220,15 +222,6 @@ const DeleteUsers = () => {
     }
   };
 
-  // Cargar más resultados (paginación)
-  const handleLoadMore = () => {
-    if (!isLoadingMore) {
-      setIsLoadingMore(true);
-      setVisibleItems((prev) => prev + 30);
-      setIsLoadingMore(false);
-    }
-  };
-
   // Limpiar búsqueda y estados
   const handleClear = () => {
     setFilters({ numeroDocumento: "" });
@@ -266,9 +259,8 @@ const DeleteUsers = () => {
       <div className={styles.tabs}>
         <Link
           to="/users-registration"
-          className={`${styles.tabButton} ${
-            activeTab === "registro" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""
+            }`}
           onClick={() => handleTabClick("registro")}
         >
           Registrar Usuarios
@@ -276,9 +268,8 @@ const DeleteUsers = () => {
 
         <Link
           to="/users-query"
-          className={`${styles.tabButton} ${
-            activeTab === "consulta" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""
+            }`}
           onClick={() => handleTabClick("consulta")}
         >
           Consultar Usuarios
@@ -286,9 +277,8 @@ const DeleteUsers = () => {
 
         <Link
           to="/update-users"
-          className={`${styles.tabButton} ${
-            activeTab === "actualizar" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""
+            }`}
           onClick={() => handleTabClick("actualizar")}
         >
           Actualizar Usuarios
@@ -296,9 +286,8 @@ const DeleteUsers = () => {
 
         <Link
           to="/delete-users"
-          className={`${styles.tabButton} ${
-            activeTab === "eliminar" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""
+            }`}
           onClick={() => handleTabClick("eliminar")}
         >
           Eliminar Usuarios
@@ -460,22 +449,39 @@ const DeleteUsers = () => {
         </tbody>
       </table>
 
-      {/* Botón para cargar más resultados si existen */}
-      {data.length > visibleItems && !isLoadingMore && (
-        <div className={styles["load-more-container"]}>
+      {/* Paginación Tabla */}
+      {isSearching && data.length > 0 && (
+        <div className={styles.pagination}>
           <button
-            className={styles["load-more-button"]}
-            onClick={handleLoadMore}
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
           >
-            Cargar más
+            &#x276E;
           </button>
-        </div>
-      )}
 
-      {/* Indicador de carga mientras se obtienen más usuarios */}
-      {isLoadingMore && (
-        <div className={styles["loading-spinner"]}>
-          <p>Cargando más usuarios...</p>
+          {Array.from({
+            length: Math.ceil(fullEmployeeList.filter(item =>
+              item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)
+          }, (_, i) => i + 1)
+            .map(pageNum => (
+              <button
+                key={pageNum}
+                className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+                onClick={() => setCurrentPage(pageNum)}
+              >
+                {pageNum}
+              </button>
+            ))}
+
+          <button
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => prev + 1)}
+            disabled={currentPage === Math.ceil(fullEmployeeList.filter(item =>
+              item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)}
+          >
+            &#x276F;
+          </button>
         </div>
       )}
 
