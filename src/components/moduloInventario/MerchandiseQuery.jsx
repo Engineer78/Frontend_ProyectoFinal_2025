@@ -88,6 +88,9 @@ const MerchandiseQuery = () => {
 
         setData(lista);
 
+        setCurrentPage(1); // Reinicia la paginación al hacer una búsqueda nueva
+
+
         // 7) Siempre tomar el primer resultado
         if (lista.length > 0) {
           setSelectedProduct(lista[0]);
