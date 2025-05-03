@@ -33,9 +33,8 @@ const DeleteMerchandise = () => {
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false); // Modal confirmación eliminación
     const [isSearching, setIsSearching] = useState(false); // Control búsqueda activa
     const [selectedItems, setSelectedItems] = useState([]); // Registros seleccionados
-
-    const [visibleItems, setVisibleItems] = useState(10); // Control paginado de productos
-    const [isLoadingMore, setIsLoadingMore] = useState(false); // Indicador de carga
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 6;
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -48,7 +47,7 @@ const DeleteMerchandise = () => {
     const closeDeleteConfirmationModal = () => {
         setIsDeleteConfirmationOpen(false);
     };
-     // Función para cargar los productos desde la API
+    // Función para cargar los productos desde la API
     const fetchProducts = async () => {
         try {
             const response = await api.get('/productos');
@@ -121,13 +120,7 @@ const DeleteMerchandise = () => {
             alert('Hubo un error al intentar eliminar el producto.');
         }
     };
-    const handleLoadMore = () => {
-        if (!isLoadingMore) {
-            setIsLoadingMore(true);
-            setVisibleItems((prev) => prev + 30);
-            setIsLoadingMore(false);
-        }
-    };
+
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -153,7 +146,7 @@ const DeleteMerchandise = () => {
             item.codigoProducto.toString().includes(filters.codigo)
         );
 
-        const itemsToShow = filtered.slice(0, visibleItems);
+        const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
         setData(itemsToShow);
 
         if (hasActiveFilters && itemsToShow.length > 0) {
@@ -183,11 +176,13 @@ const DeleteMerchandise = () => {
         if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
             setIsSearching(true);
         }
-    }, [filters, visibleItems, fullProductList, isSearching]);
+    }, [filters, currentPage, fullProductList, isSearching]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+
+        setCurrentPage(1); // 🔄 Reinicia la página cuando se cambia el filtro
 
         if (name === 'codigo' && value === '') {
             setData([]);
@@ -310,7 +305,7 @@ const DeleteMerchandise = () => {
                                 name="nombre"
                                 value={disabledInputs.nombre}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -320,7 +315,7 @@ const DeleteMerchandise = () => {
                                 name="existencia"
                                 value={disabledInputs.existencias}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -330,7 +325,7 @@ const DeleteMerchandise = () => {
                                 name="valorUnitario"
                                 value={disabledInputs.valorUnitario}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -360,7 +355,7 @@ const DeleteMerchandise = () => {
                                 name="nitProveedor"
                                 value={disabledInputs.nitProveedor}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -409,22 +404,39 @@ const DeleteMerchandise = () => {
                     )}
                 </tbody>
             </table>
-            {/* Botón "Cargar más" */}
-            {data.length > visibleItems && !isLoadingMore && (
-                <div className={styles['load-more-container']}>
+            {/* Paginación Tabla */}
+            {isSearching && data.length > 0 && (
+                <div className={styles.pagination}>
                     <button
-                        className={styles['load-more-button']}
-                        onClick={handleLoadMore}
+                        className={styles.circleButton}
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
                     >
-                        Cargar más
+                        &#x276E;
                     </button>
-                </div>
-            )}
 
-            {/* Mostrar indicador de carga */}
-            {isLoadingMore && (
-                <div className={styles['loading-spinner']}>
-                    <p>Cargando más productos...</p>
+                    {Array.from({
+                        length: Math.ceil(fullProductList.filter(item =>
+                            item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)
+                    }, (_, i) => i + 1)
+                        .map(pageNum => (
+                            <button
+                                key={pageNum}
+                                className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+                                onClick={() => setCurrentPage(pageNum)}
+                            >
+                                {pageNum}
+                            </button>
+                        ))}
+
+                    <button
+                        className={styles.circleButton}
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        disabled={currentPage === Math.ceil(fullProductList.filter(item =>
+                            item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)}
+                    >
+                        &#x276F;
+                    </button>
                 </div>
             )}
 
