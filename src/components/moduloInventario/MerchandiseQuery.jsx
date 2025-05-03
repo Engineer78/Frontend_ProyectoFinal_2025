@@ -294,7 +294,24 @@ const MerchandiseQuery = () => {
           }
         </tbody>
       </table>
-
+      {/* Paginación Table */}
+      {isSearching && data.length > rowsPerPage && (
+        <div className={styles.pagination}>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Anterior
+          </button>
+          <span>Página {currentPage} de {Math.ceil(data.length / rowsPerPage)}</span>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(data.length / rowsPerPage)))}
+            disabled={currentPage === Math.ceil(data.length / rowsPerPage)}
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
       {/* Modal de imagen */}
       {modalImage && (
         <div className={styles.modal} onClick={closeModalImage}>
