@@ -136,7 +136,7 @@
         /* Centra horizontalmente el contenido */
         table-layout: auto;
         /* Ajuste dinámico del ancho de las columnas */
-        font-size: 0.85rem;
+   
         /* Reducir tamaño de la letra en la tabla */
     }
 
@@ -157,34 +157,34 @@
         background-color: #333233;
         /* Fondo para el encabezado */
         color: #ffffff;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         /* Tamaño del texto en encabezado */
         z-index: 1;
         /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
     }
 
     /* Celdas del encabezado y cuerpo de la tabla */
-    th,
+    thead th,
     td {
         border: 1px solid #ccc;
         /* Bordes grises claros */
-        padding: 6px;
+        padding: 5px;
         /* Reducido el espaciado interno */
         vertical-align: middle;
         /* Centrar verticalmente el contenido */
-        padding: 8px;
+        padding: 5px;
         /* Añade algo de padding a las celdas del encabezado */
     }
 
     /* Inputs dentro del encabezado */
-    th input {
+    thead th input {
         width: 90%;
         /* Tamaño adaptable a la celda */
-        padding: 3px;
+        padding: 4px;
         /* Reducir el espaciado interno del input */
-        font-size: 0.85rem;
+        font-size: 0.7rem;
         /* Tamaño más pequeño del texto en los inputs */
-        height: 26px;
+        height: 22px;
         /* Altura más delgada para los inputs */
         border: 1px solid #ccc;
         /* Borde sutil */
@@ -246,18 +246,17 @@
         /* Fondo al pasar el cursor */
     }
 
-    /* Texto en las celdas del cuerpo */
-    tbody td {
-        font-size: 0.8rem;
-        /* Reducir tamaño del texto en celdas */
-    }
-
     /* Ajuste dinámico del ancho de inputs */
     tbody td input {
         width: 90%;
         /* Inputs se ajustan al ancho de la celda */
-        height: 26px;
+        height: 24px;
         /* Altura delgada de los inputs */
+    }
+
+    tbody tr td {
+        font-size: 0.7rem;
+        /* Tamaño del texto en celdas */
     }
 
     .modalImage {

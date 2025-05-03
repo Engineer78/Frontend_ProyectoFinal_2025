@@ -21,6 +21,8 @@ const MerchandiseQuery = () => {
     nombreProducto: '',
     nitProveedor: '',
     nombreProveedor: '',
+    telefonoProveedor: '',
+    direccionProveedor: '',
     cantidad: '',
     valorUnitarioProducto: '',
     valorTotalProducto: '',
@@ -59,6 +61,8 @@ const MerchandiseQuery = () => {
               nombreProducto: filters.nombreProducto || null,
               nitProveedor: filters.nitProveedor || null,
               nombreProveedor: filters.nombreProveedor || null,
+              telefonoProveedor: filters.telefonoProveedor || null,
+              direccionProveedor: filters.direccionProveedor || null,
               cantidad: filters.cantidad || null,
               valorUnitarioProducto: filters.valorUnitarioProducto || null,
               valorTotalProducto: filters.valorTotalProducto || null,
@@ -128,6 +132,8 @@ const MerchandiseQuery = () => {
       nombreProducto: '',
       nitProveedor: '',
       nombreProveedor: '',
+      telefonoProveedor: '',
+      direccionProveedor: '',
       cantidad: '',
       valorUnitarioProducto: '',
       valorTotalProducto: '',
@@ -208,7 +214,7 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Nom. del Producto
+            <th>Producto
               <input
                 type="text"
                 name="nombreProducto"
@@ -227,7 +233,7 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Valor Unitario
+            <th>Valor Unit.
               <input
                 type="text"
                 value={selectedProduct?.valorUnitarioProducto || ''}
@@ -236,7 +242,7 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Valor Total Prod.
+            <th>Valor Tot. 
               <input
                 type="text"
                 value={selectedProduct?.valorTotalProducto || ''}
@@ -254,7 +260,7 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>NIT Proveedor
+            <th>NIT Prov.
               <input
                 type="text"
                 value={selectedProduct?.nitProveedor || ''}
@@ -263,7 +269,25 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Imagen</th>
+            <th>Tel. Prov.
+              <input
+                type="text"
+                value={selectedProduct?.telefonoProveedor || ''}
+                disabled
+                placeholder="..."
+                style={{ fontStyle: 'italic' }}
+              />
+            </th>
+            <th>Dir. Prov.
+              <input
+                type="text"
+                value={selectedProduct?.direccionProveedor || ''}
+                disabled
+                placeholder="..."
+                style={{ fontStyle: 'italic' }}
+              />
+            </th>
+            <th>Img.</th>
           </tr>
         </thead>
         <tbody>
@@ -282,6 +306,8 @@ const MerchandiseQuery = () => {
                     <td>{item.valorTotalProducto}</td>
                     <td>{item.nombreProveedor}</td>
                     <td>{item.nitProveedor}</td>
+                    <td>{item.telefonoProveedor}</td>
+                    <td>{item.direccionProveedor}</td>
                     <td>
                       {item.imagen
                         ? <a href="#" onClick={e => { e.preventDefault(); handleImageClick(item.imagen); }}>Ver Imagen</a>
@@ -289,8 +315,8 @@ const MerchandiseQuery = () => {
                     </td>
                   </tr>
                 ))
-              : <tr><td colSpan="10">No se encontraron resultados</td></tr>
-            : <tr><td colSpan="10">Realiza una búsqueda para ver los registros</td></tr>
+              : <tr><td colSpan="12">No se encontraron resultados</td></tr>
+            : <tr><td colSpan="12">Realiza una búsqueda para ver los registros</td></tr>
           }
         </tbody>
       </table>
