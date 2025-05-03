@@ -269,24 +269,26 @@ const MerchandiseQuery = () => {
         <tbody>
           {isSearching
             ? data.length > 0
-              ? data.map((item, i) => (
-                <tr key={i} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
-                  <td><input type="checkbox" /></td>
-                  <td>{item.codigoProducto}</td>
-                  <td>{item.nombreCategoria}</td>
-                  <td>{item.nombreProducto}</td>
-                  <td>{item.cantidad}</td>
-                  <td>{item.valorUnitarioProducto}</td>
-                  <td>{item.valorTotalProducto}</td>
-                  <td>{item.nombreProveedor}</td>
-                  <td>{item.nitProveedor}</td>
-                  <td>
-                    {item.imagen
-                      ? <a href="#" onClick={e => { e.preventDefault(); handleImageClick(item.imagen); }}>Ver Imagen</a>
-                      : 'No disponible'}
-                  </td>
-                </tr>
-              ))
+              ? data
+                .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+                .map((item, i) => (
+                  <tr key={i} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
+                    <td><input type="checkbox" /></td>
+                    <td>{item.codigoProducto}</td>
+                    <td>{item.nombreCategoria}</td>
+                    <td>{item.nombreProducto}</td>
+                    <td>{item.cantidad}</td>
+                    <td>{item.valorUnitarioProducto}</td>
+                    <td>{item.valorTotalProducto}</td>
+                    <td>{item.nombreProveedor}</td>
+                    <td>{item.nitProveedor}</td>
+                    <td>
+                      {item.imagen
+                        ? <a href="#" onClick={e => { e.preventDefault(); handleImageClick(item.imagen); }}>Ver Imagen</a>
+                        : 'No disponible'}
+                    </td>
+                  </tr>
+                ))
               : <tr><td colSpan="10">No se encontraron resultados</td></tr>
             : <tr><td colSpan="10">Realiza una búsqueda para ver los registros</td></tr>
           }
