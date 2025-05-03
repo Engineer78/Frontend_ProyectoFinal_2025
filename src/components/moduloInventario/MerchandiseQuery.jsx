@@ -298,20 +298,33 @@ const MerchandiseQuery = () => {
       {isSearching && data.length > rowsPerPage && (
         <div className={styles.pagination}>
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            Anterior
+            &#x276E; {/* flecha izquierda */}
           </button>
-          <span>Página {currentPage} de {Math.ceil(data.length / rowsPerPage)}</span>
+
+          {Array.from({ length: Math.ceil(data.length / rowsPerPage) }, (_, i) => i + 1).map(pageNum => (
+            <button
+              key={pageNum}
+              className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+              onClick={() => setCurrentPage(pageNum)}
+            >
+              {pageNum}
+            </button>
+          ))}
+
           <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(data.length / rowsPerPage)))}
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(data.length / rowsPerPage)))}
             disabled={currentPage === Math.ceil(data.length / rowsPerPage)}
           >
-            Siguiente
+            &#x276F; {/* flecha derecha */}
           </button>
         </div>
       )}
+
       {/* Modal de imagen */}
       {modalImage && (
         <div className={styles.modal} onClick={closeModalImage}>
