@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useCallback } from 'react';
 import axios from "axios"; // Importa Axios para realizar peticiones HTTP
+
+// Crear instancia de Axios con la base URL de la API
+const api = axios.create({ baseURL: "http://localhost:8080/api" });
 
 // Componente principal para eliminar usuarios
 const DeleteUsers = () => {
-  // Crear instancia de Axios con la base URL de la API
-  const api = axios.create({ baseURL: "http://localhost:8080/api" });
 
   // Estados para manejar pestañas, datos, filtros, selección y carga
   const [activeTab, setActiveTab] = useState("eliminar"); // Pestaña activa
@@ -38,20 +40,20 @@ const DeleteUsers = () => {
   const rowsPerPage = 6;
 
   // Cargar usuarios desde la API
-  const fetchEmployees = async () => {
+  const fetchEmployees = useCallback(async () => {
     try {
       const response = await api.get("/empleados");
-      console.log("Datos recibidos:", response.data); // Petición GET a la API
-      setFullEmployeeList(response.data); // Guardar respuesta en el estado
+      console.log("Datos recibidos:", response.data);
+      setFullEmployeeList(response.data);
     } catch (error) {
-      console.error("Error al cargar los usuarios:", error); // Manejo de errores
+      console.error("Error al cargar los usuarios:", error);
     }
-  };
+  }, []);
 
   // Cargar empleados Inmediatamente  al montar el componente
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [fetchEmployees]);
 
   // Filtrar empleados por número de documento
   useEffect(() => {
@@ -462,7 +464,7 @@ const DeleteUsers = () => {
 
           {Array.from({
             length: Math.ceil(fullEmployeeList.filter(item =>
-              item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)
+              item.numeroDocumento.toString().includes(filters.numeroDocumento)).length / rowsPerPage)
           }, (_, i) => i + 1)
             .map(pageNum => (
               <button
@@ -478,7 +480,7 @@ const DeleteUsers = () => {
             className={styles.circleButton}
             onClick={() => setCurrentPage(prev => prev + 1)}
             disabled={currentPage === Math.ceil(fullEmployeeList.filter(item =>
-              item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)}
+              item.numeroDocumento.toString().includes(filters.numeroDocumento)).length / rowsPerPage)}
           >
             &#x276F;
           </button>
