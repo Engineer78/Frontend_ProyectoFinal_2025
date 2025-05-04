@@ -34,7 +34,7 @@ const DeleteMerchandise = () => {
     const [isSearching, setIsSearching] = useState(false); // Control búsqueda activa
     const [selectedItems, setSelectedItems] = useState([]); // Registros seleccionados
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 6;
+    const rowsPerPage = 5;
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -285,7 +285,12 @@ const DeleteMerchandise = () => {
                     Ingrese un código de producto y seleccione el registro que desea eliminar
                 </h2>
             </div>
-
+            {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+            <div className={styles.topTableRow}>
+                <p className={styles.labelPagination}>
+                    Total registros: {data.length} | Rows per page: {rowsPerPage}
+                </p>
+            </div>
             <table className={styles.table}>
                 <thead>
                     <tr>
