@@ -192,7 +192,7 @@ const MerchandiseQuery = () => {
       {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
       <div className={styles.topTableRow}>
         <p className={styles.labelPagination}>
-          Total registros: {data.length} | Rows per page: {rowsPerPage}
+          Total registros: {data.length} | Filas por página: {rowsPerPage}
         </p>
       </div>
       <table className={styles.table}>
