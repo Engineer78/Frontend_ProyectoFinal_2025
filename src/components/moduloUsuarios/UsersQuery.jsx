@@ -255,6 +255,7 @@ const UsersQuery = () => {
           consulta
         </h2>
       </div>
+      {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
       <div className={styles.topTableRow}>
       <p className={styles.labelPagination}>
         Total registros: {data.length} | Rows per page: {rowsPerPage}
