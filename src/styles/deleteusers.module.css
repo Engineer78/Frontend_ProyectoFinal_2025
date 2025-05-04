@@ -463,5 +463,18 @@ tbody td input {
     border: none;
   }
 
+  .topTableRow {
+    display: flex;
+    margin-left: 80.5%;
+    margin-top: -53px;
+    margin-bottom: 0px;
+  }
+
+  .labelPagination p{
+    color: #333233;
+    font-size: 0.8rem;
+    text-align: right;
+  }
+
 
 
