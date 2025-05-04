@@ -37,7 +37,7 @@ const DeleteUsers = () => {
   const [isSearching, setIsSearching] = useState(false); // Estado de búsqueda activa
   const [selectedItems, setSelectedItems] = useState([]); // Empleado seleccionado para eliminar
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 6;
+  const rowsPerPage = 5;
 
   // Cargar usuarios desde la API
   const fetchEmployees = useCallback(async () => {
@@ -303,7 +303,18 @@ const DeleteUsers = () => {
           eliminar
         </h2>
       </div>
-
+      <div className={styles.topTableRow}>
+        {/* Etiqueta de paginación con total de registros y filas por página */}
+        <p className={styles.labelPagination}>
+          Total registros: {
+            filters.numeroDocumento.trim() !== ''
+              ? fullEmployeeList.filter(item =>
+                item.numeroDocumento.toString().includes(filters.numeroDocumento.trim())
+              ).length
+              : 0
+          } | Filas por página: {rowsPerPage}
+        </p>
+      </div>
       {/* Tabla de resultados con filtros por documento, campos deshabilitados y selección */}
       <table className={styles.table}>
         <thead>
@@ -452,7 +463,7 @@ const DeleteUsers = () => {
       </table>
 
       {/* Paginación Tabla */}
-      {isSearching && data.length > 0 && (
+      {isSearching && (
         <div className={styles.pagination}>
           <button
             className={styles.circleButton}
@@ -464,23 +475,26 @@ const DeleteUsers = () => {
 
           {Array.from({
             length: Math.ceil(fullEmployeeList.filter(item =>
-              item.numeroDocumento.toString().includes(filters.numeroDocumento)).length / rowsPerPage)
-          }, (_, i) => i + 1)
-            .map(pageNum => (
-              <button
-                key={pageNum}
-                className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
-                onClick={() => setCurrentPage(pageNum)}
-              >
-                {pageNum}
-              </button>
-            ))}
+              item.numeroDocumento.toString().includes(filters.numeroDocumento)
+            ).length / rowsPerPage)
+          }, (_, i) => i + 1).map(pageNum => (
+            <button
+              key={pageNum}
+              className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+              onClick={() => setCurrentPage(pageNum)}
+            >
+              {pageNum}
+            </button>
+          ))}
 
           <button
             className={styles.circleButton}
             onClick={() => setCurrentPage(prev => prev + 1)}
-            disabled={currentPage === Math.ceil(fullEmployeeList.filter(item =>
-              item.numeroDocumento.toString().includes(filters.numeroDocumento)).length / rowsPerPage)}
+            disabled={
+              currentPage === Math.ceil(fullEmployeeList.filter(item =>
+                item.numeroDocumento.toString().includes(filters.numeroDocumento)
+              ).length / rowsPerPage)
+            }
           >
             &#x276F;
           </button>

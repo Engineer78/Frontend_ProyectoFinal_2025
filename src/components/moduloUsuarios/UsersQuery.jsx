@@ -45,7 +45,7 @@ const UsersQuery = () => {
   //    - currentPage: controla la página actual de la tabla
   //    - rowsPerPage: número de filas por página
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 6;
+  const rowsPerPage = 5;
 
   // 2) Función para cambiar entre pestañas
   const handleTabClick = (tab) => {
@@ -254,6 +254,11 @@ const UsersQuery = () => {
           Ingrese el Número de Identificación para realizar la
           consulta
         </h2>
+      </div>
+      <div className={styles.topTableRow}>
+      <p className={styles.labelPagination}>
+        Total registros: {data.length} | Rows per page: {rowsPerPage}
+      </p>
       </div>
       {/* Tabla de consulta de usuarios */}
       <table className={styles.table}>
