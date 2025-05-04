@@ -62,14 +62,15 @@ const UsersQuery = () => {
     // Si no hay filtros o no se está buscando, limpiar los datos
     if (!isSearching || noFilters) {
       setData([]);
-      setSelectedUser(null);
-      ({
+      setSelectedUser({
         nombreTipoDocumento: "",
         nombreUsuario: "",
-        rol: "",
-        nombreCompletos: "",
-        telefono: "",
-        direccion: "",
+        nombreRol: "",
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        telefonoMovil: "",
+        direccionResidencia: "",
         contactoEmergencia: "",
         telefonoContacto: "",
       });
@@ -135,12 +136,14 @@ const UsersQuery = () => {
 
           // Si no hay resultados, limpiar los campos de selección
           setSelectedUser({
-            tipoDocumento: "",
+            nombreTipoDocumento: "",
             nombreUsuario: "",
-            rol: "",
-            nombresCompletos: "",
-            telefono: "",
-            direccion: "",
+            nombreRol: "",
+            nombres: "",
+            apellidoPaterno: "",
+            apellidoMaterno: "",
+            telefonoMovil: "",
+            direccionResidencia: "",
             contactoEmergencia: "",
             telefonoContacto: "",
           });
@@ -151,14 +154,15 @@ const UsersQuery = () => {
 
         // En caso de error, limpiar estados
         setData([]);
-        setSelectedUser(null);
-        ({
-          tipoDocumento: "",
+        setSelectedUser({
+          nombreTipoDocumento: "",
           nombreUsuario: "",
-          rol: "",
-          nombresCompletos: "",
-          telefono: "",
-          direccion: "",
+          nombreRol: "",
+          nombres: "",
+          apellidoPaterno: "",
+          apellidoMaterno: "",
+          telefonoMovil: "",
+          direccionResidencia: "",
           contactoEmergencia: "",
           telefonoContacto: "",
         });
@@ -187,9 +191,9 @@ const UsersQuery = () => {
   const handleClear = () => {
     setFilters({
       numeroDocumento: '',
-      tipoDocumento: '',
+      nombreTipoDocumento: '',
       nombreUsuario: '',
-      rol: '',
+      nombreRol: '',
       nombres: '',
       apellidoPaterno: '',
       apellidoMaterno: '',
@@ -257,9 +261,9 @@ const UsersQuery = () => {
       </div>
       {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
       <div className={styles.topTableRow}>
-      <p className={styles.labelPagination}>
-        Total registros: {data.length} | Filas por página {rowsPerPage}
-      </p>
+        <p className={styles.labelPagination}>
+          Total registros: {data.length} | Filas por página {rowsPerPage}
+        </p>
       </div>
       {/* Tabla de consulta de usuarios */}
       <table className={styles.table}>
