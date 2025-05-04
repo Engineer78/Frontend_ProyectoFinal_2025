@@ -157,7 +157,7 @@
         background-color: #333233;
         /* Fondo para el encabezado */
         color: #ffffff;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         /* Tamaño del texto en encabezado */
         z-index: 1;
         /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
@@ -182,7 +182,7 @@
         /* Tamaño adaptable a la celda */
         padding: 4px;
         /* Reducir el espaciado interno del input */
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         /* Tamaño más pequeño del texto en los inputs */
         height: 22px;
         /* Altura más delgada para los inputs */
@@ -255,7 +255,7 @@
     }
 
     tbody tr td {
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         /* Tamaño del texto en celdas */
     }
 
@@ -593,3 +593,15 @@
         border: none;
       }
       
+      .topTableRow {
+        display: flex;
+        margin-left: 80.5%;
+        margin-top: -53px;
+        margin-bottom: 0px;
+      }
+      
+      .labelPagination p{
+        color: #333233;
+        font-size: 0.8rem;
+        text-align: right;
+      }
