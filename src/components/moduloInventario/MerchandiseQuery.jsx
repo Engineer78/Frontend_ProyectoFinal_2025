@@ -34,7 +34,7 @@ const MerchandiseQuery = () => {
   const [modalImage, setModalImage] = useState(null);
   const [searchMode, setSearchMode] = useState('normal');  // 'normal' o 'advanced'
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 6;
+  const rowsPerPage = 5;
 
 
   // 2) Manejo de pestañas
@@ -189,7 +189,12 @@ const MerchandiseQuery = () => {
           Ingrese un dato en la casilla correspondiente para realizar la consulta
         </h2>
       </div>
-
+      {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+      <div className={styles.topTableRow}>
+        <p className={styles.labelPagination}>
+          Total registros: {data.length} | Rows per page: {rowsPerPage}
+        </p>
+      </div>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -242,7 +247,7 @@ const MerchandiseQuery = () => {
                 style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Valor Tot. 
+            <th>Valor Tot.
               <input
                 type="text"
                 value={selectedProduct?.valorTotalProducto || ''}
