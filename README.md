@@ -67,6 +67,10 @@ Usuario: admin@gmail.com
 
 Contraseña: 12345
 
+⚠️ Recursos entregados
+
+Dentro de la estructura del proyecto src/assets/Imagenes Materiales y Herramientas, Se entregan imagenes de productos que se pueden usar al momento de crear o actualizar.
+
 👥 Desarrolladores
 
 Proyecto desarrollado por aprendices del SENA – Centro de Comercio y Turismo de Armenia, Regional Quindío:
