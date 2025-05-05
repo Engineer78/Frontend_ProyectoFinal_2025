@@ -1,12 +1,12 @@
-# Frontend_proyectoFinal_2025
+# Hardware Store Inventory (Frontend) 🖥️ 
 
 Este proyecto representa la parte Frontend del sistema Hardware Store Inventory - FFIG, construido como parte de la Evidencia:GA8-220501096-AA1-EV01 del programa Tecnología en Análisis y Desarrollo de Software del SENA. La solución está desarrollada en React con Vite, integrando funcionalidades completas de gestión mediante operaciones CRUD.
 
 📋 Descripción
 
-La aplicación permite gestionar el inventario de una ferretería a través de interfaces amigables que facilitan las operaciones de Crear, Consultar, Actualizar y Eliminar datos relacionados con productos, proveedores y categorías. Actualmente, el módulo de autenticación está basado en almacenamiento local (localStorage).
+La aplicación permite gestionar el inventario de una ferretería cmo la gestion de empleados a través de interfaces amigables que facilitan las operaciones de Crear, Consultar, Actualizar y Eliminar datos relacionados con productos, proveedores y categorías. Actualmente, empleados (datos básicos) , usuarios (nomnbre y contraseña). roles, perfiles y tipo de documento. el módulo de autenticación está basado en almacenamiento local (localStorage).
 
-🚀 #Tecnologías Utilizadas
+🚀 Tecnologías Utilizadas
 
 React + Vite
 
@@ -32,7 +32,7 @@ feature/joaquin
 
 Un único integrante del equipo lidera el control de Git para evitar conflictos o pérdidas accidentales. Este integrante es responsable de realizar integraciones desde las ramas personales hacia la rama intermedia, y posteriormente hacia main.
 
-🧪 #Módulos Entregados
+🧪 Módulos Entregados
 
 Se entregan dos módulos funcionales, cada uno implementando completamente las operaciones CRUD:
 
