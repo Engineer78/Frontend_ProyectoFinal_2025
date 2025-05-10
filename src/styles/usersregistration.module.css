@@ -161,12 +161,12 @@ body {
   display: flex;
   flex-direction: column;
   margin: -4px;
-  margin-bottom: 62px;
+  margin-bottom: 10px;
   margin-left: 178px;
 }
 
 .formGroup label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: bold;
   margin-bottom: 8px;
   opacity: 0.7;
@@ -185,7 +185,7 @@ body {
 .select {
   /* espacio para la flecha */
   appearance: none;
-  background-color: #333233;
+  background-color: #565557;
   border: none;
   border-radius: 10px;
   box-shadow: none;
@@ -214,7 +214,7 @@ body {
 
 .select:focus {
   outline: none;
-  background-color: #565557;
+  background-color: #333233;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
@@ -348,7 +348,16 @@ body {
   margin-left: 0;
 }
 
-/* Btonoes para crear perfiles y roles */
+/* Btonoes para crear perfiles, roles y tipo documento */
+
+.formGroupButtosn {
+width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+
 .createButton {
   align-items: center;
   border: none;
@@ -363,8 +372,8 @@ body {
   height: 38px !important;
   justify-content: center;
   margin-left: 309px;
-  margin-top: -50px;
-  margin-bottom: 50px;
+  margin-top: -10px;
+  margin-bottom: 28px;
   padding: 8px 15px;
   text-align: center;
   min-width: 120px !important;
@@ -443,6 +452,16 @@ body {
   font-weight: bold;
 }
 
+/* Estilo del contador de caracteres */
+.charCounter {
+  font-size: 0.8rem;
+  color: #999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 2px;
+  margin-top: -19px;
+  margin-left: 355px;
+}
+
 /* Inputs y textarea */
 .modalContent input,
 .modalContent textarea {
@@ -458,8 +477,15 @@ body {
 }
 
 .textareaModal {
-  height: 100px;
-  resize: none;
+  height: 50px;
+  resize: vertical;
+}
+
+/* Estilo del input para buscar perfil  */
+.inputModalBuscar {
+  margin-bottom: 0px;
+  height: 30px;
+  font-size: 0.9rem;
 }
 
 /* Estilo de los botones */
@@ -469,7 +495,7 @@ body {
   text-align: center;
   align-items: center;
   gap: 10px;
-  margin-top: rem;
+  margin-top: 1rem;
 }
 
 .modalButtonsRol {
@@ -587,17 +613,21 @@ body {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
-/* lista de resultados */
-.listaResultados {
+ /* lista de resultados */
+ .listaResultados {
+  border-radius: 4px;
   max-height: 100px;
   overflow-y: auto;
   text-align: left;
-  margin-top: 1rem;
+  margin-top: 0px;
   padding-left: 0;
+  position: relative;
   list-style: none;
+  z-index: 10; 
 }
 
 .listaResultados li {
   padding: 5px 10px;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
 }

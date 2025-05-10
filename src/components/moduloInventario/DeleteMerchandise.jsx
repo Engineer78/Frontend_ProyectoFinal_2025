@@ -33,9 +33,8 @@ const DeleteMerchandise = () => {
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false); // Modal confirmación eliminación
     const [isSearching, setIsSearching] = useState(false); // Control búsqueda activa
     const [selectedItems, setSelectedItems] = useState([]); // Registros seleccionados
-
-    const [visibleItems, setVisibleItems] = useState(10); // Control paginado de productos
-    const [isLoadingMore, setIsLoadingMore] = useState(false); // Indicador de carga
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 5;
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -48,7 +47,7 @@ const DeleteMerchandise = () => {
     const closeDeleteConfirmationModal = () => {
         setIsDeleteConfirmationOpen(false);
     };
-     // Función para cargar los productos desde la API
+    // Función para cargar los productos desde la API
     const fetchProducts = async () => {
         try {
             const response = await api.get('/productos');
@@ -71,6 +70,8 @@ const DeleteMerchandise = () => {
                 valorTotal: item.valorTotalProducto || '',
                 proveedor: item.nombreProveedor || '',
                 nitProveedor: item.nitProveedor || '',
+                telefonoProveedor: item.telefonoProveedor || '',
+                direccionProveedor: item.direccionProveedor || ''
             });
         } else {
             setSelectedItems((prev) => prev.filter((selected) => selected.codigoProducto !== item.codigoProducto));
@@ -103,6 +104,8 @@ const DeleteMerchandise = () => {
                 valorTotal: '',
                 proveedor: '',
                 nitProveedor: '',
+                telefonoProveedor: '',
+                direccionProveedor: ''
             });
 
             // Limpiar la lista de productos y el estado de búsqueda
@@ -121,13 +124,7 @@ const DeleteMerchandise = () => {
             alert('Hubo un error al intentar eliminar el producto.');
         }
     };
-    const handleLoadMore = () => {
-        if (!isLoadingMore) {
-            setIsLoadingMore(true);
-            setVisibleItems((prev) => prev + 30);
-            setIsLoadingMore(false);
-        }
-    };
+
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -145,6 +142,8 @@ const DeleteMerchandise = () => {
                 valorTotal: '',
                 proveedor: '',
                 nitProveedor: '',
+                telefonoProveedor: '',
+                direccionProveedor: ''
             });
             return; // No sigas con filtrado
         }
@@ -153,7 +152,7 @@ const DeleteMerchandise = () => {
             item.codigoProducto.toString().includes(filters.codigo)
         );
 
-        const itemsToShow = filtered.slice(0, visibleItems);
+        const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
         setData(itemsToShow);
 
         if (hasActiveFilters && itemsToShow.length > 0) {
@@ -166,6 +165,8 @@ const DeleteMerchandise = () => {
                 valorTotal: firstItem.valorTotalProducto || '',
                 proveedor: firstItem.nombreProveedor || '',
                 nitProveedor: firstItem.nitProveedor || '',
+                telefonoProveedor: firstItem.telefonoProveedor || '',
+                direccionProveedor: firstItem.direccionProveedor || ''
             });
         } else {
             setDisabledInputs({
@@ -176,6 +177,8 @@ const DeleteMerchandise = () => {
                 valorTotal: '',
                 proveedor: '',
                 nitProveedor: '',
+                telefonoProveedor: '',
+                direccionProveedor: ''
             });
         }
         // Si hay filtros activos y hay elementos para mostrar, activa la búsqueda
@@ -183,11 +186,13 @@ const DeleteMerchandise = () => {
         if (hasActiveFilters && itemsToShow.length > 0 && !isSearching) {
             setIsSearching(true);
         }
-    }, [filters, visibleItems, fullProductList, isSearching]);
+    }, [filters, currentPage, fullProductList, isSearching]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+
+        setCurrentPage(1); // 🔄 Reinicia la página cuando se cambia el filtro
 
         if (name === 'codigo' && value === '') {
             setData([]);
@@ -199,6 +204,8 @@ const DeleteMerchandise = () => {
                 valorTotal: '',
                 proveedor: '',
                 nitProveedor: '',
+                telefonoProveedor: '',
+                direccionProveedor: ''
             });
         }
 
@@ -215,6 +222,8 @@ const DeleteMerchandise = () => {
             valorTotal: '',
             proveedor: '',
             nitProveedor: '',
+            telefonoProveedor: '',
+            direccionProveedor: ''
         });
         setData([]);
         setIsSearching(false);
@@ -276,7 +285,12 @@ const DeleteMerchandise = () => {
                     Ingrese un código de producto y seleccione el registro que desea eliminar
                 </h2>
             </div>
-
+            {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+            <div className={styles.topTableRow}>
+                <p className={styles.labelPagination}>
+                    Total registros: {data.length} | Filas por página:  {rowsPerPage}
+                </p>
+            </div>
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -304,13 +318,13 @@ const DeleteMerchandise = () => {
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Nom. del Producto
+                        <th>Producto
                             <input
                                 type="text"
                                 name="nombre"
                                 value={disabledInputs.nombre}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
@@ -320,21 +334,21 @@ const DeleteMerchandise = () => {
                                 name="existencia"
                                 value={disabledInputs.existencias}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Valor Unitario
+                        <th>Valor Unit.
                             <input
                                 type="text"
                                 name="valorUnitario"
                                 value={disabledInputs.valorUnitario}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Valor Total Prod.
+                        <th>Valor Tot.
                             <input
                                 type="text"
                                 name="valorTotal"
@@ -354,17 +368,35 @@ const DeleteMerchandise = () => {
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>NIT Proveedor
+                        <th>NIT Prov.
                             <input
                                 type="text"
                                 name="nitProveedor"
                                 value={disabledInputs.nitProveedor}
                                 placeholder="..."
-                                disabled 
+                                disabled
                                 style={{ fontStyle: 'italic' }}
                             />
                         </th>
-                        <th>Imagen</th>
+                        <th>Tel. Prov.
+                            <input
+                                type="text"
+                                value={disabledInputs.telefonoProveedor || ''}
+                                disabled
+                                placeholder="..."
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </th>
+                        <th>Dir. Prov.
+                            <input
+                                type="text"
+                                value={disabledInputs.direccionProveedor || ''}
+                                disabled
+                                placeholder="..."
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </th>
+                        <th>Img.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -386,6 +418,8 @@ const DeleteMerchandise = () => {
                                     <td>{item.valorTotalProducto}</td>
                                     <td>{item.nombreProveedor}</td>
                                     <td>{item.nitProveedor}</td>
+                                    <td>{item.telefonoProveedor}</td>
+                                    <td>{item.direccionProveedor}</td>
                                     <td>
                                         {item.imagen && item.imagen.length > "data:image/png;base64,".length ? (
                                             <a href="#" onClick={() => handleImageClick(item.imagen)}>
@@ -399,32 +433,49 @@ const DeleteMerchandise = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="10">No se encontraron resultados</td>
+                                <td colSpan="12">No se encontraron resultados</td>
                             </tr>
                         )
                     ) : (
                         <tr>
-                            <td colSpan="10">Realiza una búsqueda para ver los registros</td>
+                            <td colSpan="12">Realiza una búsqueda para ver los registros</td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            {/* Botón "Cargar más" */}
-            {data.length > visibleItems && !isLoadingMore && (
-                <div className={styles['load-more-container']}>
+            {/* Paginación Tabla */}
+            {isSearching && data.length > 0 && (
+                <div className={styles.pagination}>
                     <button
-                        className={styles['load-more-button']}
-                        onClick={handleLoadMore}
+                        className={styles.circleButton}
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
                     >
-                        Cargar más
+                        &#x276E;
                     </button>
-                </div>
-            )}
 
-            {/* Mostrar indicador de carga */}
-            {isLoadingMore && (
-                <div className={styles['loading-spinner']}>
-                    <p>Cargando más productos...</p>
+                    {Array.from({
+                        length: Math.ceil(fullProductList.filter(item =>
+                            item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)
+                    }, (_, i) => i + 1)
+                        .map(pageNum => (
+                            <button
+                                key={pageNum}
+                                className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+                                onClick={() => setCurrentPage(pageNum)}
+                            >
+                                {pageNum}
+                            </button>
+                        ))}
+
+                    <button
+                        className={styles.circleButton}
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        disabled={currentPage === Math.ceil(fullProductList.filter(item =>
+                            item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)}
+                    >
+                        &#x276F;
+                    </button>
                 </div>
             )}
 

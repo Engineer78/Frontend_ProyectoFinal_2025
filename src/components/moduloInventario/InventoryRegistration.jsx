@@ -385,7 +385,7 @@ const InventoryRegistration = () => {
                                     id="fileInput"
                                 />
                                 <label htmlFor="fileInput" className={styles.customFileInput}>
-                                    Cargar Imagen <UploadFileIcon />
+                                    Cargar Imagen <UploadFileIcon style={{ marginLeft: 8 }} />
                                 </label>
                             </div>
                         </form>

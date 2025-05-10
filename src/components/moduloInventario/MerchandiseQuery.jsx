@@ -21,6 +21,8 @@ const MerchandiseQuery = () => {
     nombreProducto: '',
     nitProveedor: '',
     nombreProveedor: '',
+    telefonoProveedor: '',
+    direccionProveedor: '',
     cantidad: '',
     valorUnitarioProducto: '',
     valorTotalProducto: '',
@@ -31,6 +33,9 @@ const MerchandiseQuery = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [modalImage, setModalImage] = useState(null);
   const [searchMode, setSearchMode] = useState('normal');  // 'normal' o 'advanced'
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 5;
+
 
   // 2) Manejo de pestañas
   const handleTabClick = (tab) => setActiveTab(tab);
@@ -47,7 +52,7 @@ const MerchandiseQuery = () => {
     const fetchData = async () => {
       try {
         let resp;
-    
+
         // 4) Si los filtros principales están llenos, usar búsqueda normal
         if (filters.codigoProducto || filters.nombreCategoria || filters.nombreProducto) {
           resp = await api.get('/productos/buscar', {
@@ -56,6 +61,8 @@ const MerchandiseQuery = () => {
               nombreProducto: filters.nombreProducto || null,
               nitProveedor: filters.nitProveedor || null,
               nombreProveedor: filters.nombreProveedor || null,
+              telefonoProveedor: filters.telefonoProveedor || null,
+              direccionProveedor: filters.direccionProveedor || null,
               cantidad: filters.cantidad || null,
               valorUnitarioProducto: filters.valorUnitarioProducto || null,
               valorTotalProducto: filters.valorTotalProducto || null,
@@ -73,18 +80,21 @@ const MerchandiseQuery = () => {
             }
           });
         }
-    
+
         let lista = resp.data || [];
-    
+
         // 6) Filtrado adicional por código en frontend si es necesario
         if (filters.codigoProducto) {
           lista = lista.filter(p =>
             p.codigoProducto.toString().includes(filters.codigoProducto)
           );
         }
-    
+
         setData(lista);
-    
+
+        setCurrentPage(1); // Reinicia la paginación al hacer una búsqueda nueva
+
+
         // 7) Siempre tomar el primer resultado
         if (lista.length > 0) {
           setSelectedProduct(lista[0]);
@@ -97,7 +107,7 @@ const MerchandiseQuery = () => {
         setSelectedProduct(null);
       }
     };
-    
+
 
     fetchData();
   }, [filters, isSearching, searchMode]);
@@ -122,6 +132,8 @@ const MerchandiseQuery = () => {
       nombreProducto: '',
       nitProveedor: '',
       nombreProveedor: '',
+      telefonoProveedor: '',
+      direccionProveedor: '',
       cantidad: '',
       valorUnitarioProducto: '',
       valorTotalProducto: '',
@@ -152,23 +164,23 @@ const MerchandiseQuery = () => {
       <div className={styles.tabs}>
         <Link
           to="/inventory-registration"
-          className={`${styles.tabButton} ${activeTab==='registro'?styles.active:''}`}
-          onClick={()=>handleTabClick('registro')}
+          className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''}`}
+          onClick={() => handleTabClick('registro')}
         >Registrar Inventario</Link>
         <Link
           to="/merchandise-query"
-          className={`${styles.tabButton} ${activeTab==='consulta'?styles.active:''}`}
-          onClick={()=>handleTabClick('consulta')}
+          className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''}`}
+          onClick={() => handleTabClick('consulta')}
         >Consultar Inventario</Link>
         <Link
           to="/update-merchandise"
-          className={`${styles.tabButton} ${activeTab==='actualizar'?styles.active:''}`}
-          onClick={()=>handleTabClick('actualizar')}
+          className={`${styles.tabButton} ${activeTab === 'actualizar' ? styles.active : ''}`}
+          onClick={() => handleTabClick('actualizar')}
         >Actualizar Inventario</Link>
         <Link
           to="/delete-merchandise"
-          className={`${styles.tabButton} ${activeTab==='eliminar'?styles.active:''}`}
-          onClick={()=>handleTabClick('eliminar')}
+          className={`${styles.tabButton} ${activeTab === 'eliminar' ? styles.active : ''}`}
+          onClick={() => handleTabClick('eliminar')}
         >Eliminar Inventario</Link>
       </div>
 
@@ -177,11 +189,16 @@ const MerchandiseQuery = () => {
           Ingrese un dato en la casilla correspondiente para realizar la consulta
         </h2>
       </div>
-
+      {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+      <div className={styles.topTableRow}>
+        <p className={styles.labelPagination}>
+          Total registros: {data.length} | Filas por página: {rowsPerPage}
+        </p>
+      </div>
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Selección<input type="checkbox" disabled/></th>
+            <th>Selección<input type="checkbox" disabled /></th>
             <th>Código
               <input
                 type="text"
@@ -189,7 +206,7 @@ const MerchandiseQuery = () => {
                 value={filters.codigoProducto}
                 onChange={handleInputChange}
                 placeholder="Buscar"
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
             <th>Categoría
@@ -199,71 +216,91 @@ const MerchandiseQuery = () => {
                 value={filters.nombreCategoria}
                 onChange={handleInputChange}
                 placeholder="Buscar"
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Nom. del Producto
+            <th>Producto
               <input
                 type="text"
                 name="nombreProducto"
                 value={filters.nombreProducto}
                 onChange={handleInputChange}
                 placeholder="Buscar"
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
             <th>Existencias
               <input
                 type="text"
-                value={selectedProduct?.cantidad||''}
+                value={selectedProduct?.cantidad || ''}
                 disabled
                 placeholder="..."
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Valor Unitario
+            <th>Valor Unit.
               <input
                 type="text"
-                value={selectedProduct?.valorUnitarioProducto||''}
+                value={selectedProduct?.valorUnitarioProducto || ''}
                 disabled
                 placeholder="..."
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Valor Total Prod.
+            <th>Valor Tot.
               <input
                 type="text"
-                value={selectedProduct?.valorTotalProducto||''}
+                value={selectedProduct?.valorTotalProducto || ''}
                 disabled
                 placeholder="..."
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
             <th>Proveedor
               <input
                 type="text"
-                value={selectedProduct?.nombreProveedor||''}
+                value={selectedProduct?.nombreProveedor || ''}
                 disabled
                 placeholder="..."
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>NIT Proveedor
+            <th>NIT Prov.
               <input
                 type="text"
-                value={selectedProduct?.nitProveedor||''}
+                value={selectedProduct?.nitProveedor || ''}
                 disabled
                 placeholder="..."
-                style={{fontStyle:'italic'}}
+                style={{ fontStyle: 'italic' }}
               />
             </th>
-            <th>Imagen</th>
+            <th>Tel. Prov.
+              <input
+                type="text"
+                value={selectedProduct?.telefonoProveedor || ''}
+                disabled
+                placeholder="..."
+                style={{ fontStyle: 'italic' }}
+              />
+            </th>
+            <th>Dir. Prov.
+              <input
+                type="text"
+                value={selectedProduct?.direccionProveedor || ''}
+                disabled
+                placeholder="..."
+                style={{ fontStyle: 'italic' }}
+              />
+            </th>
+            <th>Img.</th>
           </tr>
         </thead>
         <tbody>
           {isSearching
             ? data.length > 0
-              ? data.map((item, i) => (
+              ? data
+                .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+                .map((item, i) => (
                   <tr key={i} onClick={() => handleRowClick(item)} style={{ cursor: 'pointer' }}>
                     <td><input type="checkbox" /></td>
                     <td>{item.codigoProducto}</td>
@@ -274,6 +311,8 @@ const MerchandiseQuery = () => {
                     <td>{item.valorTotalProducto}</td>
                     <td>{item.nombreProveedor}</td>
                     <td>{item.nitProveedor}</td>
+                    <td>{item.telefonoProveedor}</td>
+                    <td>{item.direccionProveedor}</td>
                     <td>
                       {item.imagen
                         ? <a href="#" onClick={e => { e.preventDefault(); handleImageClick(item.imagen); }}>Ver Imagen</a>
@@ -281,18 +320,48 @@ const MerchandiseQuery = () => {
                     </td>
                   </tr>
                 ))
-              : <tr><td colSpan="10">No se encontraron resultados</td></tr>
-            : <tr><td colSpan="10">Realiza una búsqueda para ver los registros</td></tr>
+              : <tr><td colSpan="12">No se encontraron resultados</td></tr>
+            : <tr><td colSpan="12">Realiza una búsqueda para ver los registros</td></tr>
           }
         </tbody>
       </table>
+      {/* Paginación Table */}
+      {isSearching && data.length > rowsPerPage && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            &#x276E; {/* flecha izquierda */}
+          </button>
+
+          {Array.from({ length: Math.ceil(data.length / rowsPerPage) }, (_, i) => i + 1).map(pageNum => (
+            <button
+              key={pageNum}
+              className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+              onClick={() => setCurrentPage(pageNum)}
+            >
+              {pageNum}
+            </button>
+          ))}
+
+          <button
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(data.length / rowsPerPage)))}
+            disabled={currentPage === Math.ceil(data.length / rowsPerPage)}
+          >
+            &#x276F; {/* flecha derecha */}
+          </button>
+        </div>
+      )}
 
       {/* Modal de imagen */}
       {modalImage && (
         <div className={styles.modal} onClick={closeModalImage}>
           <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
             {modalImage.startsWith('data:image')
-              ? <img src={modalImage} alt="Producto" className={styles.modalImage}/>
+              ? <img src={modalImage} alt="Producto" className={styles.modalImage} />
               : <p>Imagen no disponible</p>
             }
             <button className={styles.closeButton} onClick={closeModalImage}>Cerrar X</button>
@@ -307,21 +376,21 @@ const MerchandiseQuery = () => {
             <h3>Búsqueda Avanzada</h3>
             <div className={styles['advanced-search-modal-controls']}>
               <button onClick={handleClear} className={styles['advanced-search-clear-button']}>
-                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
+                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
               </button>
               <button onClick={closeAdvancedSearchModal} className={styles['close-button']}>X</button>
             </div>
             <form className="advance-form">
               <label htmlFor="nit">NIT</label>
-              <input name="nitProveedor" value={filters.nitProveedor} onChange={handleInputChange} placeholder="Buscar por NIT" style={{ fontStyle:'italic' }}/>
+              <input name="nitProveedor" value={filters.nitProveedor} onChange={handleInputChange} placeholder="Buscar por NIT" style={{ fontStyle: 'italic' }} />
               <label htmlFor="proveedor">Proveedor</label>
-              <input name="nombreProveedor" value={filters.nombreProveedor} onChange={handleInputChange} placeholder="Buscar por nombre" style={{ fontStyle:'italic' }}/>
+              <input name="nombreProveedor" value={filters.nombreProveedor} onChange={handleInputChange} placeholder="Buscar por nombre" style={{ fontStyle: 'italic' }} />
               <label htmlFor="existencia">Existencias</label>
-              <input name="cantidad" value={filters.cantidad} onChange={handleInputChange} placeholder="Buscar por existencias" style={{ fontStyle:'italic' }}/>
+              <input name="cantidad" value={filters.cantidad} onChange={handleInputChange} placeholder="Buscar por existencias" style={{ fontStyle: 'italic' }} />
               <label htmlFor="valorUnitario">Valor Unitario</label>
-              <input name="valorUnitarioProducto" value={filters.valorUnitarioProducto} onChange={handleInputChange} placeholder="Buscar por valor unitario" style={{ fontStyle:'italic' }}/>
+              <input name="valorUnitarioProducto" value={filters.valorUnitarioProducto} onChange={handleInputChange} placeholder="Buscar por valor unitario" style={{ fontStyle: 'italic' }} />
               <label htmlFor="valorTotal">Valor Total</label>
-              <input name="valorTotalProducto" value={filters.valorTotalProducto} onChange={handleInputChange} placeholder="Buscar por valor total" style={{ fontStyle:'italic' }}/>
+              <input name="valorTotalProducto" value={filters.valorTotalProducto} onChange={handleInputChange} placeholder="Buscar por valor total" style={{ fontStyle: 'italic' }} />
             </form>
           </div>
         </div>
@@ -330,13 +399,13 @@ const MerchandiseQuery = () => {
       {/* Botones de acción */}
       <div className={styles.actionButtons}>
         <button onClick={openAdvancedSearchModal} className={styles.advancedSearchButton}>
-          Buscar <SearchIcon style={{ marginLeft: 8 }}/>
+          Buscar <SearchIcon style={{ marginLeft: 8 }} />
         </button>
         <button onClick={handleClear} className={styles.clearButton}>
-          Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }}/>
+          Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
         </button>
         <button onClick={() => window.location.href = '/menu-principal'} className={styles.exitButton}>
-          Salir <ExitToAppIcon style={{ marginLeft: 8 }}/>
+          Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
         </button>
       </div>
     </div>

@@ -12,8 +12,10 @@ import {
     crearPerfil,
     listarRoles,
     crearRol,
+    crearTipoDocumento,
     listarTiposDocumento,
-    crearEmpleado
+    crearEmpleado,
+    listarEmpleados
 } from "../../api"; // Asegúrate de que la ruta sea correcta
 
 // se crea el componente UsersRegistration
@@ -30,6 +32,7 @@ const UsersRegistration = () => {
     const [userAddress, setUserAddress] = useState("");
     const [userEmergencyContact, setUserEmergencyContact] = useState("");
     const [userContactPhone, setUserContactPhone] = useState("");
+    const [usuarios, setUsuarios] = useState([]); //almacena los usuarios existentes
     const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
     const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
@@ -40,6 +43,7 @@ const UsersRegistration = () => {
     const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
     const [perfilNombre, setPerfilNombre] = useState("");
     const [perfilDescripcion, setPerfilDescripcion] = useState("");
+    const [caracteresRestantesPerfil, setCaracteresRestantesPerfil] = useState(255); // Limite de caracteres
     const [perfilFiltro, setPerfilFiltro] = useState("");
     const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
     const [perfiles, setPerfiles] = useState([]);
@@ -48,16 +52,27 @@ const UsersRegistration = () => {
     const [isRolModalOpen, setRolModalOpen] = useState(false);
     const [rolNombre, setRolNombre] = useState("");
     const [rolDescripcion, setRolDescripcion] = useState("");
+    const [caracteresRestantesRol, setCaracteresRestantesRol] = useState(255); // Limite de caracteres
     const [rolFiltro, setRolFiltro] = useState("");
     const [roles, setRoles] = useState([]);
 
-    // Se define la función para abrir los modales de crear perfil y rol
+    // Estados de modal tipo de documento
+    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
+    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
+    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
+
+
+    // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
     };
 
     const handleOpenModalRol = () => {
         setRolModalOpen(true);
+    };
+
+    const handleOpenModalTipoDocumento = () => {
+        setModalTipoDocumentoOpen(true);
     };
 
     // Manejar cambio de pestaña
@@ -104,8 +119,76 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Perfil
+    // Cargar Usuarios existentes
+    // Se utiliza el hook useEffect para cargar los usuarios existentes al iniciar el componente
+    useEffect(() => {
+        const cargarUsuarios = async () => {
+            try {
+                const response = await listarEmpleados(); // 👈 asegúrate que esta función exista en api.js
+                setUsuarios(response.data);
+            } catch (error) {
+                console.error("Error al cargar usuarios:", error);
+            }
+        };
+    
+        cargarUsuarios();
+    }, []);
+    
+
+    const handleSaveTipoDocumento = async () => {
+        if (!codigoTipoDocumento || !nombreTipoDocumento) {
+            alert("⚠️ Completa todos los campos.");
+            return;
+        }
+
+        // Verificar si el tipo de documento ya existe
+        const duplicado = documentTypes.find(
+            (d) =>
+                d.codigo.toLowerCase() === codigoTipoDocumento.toLowerCase() ||
+                d.nombre.toLowerCase() === nombreTipoDocumento.toLowerCase()
+        );
+
+        if (duplicado) {
+            alert("⚠️ Ya existe un tipo de documento con ese código o nombre.");
+            return;
+        }
+
+        try {
+            await crearTipoDocumento({
+                codigo: codigoTipoDocumento,
+                nombre: nombreTipoDocumento
+            });
+            await cargarTiposDocumento(); // Recargar el select principal
+            alert("✅ Tipo de documento creado exitosamente.");
+            setModalTipoDocumentoOpen(false);
+        } catch (error) {
+            console.error("Error creando tipo de documento:", error);
+            alert("❌ Error al crear tipo de documento.");
+        }
+    };
+
+    // Función para Guardar Perfil
     const handleSavePerfil = async () => {
+
+        // Validar que el nombre y la descripción no estén vacíos
+        // Si están vacíos, mostrar un mensaje de alerta y no continuar con la creación del perfil
+        if (!perfilNombre.trim() || !perfilDescripcion.trim()) {
+            alert("⚠️ Por favor completa el nombre y la descripción del perfil antes de guardar.");
+            return;
+        }
+
+        // Verificar si el perfil ya existe
+        const duplicado = perfiles.find(
+            (d) =>
+                d.nombrePerfil.toLowerCase() === perfilNombre.toLowerCase() ||
+                d.descripcion.toLowerCase() === perfilDescripcion.toLowerCase()
+        );
+
+        if (duplicado) {
+            alert("⚠️ Ya existe un perfil con ese nombre y esa descripción.");
+            return;
+        }
+
         try {
             await crearPerfil({
                 nombrePerfil: perfilNombre,
@@ -122,27 +205,58 @@ const UsersRegistration = () => {
         }
     };
 
-    // Guardar Rol
+    // Función para Guardar Rol
     const handleSaveRol = async () => {
+        if (!rolNombre.trim() || !rolDescripcion.trim() || !perfilSeleccionado) {
+            alert("⚠️ Por favor completa todos los campos del rol antes de guardar.");
+            return;
+        }
+
+        // Verificar si el rol ya exists
+        const duplicado = roles.find(
+            (d) =>
+              d.nombreRol.toLowerCase() === rolNombre.toLowerCase() ||
+              d.descripcion.toLowerCase() === rolDescripcion.toLowerCase()
+          );
+        
+          if (duplicado) {
+            alert("⚠️ Ya existe un rol con ese nombre y descripción.");
+            return;
+          }
+
         try {
-            await crearRol("/api/roles", {
+            await crearRol({
                 nombreRol: rolNombre,
                 descripcion: rolDescripcion,
-                perfilId: perfilSeleccionado // Enviar el perfil asignado junto con el rol
+                idPerfil: perfilSeleccionado // Enviar el perfil asignado junto con el rol
             });
-            await cargarRoles();
+            await cargarRoles(); // 📢 recargar roles después de guardar
+            alert("✅ Rol creado exitosamente.");
             setRolNombre("");
             setRolDescripcion("");
             setPerfilSeleccionado(""); // Limpiar selección de perfil
             setRolModalOpen(false);
         } catch (error) {
             console.error("Error guardando rol:", error);
+            alert("❌ Error al guardar el rol.");
         }
     };
 
     // Función para guardar el empleado
     // Se crea el objeto que se enviará al backend y se llama a la API para crear el empleado.
     const handleSaveUser = async () => {
+
+        const usuarioDuplicado = usuarios.find(
+            (u) =>
+                u.numeroDocumento === userID || // Duplicado por número de documento
+                u.nombreUsuario === userAlias   // Duplicado por alias (correo)
+        );
+    
+        if (usuarioDuplicado) {
+            alert("⚠️ Ya existe un usuario con ese número de identificación o nombre de usuario.");
+            return;
+        }
+
         try {
 
             // ☑️ Validar que el nombre de usaurio (alias) sea un correo electrónico válido
@@ -159,12 +273,12 @@ const UsersRegistration = () => {
                 apellidoPaterno: userLastName,
                 apellidoMaterno: userSecondLastName,
                 nombreUsuario: userAlias,
-                contraseñaUsuario: userPassword,
+                contrasena: userPassword,
                 telefonoMovil: userPhone,
                 direccionResidencia: userAddress,
                 contactoEmergencia: userEmergencyContact,
                 telefonoContacto: userContactPhone,
-                idtipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
+                idTipoDocumento: documentType,  // cuidado aquí, hay que verificar si se necesita convertirlo a ID🔍
                 idRol: rolType,                 // cuidado aquí también... verificar🔍
             };
 
@@ -184,6 +298,7 @@ const UsersRegistration = () => {
         setPerfilNombre("");
         setPerfilDescripcion("");
         setPerfilFiltro("");
+        setCaracteresRestantesPerfil(255);
     };
 
     // Función para limpiar los campos dentro del modal para crear roles.
@@ -191,6 +306,14 @@ const UsersRegistration = () => {
         setRolNombre("");
         setRolDescripcion("");
         setRolFiltro("");
+        setPerfilSeleccionado("");
+        setCaracteresRestantesRol(255);
+    };
+
+    // Función para limpiar los campos dentro del modal para crear tipos de documento.
+    const handleClearTipoDocumento = () => {
+        setCodigoTipoDocumento("");
+        setNombreTipoDocumento("");
     };
 
     // Función para limpiar los campos de el formulario de registro de usuarios. 🧹
@@ -211,6 +334,10 @@ const UsersRegistration = () => {
         setDocumentType("");
         setRolType("");
     };
+
+    useEffect(() => {
+        setActiveTab('registro');
+    }, []);
 
     // Se renderiza el componente
     return (
@@ -397,7 +524,6 @@ const UsersRegistration = () => {
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Rol</label>
                                     <div className={styles.selectWrapper}>
@@ -418,18 +544,26 @@ const UsersRegistration = () => {
                                 </div>
                             </div>
                             {/* Botones Abrir Modales */}
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalPerfil}
-                            >
-                                Perfil <AddIcon style={{ marginLeft: 8 }} />
-                            </button>
-                            <button type="button"
-                                className={styles.createButton}
-                                onClick={handleOpenModalRol}
-                            >
-                                Roles<AddIcon style={{ marginLeft: 8 }} />
-                            </button>
+                            <div className={styles.formGroupButtos}>
+                                <button
+                                    className={styles.createButton}
+                                    onClick={() => handleOpenModalTipoDocumento(true)}
+                                >
+                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalPerfil}
+                                >
+                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                                <button type="button"
+                                    className={styles.createButton}
+                                    onClick={handleOpenModalRol}
+                                >
+                                    Roles<AddIcon style={{ marginLeft: 8 }} />
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -451,6 +585,51 @@ const UsersRegistration = () => {
                     </div>
                 </div>
             )}
+
+            {/* Modal Crear Tipo de Documento */}
+            {isModalTipoDocumentoOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <CloseIcon />
+                        </button>
+                        <h2 style={{ textAlign: "center" }}>Crear Tipo de Documento</h2>
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="código" className={styles.labelModal}>Nomenclatura</label>
+                            <input
+                                type="text"
+                                value={codigoTipoDocumento}
+                                onChange={(e) => setCodigoTipoDocumento(e.target.value)}
+                                placeholder="Nomenclatura Ejemplo: CC (Obligatotio)"
+                                className={styles.input}
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </div>
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="Nombre" className={styles.labelModal}>Nombre</label>
+                            <input
+                                type="text"
+                                value={nombreTipoDocumento}
+                                onChange={(e) => setNombreTipoDocumento(e.target.value)}
+                                placeholder="Nombre del Tipo de Documento (Obligatotio)"
+                                className={styles.input}
+                                style={{ fontStyle: 'italic' }}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.modalButtonSave} onClick={handleSaveTipoDocumento}>
+                                Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             {/* Modal Crear Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
@@ -464,6 +643,7 @@ const UsersRegistration = () => {
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarPerfil" className={styles.labelModal}>Buscar perfil</label>
                             <input
+                                className="{styles.inputModalBuscar}"
                                 type="text"
                                 id="BuscarPerfil"
                                 placeholder="Buscar Perfil"
@@ -471,6 +651,15 @@ const UsersRegistration = () => {
                                 onChange={(e) => setPerfilFiltro(e.target.value)}
                             />
                         </div>
+                        {perfilFiltro.trim() !== "" && (
+                            <ul>
+                                {Array.isArray(perfiles) && perfiles.filter((perfil) =>
+                                    perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
+                                ).map((perfil) => (
+                                    <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
+                                ))}
+                            </ul>
+                        )}
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="NombrePerfil" className={styles.labelModal}>Nombre perfil</label>
@@ -485,23 +674,21 @@ const UsersRegistration = () => {
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="DescripcionPerfil" className={styles.labelModal}>Descripción perfil</label>
+                            <p className={styles.charCounter}>
+                                Caracteres Restantes: {caracteresRestantesPerfil}
+                            </p>
                             <textarea
                                 id="DescripcionPerfil"
                                 placeholder="Descripción"
                                 value={perfilDescripcion}
-                                onChange={(e) => setPerfilDescripcion(e.target.value)}
+                                onChange={(e) => {
+                                    setPerfilDescripcion(e.target.value);
+                                    setCaracteresRestantesPerfil(255 - e.target.value.length);
+                                }}
+                                maxLength={255}
                                 className={styles.textareaModal}
                             />
                         </div>
-
-                        <ul>
-                            {Array.isArray(perfiles) && perfiles.filter((perfil) =>
-                                perfil.nombrePerfil.toLowerCase().includes(perfilFiltro.toLowerCase())
-                            ).map((perfil) => (
-                                <li key={perfil.idPerfil}>{perfil.nombrePerfil}</li>
-                            ))}
-                        </ul>
-
                         <div className={styles.modalButtons}>
                             <button className={styles.modalButtonSave}
                                 onClick={handleSavePerfil}>
@@ -538,9 +725,9 @@ const UsersRegistration = () => {
                                             id="PerfilRol"
                                             className={styles.selectPerfil}
                                             value={perfilSeleccionado}
-                                            onChange={(e) => setPerfilSeleccionado(e.target.value)}
+                                            onChange={(e) => setPerfilSeleccionado(parseInt(e.target.value, 10))}
                                         >
-                                            <option value="">Seleccionar perfil</option>
+                                            <option value="">Seleccionar Perfil</option>
                                             {perfiles.map((perfil) => (
                                                 <option key={perfil.idPerfil} value={perfil.idPerfil}>
                                                     {perfil.nombrePerfil}
@@ -560,6 +747,15 @@ const UsersRegistration = () => {
                                     onChange={(e) => setRolFiltro(e.target.value)}
                                 />
                             </div>
+                            {rolFiltro.trim() !== "" && (
+                                <ul>
+                                    {Array.isArray(roles) && roles.filter((rol) =>
+                                        rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
+                                    ).map((rol) => (
+                                        <li key={rol.idRol}>{rol.nombreRol}</li>
+                                    ))}
+                                </ul>
+                            )}
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="NombreRol" className={styles.labelModal}>Nombre Rol</label>
                                 <input
@@ -570,26 +766,23 @@ const UsersRegistration = () => {
                                     onChange={(e) => setRolNombre(e.target.value)}
                                 />
                             </div>
-
                             <div className={styles.modalFormGroup}>
                                 <label htmlFor="DescripcionRol" className={styles.labelModal}>Descripción Rol</label>
+                                <p className={styles.charCounter}>
+                                    Caracteres Restantes: {caracteresRestantesRol}
+                                </p>
                                 <textarea
                                     id="DescripcionRol"
                                     placeholder="Descripción"
                                     value={rolDescripcion}
-                                    onChange={(e) => setRolDescripcion(e.target.value)}
+                                    onChange={(e) => {
+                                        setRolDescripcion(e.target.value);
+                                        setCaracteresRestantesRol(255 - e.target.value.length);
+                                    }}
+                                    maxLength={255}
                                     className={styles.textareaModal}
                                 />
                             </div>
-
-                            <ul>
-                                {Array.isArray(roles) && roles.filter((rol) =>
-                                    rol.nombreRol.toLowerCase().includes(rolFiltro.toLowerCase())
-                                ).map((rol) => (
-                                    <li key={rol.idRol}>{rol.nombreRol}</li>
-                                ))}
-                            </ul>
-
                             <div className={styles.modalButtonsRol}>
                                 <button className={styles.modalButtonSave}
                                     onClick={handleSaveRol}>
