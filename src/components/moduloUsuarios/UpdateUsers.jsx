@@ -36,6 +36,7 @@ const UpdateUsers = () => {
     const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
     const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
+    const [originalUserID, setOriginalUserID] = useState("");
 
     const [activeTab, setActiveTab] = useState("registro");
 
@@ -145,6 +146,7 @@ const UpdateUsers = () => {
 
             // Rellenar campos
             setUserID(empleado.numeroDocumento || "");
+            setOriginalUserID(empleado.numeroDocumento); // <-- Aquí se guarda el documento actual
             setUserNames(empleado.nombres || "");
             setUserLastName(empleado.apellidoPaterno || "");
             setUserSecondLastName(empleado.apellidoMaterno || "");
@@ -203,9 +205,10 @@ const UpdateUsers = () => {
 
         // Validar duplicado de alias (correo) en otro usuario
         const aliasRepetido = empleados.data.find(
-            (emp) => emp.nombreUsuario === userAlias && emp.numeroDocumento !== userID
+            (emp) => emp.nombreUsuario === userAlias && emp.numeroDocumento !== originalUserID
         );
 
+        // Validar duplicado de número de documento
         if (documentoRepetido) {
             alert("⚠️ Ya existe un usuario con ese número de documento.");
             return;
@@ -236,7 +239,7 @@ const UpdateUsers = () => {
                 idtipoDocumento: parseInt(documentType)
             };
 
-            const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
+            const response = await actualizarEmpleadoPorDocumento(originalUserID, updatedEmpleado);
 
             if (response.status === 200) {
                 alert("✅ Usuario actualizado exitosamente.");
