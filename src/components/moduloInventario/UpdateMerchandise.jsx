@@ -1,27 +1,34 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
+import { usePermisos } from "../../components/admin/PermisosContext";
+import { actualizarProveedor } from "../../api";
+import { Link } from "react-router-dom";
 import Header from "../Header";
-import styles from "../../styles/updatemerchandise.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import SearchIcon from "@mui/icons-material/Search";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { Link } from "react-router-dom";
-import { number } from "yup";
-import axios from "axios"; // Importa axios
+import CloseIcon from '@mui/icons-material/Close';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import useInactivityLogout from "../../useInactivityLogout";
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import styles from "../../styles/updatemerchandise.module.css";
+import api from "../../api"; // Importa tu instancia de API
 
 
-const api = axios.create({ // Crea una instancia de axios
-    baseURL: 'http://localhost:8080/api'
-});
-
+// Componente para actualizar productos del inventario
 const UpdateMerchandise = () => {
+
+    useInactivityLogout(); // Llama al hook para manejar el logout por inactividad
+    useTokenAutoLogout();  // Hook para expiración de token
+
+    // Estados para manejar los datos del formulario
+    // Estos estados almacenan la información del proveedor y del producto a actualizar
     const [supplierId, setSupplierId] = useState("");
     const [supplierName, setSupplierName] = useState("");
     const [supplierNIT, setSupplierNIT] = useState("");
     const [supplierPhone, setSupplierPhone] = useState("");
     const [supplierAddress, setSupplierAddress] = useState("");
-    const [productCategory, setProductCategory] = useState("");
     const [suppliers, setSuppliers] = useState([]);
     const [productCode, setProductCode] = useState("");
     const [productName, setProductName] = useState("");
@@ -36,6 +43,26 @@ const UpdateMerchandise = () => {
     const [categories, setCategories] = useState([]); // Lista completa de categorías
     const [isCodeDisabled, setIsCodeDisabled] = useState(false);
 
+    // Estados para el Modal de edición de proveedor
+    const [isProveedorModalOpen, setProveedorModalOpen] = useState(false);
+    const [proveedorSeleccionado, setProveedorSeleccionado] = useState(null);
+    const [nuevoNombreProveedor, setNuevoNombreProveedor] = useState("");
+    const [proveedorFiltro, setProveedorFiltro] = useState("");
+
+    // Estados para el Modal de edición de categoría
+    const [isCategoriaModalOpen, setCategoriaModalOpen] = useState(false);
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+    const [nuevoNombreCategoria, setNuevoNombreCategoria] = useState("");
+    const [categoriaFiltro, setCategoriaFiltro] = useState("");
+
+    // Hook para manejar permisos de usuario
+    // Este hook permite verificar si el usuario tiene permisos para realizar ciertas acciones
+    const { tienePermiso } = usePermisos();
+
+
+    // Función para convertir un valor a número entero
+    const number = (value) => parseInt(value, 10);
+
     // Cambia la pestaña activa del componente según la opción seleccionada
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -49,7 +76,6 @@ const UpdateMerchandise = () => {
         }
     }, [productQuantity, unitValue]);
 
-    // Función para obtener la fuente de la imagen
     // Esta función se encarga de determinar la fuente de la imagen a mostrar
     const getImageSource = () => {
         if (productImage) {
@@ -70,14 +96,22 @@ const UpdateMerchandise = () => {
     // Carga la lista de proveedores al montar el componentee
     useEffect(() => {
         api.get('/proveedores')
-            .then(res => setSuppliers(res.data))  // ✅ Asegúrate que sea setSuppliers
+            .then(res => {
+                console.log("📦 Proveedores cargados:", res.data);
+                setSuppliers(res.data); // ✅ Asegúrate que sea setSuppliers
+            })
             .catch(err => console.error("Error cargando proveedores", err));
     }, []);
+
+    const categoriasCargadas = useRef(false);
 
     // Cargar categorías al iniciar el componente
     useEffect(() => {
         api.get('/categorias')
-            .then(res => setCategories(res.data))
+            .then(res => {
+                setCategories(res.data);
+                categoriasCargadas.current = true;
+            })
             .catch(err => console.error("Error cargando categorías", err));
     }, []);
 
@@ -108,14 +142,24 @@ const UpdateMerchandise = () => {
             setSupplierNIT(product.nitProveedor || "");
             setSupplierPhone(product.telefonoProveedor || "");
             setSupplierAddress(product.direccionProveedor || "");
-            setProductCategory(product.nombreCategoria || "");
+            setSelectedCategoryId(product.idCategoria);
 
-            // Buscar el ID de la categoría basado en el nombre
-            const categoriaEncontrada = categories.find(
-                (cat) => cat.nombreCategoria === product.nombreCategoria
-            );
-            if (categoriaEncontrada) {
-                setSelectedCategoryId(categoriaEncontrada.idCategoria);
+            // Verificar si las categorías ya fueron cargadas antes de buscar el ID
+            if (categoriasCargadas.current) {
+                // Buscar el ID de la categoría basado en el nombre
+                const categoriaEncontrada = categories.find(
+                    (cat) => cat.nombreCategoria === product.nombreCategoria
+                );
+
+                if (categoriaEncontrada) {
+                    setSelectedCategoryId(categoriaEncontrada.idCategoria);
+                } else {
+                    console.warn("⚠️ Categoría no encontrada en la lista.");
+                    setSelectedCategoryId(""); // Vacía si no coincide
+                }
+            } else {
+                console.warn("⏳ Categorías aún no estaban cargadas al buscar.");
+                setSelectedCategoryId(""); // Previene fallos si aún no hay categorías
             }
 
             setProductCode(product.codigoProducto || "");
@@ -144,10 +188,25 @@ const UpdateMerchandise = () => {
         }
     };
 
+    // Maneja el cambio de proveedor seleccionado en el formulario
+    const handleSupplierChange = (e) => {
+        const selectedId = parseInt(e.target.value);
+        setSupplierId(selectedId);
+
+        const selectedSupplier = suppliers.find((s) => s.idProveedor === selectedId);
+        if (selectedSupplier) {
+            setSupplierName(selectedSupplier.nombreProveedor || "");
+            setSupplierNIT(selectedSupplier.nitProveedor || "");
+            setSupplierPhone(selectedSupplier.telefonoProveedor || "");
+            setSupplierAddress(selectedSupplier.direccionProveedor || "");
+            console.log("Proveedor seleccionado:", selectedSupplier); // Para verificar
+        }
+    };
+
+
     // Maneja la actualización del producto tras validar los campos, procesar la imagen y enviar los datos al backend
     const handleSave = async () => {
         if (!validateFields()) {
-            alert("Por favor, complete todos los campos obligatorios.");
             return;
         }
 
@@ -177,6 +236,7 @@ const UpdateMerchandise = () => {
                 imagen: productImageBase64,
                 nombreCategoria: nombreCategoria,
                 idProveedor: supplierId, // ya es número, no necesitas parseInt
+                nombreProveedor: supplierName,
                 nitProveedor: supplierNIT,
                 direccionProveedor: supplierAddress,
                 telefonoProveedor: supplierPhone
@@ -196,7 +256,6 @@ const UpdateMerchandise = () => {
                 setSupplierNIT(updated.nitProveedor || "");
                 setSupplierPhone(updated.telefonoProveedor || "");
                 setSupplierAddress(updated.direccionProveedor || "");
-                setProductCategory(updated.nombreCategoria || "");
                 setProductName(updated.nombreProducto || "");
                 setProductQuantity(updated.cantidad || "");
                 setUnitValue(updated.valorUnitarioProducto || "");
@@ -237,18 +296,42 @@ const UpdateMerchandise = () => {
 
     // Valida que todos los campos obligatorios del formulario estén completos antes de guardar
     const validateFields = () => {
-        return (
-            supplierName &&
-            supplierNIT &&
-            supplierPhone &&
-            supplierAddress &&
-            productCategory &&
-            productCode &&
-            productName &&
-            productQuantity &&
-            unitValue
-        );
+        if (!supplierName) {
+            alert("Por favor, seleccione un proveedor.");
+            return false;
+        }
+        if (!supplierNIT) {
+            alert("Por favor, ingrese el NIT del proveedor.");
+            return false;
+        }
+        if (!supplierPhone) {
+            alert("Por favor, ingrese el número de teléfono del proveedor.");
+            return false;
+        }
+        if (!supplierAddress) {
+            alert("Por favor, ingrese la dirección del proveedor.");
+            return false;
+        }
+        if (!selectedCategoryId) {
+            alert("Por favor, seleccione una categoría para el producto.");
+            return false;
+        }
+        if (!productName) {
+            alert("Por favor, ingrese el nombre del producto.");
+            return false;
+        }
+        if (!productQuantity) {
+            alert("Por favor, ingrese la cantidad del producto.");
+            return false;
+        }
+        if (!unitValue) {
+            alert("Por favor, ingrese el valor unitario del producto.");
+            return false;
+        }
+
+        return true;
     };
+
 
     // Limpia todos los campos del formulario y restablece el estado inicial
     const handleClear = () => {
@@ -258,7 +341,7 @@ const UpdateMerchandise = () => {
         setSupplierPhone("");
         setSupplierAddress("");
         setSelectedCategoryId("");
-        setProductCategory("");
+        setSelectedCategoryId("");
         setProductCode("");
         setProductName("");
         setProductQuantity("");
@@ -267,16 +350,100 @@ const UpdateMerchandise = () => {
         setProductImage(null);
         setProductImageUrl("");
         setIsCodeDisabled(false); // Permite volver a escribir otro código
+        setProveedorFiltro("");
+        setProveedorSeleccionado(null);
+        setNuevoNombreProveedor("");
+        setCategoriaFiltro("");
+        setCategoriaSeleccionada(null);
+        setNuevoNombreCategoria("");
     };
+
+    // Maneja la actualización del proveedor seleccionado en el modal
+    const handleActualizarProveedor = async () => {
+        if (!proveedorSeleccionado) {
+            alert("Por favor, seleccione un proveedor para actualizar.");
+            return;
+        }
+
+        if (!nuevoNombreProveedor.trim()) {
+            alert("Por favor, ingrese un nuevo nombre para el proveedor.");
+            return;
+        }
+
+        const proveedorOriginal = suppliers.find(p => p.idProveedor === proveedorSeleccionado);
+
+        if (!proveedorOriginal) {
+            alert("Proveedor no encontrado en la lista.");
+            return;
+        }
+
+        try {
+            const response = await actualizarProveedor(proveedorSeleccionado, {
+                idProveedor: proveedorOriginal.idProveedor,
+                nombreProveedor: nuevoNombreProveedor.trim(),
+                nitProveedor: proveedorOriginal.nitProveedor,
+                direccionProveedor: proveedorOriginal.direccionProveedor,
+                telefonoProveedor: proveedorOriginal.telefonoProveedor
+            });
+
+            if (response.status === 200) {
+                alert("Proveedor actualizado correctamente.");
+                setProveedorFiltro("");
+                setProveedorSeleccionado(null);
+                setNuevoNombreProveedor("");
+                setProveedorModalOpen(false);
+            } else {
+                alert("No se pudo actualizar el proveedor.");
+            }
+        } catch (error) {
+            console.error("Error al actualizar el proveedor:", error);
+            alert("Ocurrió un error inesperado al actualizar el proveedor.");
+        }
+    };
+
+    // Maneja la actualización de la categoría seleccionada en el modal
+    const handleActualizarCategoria = async () => {
+        if (!categoriaSeleccionada) {
+            alert("Por favor, seleccione una categoría para actualizar.");
+            return;
+        }
+
+        if (!nuevoNombreCategoria.trim()) {
+            alert("Por favor, ingrese un nuevo nombre para la categoría.");
+            return;
+        }
+
+        try {
+            const response = await api.put(`/categorias/${categoriaSeleccionada}`, {
+                idCategoria: categoriaSeleccionada,
+                nombreCategoria: nuevoNombreCategoria.trim()
+            });
+
+            if (response.status === 200) {
+                alert("Categoría actualizada correctamente.");
+
+                // Limpiar estados
+                setCategoriaFiltro("");
+                setCategoriaSeleccionada(null);
+                setNuevoNombreCategoria("");
+                setCategoriaModalOpen(false);
+            } else {
+                alert("No se pudo actualizar la categoría.");
+            }
+        } catch (error) {
+            console.error("Error al actualizar la categoría:", error);
+            alert("Ocurrió un error inesperado al actualizar la categoría.");
+        }
+    };
+
 
     // Establece la pestaña activa en 'actualizar' al cargar el componente
     useEffect(() => {
         setActiveTab('actualizar');
     }, []);
 
-    // Componente para actualizar productos del inventario.
-    // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
-    // carga de imagen, y botones para guardar, limpiar o salir.
+
+    // Renderiza el componente de actualización de inventario
     return (
         <>
             <Header
@@ -286,40 +453,51 @@ const UpdateMerchandise = () => {
                 showHelp={true}
             />
 
+            {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
                 <Link
-                    to="/inventory-registration"
-                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("registro")}
+                    to={tienePermiso("inventario:registrar") ? "/inventory-registration" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("inventario:registrar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("inventario:registrar")) e.preventDefault();
+                        else handleTabClick("registro");
+                    }}
                 >
                     Registrar Inventario
                 </Link>
 
                 <Link
                     to="/merchandise-query"
-                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
+                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("inventario:registrar") ? styles.disabledTab : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
                     Consultar Inventario
                 </Link>
 
                 <Link
-                    to="/update-merchandise"
-                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("actualizar")}
+                    to={tienePermiso("inventario:editar") ? "/update-merchandise" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""} ${!tienePermiso("inventario:editar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("inventario:editar")) e.preventDefault();
+                        else handleTabClick("actualizar");
+                    }}
                 >
                     Actualizar Inventario
                 </Link>
 
                 <Link
-                    to="/delete-merchandise"
-                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("eliminar")}
+                    to={tienePermiso("inventario:eliminar") ? "/delete-merchandise" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""} ${!tienePermiso("inventario:eliminar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("inventario:eliminar")) e.preventDefault();
+                        else handleTabClick("eliminar");
+                    }}
                 >
                     Eliminar Inventario
                 </Link>
             </div>
 
+            {/* Pestaña de actualización */}
             {activeTab === "actualizar" && (
                 <div className={styles.container}>
                     <h2 className={styles.title}>
@@ -336,7 +514,9 @@ const UpdateMerchandise = () => {
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="El código del producto debe contener solo dígitos numéricos (entre 1 y 5 cifras). Se permiten ceros a la izquierda."
                                 disabled={isCodeDisabled} // Deshabilita el input si se busca un producto
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <button
@@ -350,7 +530,7 @@ const UpdateMerchandise = () => {
                             <label className={styles.inputLabel}>Nombre del Proveedor:</label>
                             <select
                                 value={supplierId}
-                                onChange={(e) => setSupplierId(Number(e.target.value))} //Con esto se asegura que el valor sea un númer
+                                onChange={handleSupplierChange}
                                 className={styles.input}
                                 style={{ fontStyle: 'italic' }}
                             >
@@ -369,6 +549,8 @@ const UpdateMerchandise = () => {
                                 value={supplierNIT}
                                 onChange={(e) => setSupplierNIT(e.target.value)}
                                 className={styles.input}
+                                title="Ingrese un NIT válido de hasta 15 caracteres, incluyendo el guion y el dígito de verificación."
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Teléfono:</label>
@@ -378,6 +560,8 @@ const UpdateMerchandise = () => {
                                 value={supplierPhone}
                                 onChange={(e) => setSupplierPhone(e.target.value)}
                                 className={styles.input}
+                                title="Ingrese un número de celular colombiano sin el código de país. Debe contener exactamente 10 dígitos numéricos."
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Dirección:</label>
@@ -387,6 +571,7 @@ const UpdateMerchandise = () => {
                                 value={supplierAddress}
                                 onChange={(e) => setSupplierAddress(e.target.value)}
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Categoría:</label>
@@ -411,6 +596,7 @@ const UpdateMerchandise = () => {
                                 value={productName}
                                 onChange={(e) => setProductName(e.target.value)}
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Cantidad:</label>
@@ -420,6 +606,8 @@ const UpdateMerchandise = () => {
                                 value={productQuantity}
                                 onChange={(e) => setProductQuantity(e.target.value)}
                                 className={styles.input}
+                                title="Ingrese una cantidad mayor o igual a cero. No se permiten valores negativos."
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Valor Unitario:</label>
@@ -429,6 +617,7 @@ const UpdateMerchandise = () => {
                                 value={unitValue}
                                 onChange={(e) => setUnitValue(e.target.value)}
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Valor Total:</label>
@@ -437,6 +626,7 @@ const UpdateMerchandise = () => {
                                 value={totalValue}
                                 className={styles.input}
                                 disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </form>
 
@@ -465,6 +655,7 @@ const UpdateMerchandise = () => {
                         </form>
                     </div>
 
+                    {/* Botones de acción pata guardar, limpiar o salir */}
                     <div className={styles.actionButtons}>
                         <button className={styles.saveButton} onClick={handleSave}>
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
@@ -480,6 +671,227 @@ const UpdateMerchandise = () => {
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/*Boton de acción para editar proveedor */}
+            <div className={styles.actionButtonsEdit}>
+                {tienePermiso("inventario:categoria") && (
+                    <button
+                        className={styles.editButton}
+                        type="button"
+                        onClick={() => {
+                            setProveedorSeleccionado({
+                                idProveedor: supplierId,
+                                nombreProveedor: supplierName,
+                            });
+                            setNuevoNombreProveedor(supplierName);
+                            setProveedorModalOpen(true);
+                        }}
+                    >
+                        Editar Prov. < EditNoteIcon style={{ marginLeft: 8 }} />
+                    </button>
+                )}
+
+                {tienePermiso("inventario:categoria") && (
+                    <button
+                        className={styles.editButton}
+                        type="button"
+                        onClick={() => {
+                            setCategoriaSeleccionada({
+                                idCategoria: selectedCategoryId,
+                                nombreCategoria: categories.find(cat => cat.idCategoria === selectedCategoryId)?.nombreCategoria || ""
+                            });
+                            setNuevoNombreCategoria(
+                                categories.find(cat => cat.idCategoria === selectedCategoryId)?.nombreCategoria || ""
+                            );
+                            setCategoriaModalOpen(true);
+                        }}
+                    >
+                        Editar Cat. <EditNoteIcon style={{ marginLeft: 8 }} />
+                    </button>
+                )}
+            </div>
+
+            {/* Modal para editar proveedor */}
+            {isProveedorModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button
+                            className={styles.modalCloseButton}
+                            onClick={() => {
+                                setProveedorModalOpen(false);
+                                handleClear();
+                            }}
+                        >
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Editar Proveedor</h2>
+
+                        {/* Filtro de búsqueda */}
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarProveedor" className={styles.labelModal}>Buscar Proveedor</label>
+                            <input
+                                type="text"
+                                id="BuscarProveedor"
+                                placeholder="Escriba para buscar un proveedor"
+                                value={proveedorFiltro}
+                                onChange={(e) => setProveedorFiltro(e.target.value)}
+                                className={styles.input}
+                            />
+                        </div>
+
+                        {/* Lista de coincidencias */}
+                        {proveedorFiltro.trim() !== "" && (
+                            <ul className={styles.listaResultados}>
+                                {suppliers
+                                    .filter((prov) =>
+                                        prov.nombreProveedor.toLowerCase().includes(proveedorFiltro.toLowerCase())
+                                    )
+                                    .map((prov) => (
+                                        <li
+                                            key={prov.idProveedor}
+                                            onClick={() => {
+                                                console.log("Seleccionado:", prov);
+                                                setProveedorSeleccionado(prov.idProveedor);
+                                                setNuevoNombreProveedor(prov.nombreProveedor);
+                                            }}
+                                        >
+                                            {prov.nombreProveedor}
+                                        </li>
+                                    ))}
+                            </ul>
+                        )}
+
+                        {/* Input editable */}
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombreProveedor" className={styles.labelModal}>
+                                Nombre del Proveedor (Obligatorio)
+                            </label>
+                            <input
+                                type="text"
+                                id="NombreProveedor"
+                                placeholder="Nombre del Proveedor"
+                                value={nuevoNombreProveedor}
+                                onChange={(e) => setNuevoNombreProveedor(e.target.value)}
+                                className={styles.input}
+                            />
+                        </div>
+
+                        {/* Botones */}
+                        <div className={styles.modalButtonsEditar}>
+                            <button className={styles.modalButtonSave} onClick={handleActualizarProveedor}>
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button className={styles.clearButtonModal} onClick={handleClear}>
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button
+                                className={styles.modalButtonExit}
+                                onClick={() => {
+                                    setProveedorModalOpen(false);
+                                    handleClear();
+                                }}
+                            >
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal para editar categoría */}
+            {isCategoriaModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <button
+                            className={styles.modalCloseButton}
+                            onClick={() => {
+                                setCategoriaModalOpen(false);
+                                handleClear();
+                            }}
+                        >
+                            <CloseIcon />
+                        </button>
+
+                        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Editar Categoría</h2>
+
+                        {/* Filtro de búsqueda */}
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="BuscarCategoria" className={styles.labelModal}>Buscar Categoría</label>
+                            <input
+                                type="text"
+                                id="BuscarCategoria"
+                                placeholder="Escriba para buscar una categoría"
+                                value={categoriaFiltro}
+                                onChange={(e) => setCategoriaFiltro(e.target.value)}
+                                className={styles.input}
+                            />
+                        </div>
+
+                        {/* Lista de coincidencias */}
+                        {categoriaFiltro.trim() !== "" && (
+                            <ul className={styles.listaResultados}>
+                                {categories
+                                    .filter((cat) =>
+                                        cat.nombreCategoria.toLowerCase().includes(categoriaFiltro.toLowerCase())
+                                    )
+                                    .map((cat) => (
+                                        <li
+                                            key={cat.idCategoria}
+                                            onClick={() => {
+                                                setCategoriaSeleccionada(cat.idCategoria);
+                                                setNuevoNombreCategoria(cat.nombreCategoria);
+                                            }}
+                                        >
+                                            {cat.nombreCategoria}
+                                        </li>
+                                    ))}
+                            </ul>
+                        )}
+
+                        {/* Input editable */}
+                        <div className={styles.modalFormGroup}>
+                            <label htmlFor="NombreCategoria" className={styles.labelModal}>
+                                Nombre de la Categoría (Obligatorio)
+                            </label>
+                            <input
+                                type="text"
+                                id="NombreCategoria"
+                                placeholder="Nombre de la Categoría"
+                                value={nuevoNombreCategoria}
+                                onChange={(e) => setNuevoNombreCategoria(e.target.value)}
+                                className={styles.input}
+                            />
+                        </div>
+
+                        {/* Botones */}
+                        <div className={styles.modalButtonsEditar}>
+                            <button className={styles.modalButtonSave} onClick={handleActualizarCategoria}>
+                                Actualizar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button
+                                className={styles.clearButtonModal}
+                                onClick={() => {
+                                    setCategoriaFiltro("");
+                                    setCategoriaSeleccionada(null);
+                                    setNuevoNombreCategoria("");
+                                }}
+                            >
+                                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+                            </button>
+                            <button
+                                className={styles.modalButtonExit}
+                                onClick={() => {
+                                    setCategoriaModalOpen(false);
+                                    handleClear();
+                                }}
+                            >
+                                Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
+                            </button>
+                        </div>
+                    </div>
+                </div >
             )}
         </>
     );
