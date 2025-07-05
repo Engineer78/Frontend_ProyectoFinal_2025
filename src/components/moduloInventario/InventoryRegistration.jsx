@@ -1,21 +1,26 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+import { usePermisos } from "../../components/admin/PermisosContext"; 
 import Header from "../Header";
-import styles from "../../styles/inventoryregistration.module.css";
+import modalStyles from "../../styles/modalstyles.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import axios from "axios";
+import useInactivityLogout from "../../useInactivityLogout";
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import CloseIcon from '@mui/icons-material/Close';
+import styles from "../../styles/inventoryregistration.module.css";
+import api from "../../api"; // Importa la instancia de Axios configurada
+
 
 // se crea el componente InventoryRegistration
 const InventoryRegistration = () => {
 
-    // Se instancia axios para realizar las peticiones a la API
-    // Se define la URL base de la API
-    const api = axios.create({
-        baseURL: 'http://localhost:8080/api'
-    });
+    useInactivityLogout(); // Llama al hook para manejar el logout por inactividad
+    useTokenAutoLogout();  // Hook para expiración de token
+
 
     // Se definen los estados para los campos del formulario
     const [supplierName, setSupplierName] = useState("");
@@ -30,6 +35,20 @@ const InventoryRegistration = () => {
     const [totalValue, setTotalValue] = useState("");
     const [productImage, setProductImage] = useState(null);
     const [activeTab, setActiveTab] = useState("registro");
+
+    // Se utiliza el hook usePermisos para obtener los permisos del usuario
+    const { permisos } = usePermisos();
+    // Se utiliza el hook usePermisos para verificar si el usuario tiene permisos específicos
+    const { tienePermiso } = usePermisos();
+
+    console.log("Permisos del usuario:", permisos);
+
+    // Se utiliza el hook useLocation para obtener la ubicación actual
+    const location = useLocation();
+    // Se obtiene la ruta actual para determinar si una pestaña está activa
+    const currentPath = location.pathname;
+    const isActive = (path) => currentPath === path;
+    const [showAccessModal, setShowAccessModal] = useState(false);
 
     // Manejar cambio de pestaña
     const handleTabClick = (tab) => {
@@ -46,95 +65,125 @@ const InventoryRegistration = () => {
         }
     }, [productQuantity, unitValue]);
 
-    // Se define una función para validar los campos vacios del formulario.
-    const validateFields = () => {
-        return (
-            supplierName &&
-            supplierNIT &&
-            supplierPhone &&
-            supplierAddress &&
-            productCategory &&
-            productCode &&
-            productName &&
-            productQuantity &&
-            unitValue
-        );
-    };
 
     // Función para guardar datos (proveedor y producto junto con la imagen)
     const handleSave = async () => {
-        console.log("handleSave fue llamada"); // Paso 1
+        console.log("handleSave fue llamada");
 
-        // Validar si los campos están completos antes de proceder
-        if (!validateFields()) {
-            console.log("Validación fallida: faltan campos obligatorios");
-            alert("Por favor, complete todos los campos obligatorios.");
-            return; // Salir si hay campos vacíos
+        // Validaciones personalizadas
+        const errores = [];
+
+        // Validar campos requeridos
+        if (!supplierName) errores.push("Nombre del proveedor es obligatorio.");
+
+        const nitRegex = /^\d{7,10}-\d{1}$/;
+        if (!supplierNIT || !nitRegex.test(supplierNIT)) errores.push("NIT inválido. Ej: 123456789-0");
+
+        const phoneRegex = /^\d{10}$/;
+        if (!supplierPhone || !phoneRegex.test(supplierPhone)) errores.push("Teléfono debe tener 10 dígitos.");
+
+        if (!supplierAddress) errores.push("Dirección del proveedor es obligatoria.");
+        if (!productCategory) errores.push("Categoría del producto es obligatoria.");
+        if (!productCode) errores.push("Código del producto es obligatorio.");
+        if (!productName) errores.push("Nombre del producto es obligatorio.");
+
+        const quantity = parseInt(productQuantity, 10);
+        if (!productQuantity || isNaN(quantity) || quantity <= 0) errores.push("Cantidad debe ser un número mayor que 0.");
+
+        const unit = parseFloat(unitValue);
+        if (!unitValue || isNaN(unit) || unit <= 0) errores.push("Valor unitario debe ser un número mayor que 0.");
+
+        if (productImage && !['image/jpeg', 'image/png'].includes(productImage.type)) {
+            errores.push("Solo se permiten imágenes JPEG o PNG.");
         }
 
-        console.log("Los campos están completos y validados"); // Paso 2
+        if (errores.length > 0) {
+            alert("Errores encontrados:\n" + errores.join('\n'));
+            return;
+        }
+
+        // Formatear código
+        const codigoFormateado = productCode.padStart(5, '0');
+        setProductCode(codigoFormateado);
+
+        // Recuperar token
+        const token = localStorage.getItem("token");
 
         try {
-            // Paso 1: Verificar si el proveedor ya existe en la API
-            console.log("Obteniendo proveedores..."); // Paso 3
-            const proveedores = await api.get('/proveedores'); // Obtener proveedores desde la API
+            console.log("Obteniendo proveedores...");
+
+            const proveedores = await api.get('/proveedores', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
             console.log("Proveedores obtenidos:", proveedores.data);
+
             const existingSupplier = proveedores.data.find(
-                (sup) => sup.nitProveedor === supplierNIT // Buscar proveedor por NIT
+                (sup) => sup.nitProveedor === supplierNIT
             );
+
             let supplierId;
 
             if (existingSupplier) {
-                // Si el proveedor ya existe, usar su ID
                 supplierId = existingSupplier.idProveedor;
-                console.log("Proveedor existente encontrado, ID:", supplierId); // Paso 4
+                console.log("Proveedor existente encontrado, ID:", supplierId);
             } else {
-                console.log("Proveedor encontrado:", existingSupplier);
-                // Si no existe, crearlo en la API
-                console.log("Creando nuevo proveedor..."); // Paso 5
+                console.log("Proveedor no encontrado. Creando nuevo proveedor...");
+
                 const newSupplier = {
                     direccionProveedor: supplierAddress,
                     nitProveedor: supplierNIT,
                     nombreProveedor: supplierName,
                     telefonoProveedor: supplierPhone,
                 };
-                const supplierResponse = await api.post('/proveedores', newSupplier); // Guardar proveedor
-                supplierId = supplierResponse.data.idProveedor; // Obtener el ID generado
-                console.log("Nuevo proveedor creado, ID:", supplierId); // Paso 6
+
+                const supplierResponse = await api.post('/proveedores', newSupplier, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                supplierId = supplierResponse.data.idProveedor;
+                console.log("Nuevo proveedor creado, ID:", supplierId);
             }
 
-            // Paso 2: Verificar si el producto ya existe en la API
-            console.log("Obteniendo productos..."); // Paso 7
-            const productos = await api.get('/productos'); // Obtener productos desde la API
+            console.log("Obteniendo productos...");
+
+            const productos = await api.get('/productos', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
             console.log("Productos obtenidos:", productos.data);
+
             const existingProduct = productos.data.find(
                 (prod) => prod.codigoProducto === productCode && prod.idProveedor === supplierId
             );
 
             if (existingProduct) {
-                // Si el producto ya existe, mostrar alerta y salir
                 alert("El código del producto ya existe para este proveedor.");
-                return; // Salir si hay duplicados
+                return;
             }
 
-            console.log("El producto no existe, creando..."); // Paso 8
+            console.log("El producto no existe, creando...");
 
-            // Paso 3: Procesar la imagen si se ha cargado
             let productImageBase64 = null;
             if (productImage) {
-                productImageBase64 = await procesarImagen(productImage); // Convertir imagen a Base64
+                productImageBase64 = await procesarImagen(productImage);
                 console.log("Imagen procesada en Base64:", productImageBase64);
             }
 
-            // Paso 4: Crear el producto con la imagen y guardarlo en la API
             const newProduct = {
                 producto: {
                     codigoProducto: productCode,
                     nombreProducto: productName,
                     cantidad: parseInt(productQuantity, 10),
                     valorUnitarioProducto: parseFloat(unitValue),
-                    valorTotalProducto: parseFloat(totalValue), // Incluir el valor total
-                    imagen: productImageBase64, // Incluir imagen codificada en Base64
+                    valorTotalProducto: parseFloat(totalValue),
+                    imagen: productImageBase64,
                 },
                 nombreCategoria: productCategory,
                 nombreProveedor: supplierName,
@@ -142,35 +191,36 @@ const InventoryRegistration = () => {
                 direccionProveedor: supplierAddress,
                 telefonoProveedor: supplierPhone
             };
-            console.log("Datos enviados al backend:", JSON.stringify(newProduct, null, 2)); // Paso 11
-            console.log("Enviando petición POST a /api/productos:", newProduct); // Paso 9
-            const productResponse = await api.post('/productos', newProduct); // Guardar producto en la API
 
-            // Confirmar creación exitosa
+            console.log("Enviando petición POST a /api/productos:", newProduct);
+
+            const productResponse = await api.post('/productos', newProduct, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
             if (productResponse.status === 201) {
                 alert(`Producto registrado exitosamente con ID: ${productResponse.data.idProducto}`);
             } else {
                 alert("Se creó el producto, pero ocurrió un problema inesperado.");
             }
 
-            handleClear(); // Limpiar formulario después del guardado exitoso
-            console.log("Formulario limpiado"); // Paso 10
+            handleClear();
+            console.log("Formulario limpiado");
 
         } catch (error) {
             console.error("Error al guardar los datos:", error);
             if (error.response && error.response.status === 400) {
-                // Error de validación
                 const validationErrors = error.response.data;
                 console.error("Errores de validación:", validationErrors);
 
-                // Muestra los errores al usuario (ejemplo)
                 let errorMessage = "Error de validación:\n";
                 for (const field in validationErrors) {
                     errorMessage += `${field}: ${validationErrors[field]}\n`;
                 }
                 alert(errorMessage);
             } else {
-                // Otro tipo de error
                 alert("Hubo un error al guardar los datos. Por favor, inténtelo de nuevo.");
             }
         }
@@ -210,6 +260,21 @@ const InventoryRegistration = () => {
         setActiveTab("registro");
     }, []);
 
+
+    // Verifica si el usuario tiene permiso para registrar inventario
+    // Si no tiene permiso, se deshabilitan los campos y botones del formulario
+    const estaDeshabilitado = !tienePermiso("inventario:registrar");
+
+    // Si el usuario no tiene permiso para registrar inventario, se muestra un modal de acceso denegado
+    // cuando se intenta acceder a la pestaña de registro.
+    useEffect(() => {
+        if (activeTab === "registro" && !tienePermiso("inventario:registrar")) {
+            setShowAccessModal(true);
+        }
+    }, [activeTab, permisos]);
+
+
+
     // Se renderiza el componente
     return (
         <>
@@ -224,7 +289,7 @@ const InventoryRegistration = () => {
             <div className={styles.tabs}>
                 <Link
                     to="/inventory-registration"
-                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
+                    className={`${styles.tabButton} ${isActive("/inventory-registration") ? styles.active : ""} ${!tienePermiso("inventario:registrar") ? styles.disabledTab : ""}`}
                     onClick={() => handleTabClick("registro")}
                 >
                     Registrar Inventario
@@ -232,7 +297,7 @@ const InventoryRegistration = () => {
 
                 <Link
                     to="/merchandise-query"
-                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
+                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("inventario:registrar") ? styles.disabledTab : ""}`}
                     onClick={() => handleTabClick("consulta")}
                 >
                     Consultar Inventario
@@ -240,7 +305,7 @@ const InventoryRegistration = () => {
 
                 <Link
                     to="/update-merchandise"
-                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
+                    className={`${styles.tabButton} ${isActive("/update-merchandise") ? styles.active : ""} ${!tienePermiso("inventario:editar") ? styles.disabledTab : ""}`}
                     onClick={() => handleTabClick("actualizar")}
                 >
                     Actualizar Inventario
@@ -248,7 +313,7 @@ const InventoryRegistration = () => {
 
                 <Link
                     to="/delete-merchandise"
-                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
+                    className={`${styles.tabButton} ${isActive("/delete-merchandise") ? styles.active : ""} ${!tienePermiso("inventario:eliminar") ? styles.disabledTab : ""}`}
                     onClick={() => handleTabClick("eliminar")}
                 >
                     Eliminar Inventario
@@ -269,19 +334,24 @@ const InventoryRegistration = () => {
                                 type="text"
                                 placeholder="Nombre del Proveedor (Obligatorio)"
                                 value={supplierName}
-                                onChange={(e) => setSupplierName(e.target.value)}
+                                onChange={(e) => setSupplierName(e.target.value.trimStart())}
                                 required
                                 className={styles.input}
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>NIT:</label>
                             <input
                                 type="text"
-                                placeholder="NIT (Obligatorio)"
+                                placeholder="NIT ejemplo 123456789-1 (Obligatorio)"
                                 value={supplierNIT}
                                 onChange={(e) => setSupplierNIT(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Ingrese un NIT válido de hasta 15 caracteres, incluyendo el guion y el dígito de verificación."
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Teléfono:</label>
@@ -292,6 +362,9 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setSupplierPhone(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Ingrese un número de celular colombiano sin el código de país. Debe contener exactamente 10 dígitos numéricos."
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Dirección:</label>
@@ -302,6 +375,8 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setSupplierAddress(e.target.value)}
                                 required
                                 className={styles.input}
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Crear Categoría del Producto:</label>
@@ -312,6 +387,8 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setProductCategory(e.target.value)}
                                 required
                                 className={styles.input}
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Crear Código del Producto:</label>
@@ -322,6 +399,9 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setProductCode(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="El código del producto debe contener solo dígitos numéricos (entre 1 y 5 cifras). Se permiten ceros a la izquierda."
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Nombre del Producto:</label>
@@ -332,6 +412,8 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setProductName(e.target.value)}
                                 required
                                 className={styles.input}
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Cantidad:</label>
@@ -342,6 +424,9 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setProductQuantity(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Ingrese una cantidad mayor o igual a cero. No se permiten valores negativos."
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Valor Unitario:</label>
@@ -352,6 +437,8 @@ const InventoryRegistration = () => {
                                 onChange={(e) => setUnitValue(e.target.value)}
                                 required
                                 className={styles.input}
+                                disabled={estaDeshabilitado}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Valor Total:</label>
@@ -361,6 +448,7 @@ const InventoryRegistration = () => {
                                 value={totalValue}
                                 className={styles.inputValorTotal}
                                 disabled
+                                style={{ fontStyle: 'italic' }}
                             />
                         </form>
 
@@ -383,18 +471,23 @@ const InventoryRegistration = () => {
                                     onChange={(e) => setProductImage(e.target.files[0])}
                                     className={styles.fileInput}
                                     id="fileInput"
+                                    disabled={estaDeshabilitado}
+
                                 />
-                                <label htmlFor="fileInput" className={styles.customFileInput}>
+                                <label htmlFor="fileInput" className={styles.customFileInput} disabled={estaDeshabilitado}
+                                >
                                     Cargar Imagen <UploadFileIcon style={{ marginLeft: 8 }} />
                                 </label>
                             </div>
                         </form>
                     </div>
                     <div className={styles.actionButtons}>
-                        <button type="button" onClick={handleSave} className={styles.saveButton}>
+                        <button type="button" onClick={handleSave} className={styles.saveButton} disabled={estaDeshabilitado}
+                        >
                             Guardar <SaveOutlinedIcon style={{ marginLeft: 8 }} />
                         </button>
-                        <button type="button" onClick={handleClear} className={styles.clearButton}>
+                        <button type="button" onClick={handleClear} className={styles.clearButton} disabled={estaDeshabilitado}
+                        >
                             Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                         </button>
                         <button
@@ -407,6 +500,38 @@ const InventoryRegistration = () => {
                     </div>
                 </div>
             )}
+
+            {/* Modal de mensaje para usuarios sin permiso de registrar */}
+            {activeTab === "registro" && showAccessModal && !tienePermiso("inventario:registrar") && (
+                <div className={modalStyles.modalOverlay}>
+                    <div className={modalStyles.modalContent}>
+                        <button
+                            className={modalStyles.modalCloseButton}
+                            onClick={() => setShowAccessModal(false)} // ✅ Solo cierra el modal
+                        >
+                            <CloseIcon />
+                        </button>
+                        <label className={modalStyles.title}>Acceso Denegado</label>
+
+                        <div className={modalStyles.formGroup}>
+                            <p>No tienes permisos para acceder a esta pestaña.</p>
+                            <p>Por favor, dirígete a la sección de consulta.</p>
+                        </div>
+
+                        <div className={modalStyles.modalButtonGroup}>
+                            {tienePermiso("inventario:consultar") && (
+                                <button
+                                    className={modalStyles.modalButtonExit}
+                                    onClick={() => window.location.href = "/merchandise-query"} // ✅ Redirige al módulo
+                                >
+                                    Ir a Consultar
+                                </button>
+                            )};
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </>
     );
 };
