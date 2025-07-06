@@ -1,93 +1,112 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from '../../styles/loginform.module.css';
+import { jwtDecode } from 'jwt-decode';
 import "material-icons/iconfont/material-icons.css";
+import styles from '../../styles/loginform.module.css';
+import api from '../../api'; // Importa la instancia de Axios configurada
 
-/// Este componente es un formulario de inicio de sesión
-/// que permite a los usuarios ingresar su nombre de usuario y contraseña.
+// componente LoginForm
+// Este componente maneja el formulario de inicio de sesión
 const LoginForm = () => {
 
-    // se definen los estados para el nombre de usuario y la contraseña
-    // y la visibilidad de la contraseña
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+  // Estados para manejar la visibilidad de la contraseña, el nombre de usuario, la contraseña y el estado de carga
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    // se define la función para manejar la visibilidad de la contraseña
-    // y se cambia el estado de la contraseña visible a no visible
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-      };
+  // Función para alternar la visibilidad de la contraseña
+  // Cambia el estado de passwordVisible entre true y false
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
-      // se define la función para manejar el almacenamiento de los datos
-      // y se guardan los datos en el almacenamiento local (localstorage)
-      const handleLogin = (event) => {
-        event.preventDefault();
-    
-        const savedUser = JSON.parse(localStorage.getItem("user"));
-    
-        if (savedUser && username === savedUser.username && password === savedUser.password) {
-          console.log("¡Inicio de sesión exitoso! Bienvenido:", username);
+  // Función para manejar el envío del formulario de inicio de sesión
+  // Se encarga de enviar los datos al backend y manejar la respuesta
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
 
-          localStorage.setItem('isLoggedIn', 'true'); // Guardar estado de inicio de sesión
+    console.log("🔐 Enviando login con:", {
+      username: username,
+      password: password
+    });
 
-          navigate('/menu-principal');
-        } else {
-          console.error("Nombre de usuario o contraseña incorrectos.");
-        }
-      };
+    try {
+      const response = await api.post('http://localhost:8080/api/auth/login', {
+        username: username,
+        password: password
+      });
 
-      // Este componente renderiza un formulario de inicio de sesión
-      // que incluye campos para el nombre de usuario y la contraseña,
-      return (
-        <div className={styles["form-wrapper"]}>
-          <form className={styles["login-form"]} onSubmit={handleLogin}>
-            <h2>Inicio de sesión</h2>
-            <p>Por favor loguearse para continuar.</p>
-    
-            <label htmlFor="username">Usuario</label>
-            <input
-              type="email"
-              id="username"
-              placeholder="jujo_systemsoft@gmail.com"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)} 
-            />
-    
-            <label htmlFor="password">Contraseña</label>
-            <div className={styles["password-container"]}>
-              <input
-                type={passwordVisible ? "text" : "password"}
-                id="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} 
-              />
-              <span
-                className={styles["toggle-password"]}
-                onClick={togglePasswordVisibility}
-                title={passwordVisible ? "Ocultar contraseña" : "Mostrar contraseña"}
-              >
-                <span className="material-icons">
-                  {passwordVisible ? "visibility_off" : "visibility"}
-                </span>
-              </span>
-            </div>
-    
-            <button type="submit" className={styles["submit-button"]}>
-              Ingresar
-              <span className="material-icons" style={{ marginLeft: "0.5rem" }}>
-                login
-              </span>
-            </button>
-    
-            <a href="https://www.gmail.com" className={styles["forgot-password"]}>
-              ¿Olvidó su contraseña? <span>Clic aquí</span> para recuperarla.
-            </a>
-          </form>
+      const token = response.data.token;
+
+      // Guardar el token en localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('isLoggedIn', 'true');
+
+      // Decodificar el token para extraer datos del usuario 
+      const decoded = jwtDecode(token);
+      localStorage.setItem('userData', JSON.stringify(decoded));
+
+      // ✅ Forzar recarga completa para que PermisosContext cargue bien 
+      window.location.href = '/menu-principal';
+    } catch (error) {
+      console.error("❌ Error de autenticación:", error.response?.data || error.message);
+      alert("Usuario o contraseña inválidos.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Renderiza el formulario de inicio de sesión
+  // Incluye campos para el nombre de usuario y la contraseña, y un botón para enviar
+  return (
+    <div className={styles["form-wrapper"]}>
+      <form className={styles["login-form"]} onSubmit={handleLogin}>
+        <h2>Inicio de sesión</h2>
+        <p>Por favor loguearse para continuar.</p>
+
+        <label htmlFor="username">Usuario</label>
+        <input
+          type="email"
+          id="username"
+          placeholder="judajo_systemsoft@gmail.com"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <label htmlFor="password">Contraseña</label>
+        <div className={styles["password-container"]}>
+          <input
+            type={passwordVisible ? "text" : "password"}
+            id="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className={styles["toggle-password"]}
+            onClick={togglePasswordVisibility}
+            title={passwordVisible ? "Ocultar contraseña" : "Mostrar contraseña"}
+          >
+            <span className="material-icons">
+              {passwordVisible ? "visibility_off" : "visibility"}
+            </span>
+          </span>
         </div>
-      );
-    };
-    
-    export default LoginForm;
+
+        <button type="submit" className={styles["submit-button"]} disabled={isLoading}>
+          {isLoading ? "Ingresando..." : "Ingresar"}
+          <span className="material-icons" style={{ marginLeft: "0.5rem" }}>
+            login
+          </span>
+        </button>
+
+        <a href="https://www.gmail.com" className={styles["forgot-password"]}>
+          ¿Olvidó su contraseña? <span>Clic aquí</span> para recuperarla.
+        </a>
+      </form>
+    </div>
+  );
+};
+
+export default LoginForm;
