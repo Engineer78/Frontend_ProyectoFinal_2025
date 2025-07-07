@@ -37,11 +37,19 @@ const DeleteMerchandise = () => {
         nitProveedor: '',
     });
 
+<<<<<<< HEAD
     // Este estado se usa para mostrar una imagen en un modal cuando se hace clic en "
     const [modalImage, setModalImage] = useState(null);
 
     // Este estado se usa para mostrar un modal de confirmación antes de eliminar un producto
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+=======
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false); // Modal confirmación eliminación
+    const [isSearching, setIsSearching] = useState(false); // Control búsqueda activa
+    const [selectedItems, setSelectedItems] = useState([]); // Registros seleccionados
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 5;
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
     // Este estado se usa para controlar si se está buscando productos y para manejar la paginación
     const [isSearching, setIsSearching] = useState(false);
@@ -75,7 +83,10 @@ const DeleteMerchandise = () => {
     const closeDeleteConfirmationModal = () => {
         setIsDeleteConfirmationOpen(false);
     };
+<<<<<<< HEAD
 
+=======
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     // Función para cargar los productos desde la API
     const fetchProducts = async () => {
         try {
@@ -186,8 +197,11 @@ const DeleteMerchandise = () => {
             item.codigoProducto.toString().padStart(5, '0').includes(filters.codigo)
         );
 
+<<<<<<< HEAD
 
         // Si no hay resultados, limpia los datos y los inputs deshabilitados
+=======
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
         setData(itemsToShow);
 
@@ -348,8 +362,12 @@ const DeleteMerchandise = () => {
                     Ingrese un código de producto y seleccione el registro que desea eliminar
                 </h2>
             </div>
+<<<<<<< HEAD
 
             {/*  Etiqueta de paginación con total de registros y filas por página */}
+=======
+            {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
             <div className={styles.topTableRow}>
                 <p className={styles.labelPagination}>
                     Total registros: {data.length} | Filas por página:  {rowsPerPage}
@@ -509,6 +527,7 @@ const DeleteMerchandise = () => {
                     )}
                 </tbody>
             </table>
+<<<<<<< HEAD
 
             {/* Paginación Tabla */}
             {isSearching && data.length > 0 && (
@@ -521,6 +540,19 @@ const DeleteMerchandise = () => {
                         &#x276E;
                     </button>
 
+=======
+            {/* Paginación Tabla */}
+            {isSearching && data.length > 0 && (
+                <div className={styles.pagination}>
+                    <button
+                        className={styles.circleButton}
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        &#x276E;
+                    </button>
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                     {Array.from({
                         length: Math.ceil(fullProductList.filter(item =>
                             item.codigoProducto.toString().includes(filters.codigo)).length / rowsPerPage)

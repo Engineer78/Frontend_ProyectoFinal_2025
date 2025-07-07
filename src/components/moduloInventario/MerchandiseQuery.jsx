@@ -45,6 +45,7 @@ const MerchandiseQuery = () => {
   const [searchMode, setSearchMode] = useState('normal');  // 'normal' o 'advanced'
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
+<<<<<<< HEAD
   const [isTraceabilityModalOpen, setIsTraceabilityModalOpen] = useState(false);
   const [traceData, setTraceData] = useState([]);
   const [tracePage, setTracePage] = useState(1);
@@ -58,6 +59,9 @@ const MerchandiseQuery = () => {
   const [isTraceabilityCleared, setIsTraceabilityCleared] = useState(false);
   const [isSearchingTrace, setIsSearchingTrace] = useState(false);
   const { tienePermiso } = usePermisos();
+=======
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
 
 
@@ -77,7 +81,12 @@ const MerchandiseQuery = () => {
       try {
         let resp;
 
+<<<<<<< HEAD
         if (searchMode === 'normal') {
+=======
+        // 4) Si los filtros principales están llenos, usar búsqueda normal
+        if (filters.codigoProducto || filters.nombreCategoria || filters.nombreProducto) {
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
           resp = await api.get('/productos/buscar', {
             params: {
               nombreCategoria: filters.nombreCategoria || null,
@@ -108,6 +117,10 @@ const MerchandiseQuery = () => {
 
         let lista = resp.data || [];
 
+<<<<<<< HEAD
+=======
+        // 6) Filtrado adicional por código en frontend si es necesario
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         if (filters.codigoProducto) {
           const codigoSinCeros = filters.codigoProducto.replace(/^0+/, '');
           lista = lista.filter(p =>
@@ -116,15 +129,32 @@ const MerchandiseQuery = () => {
         }
 
         setData(lista);
+<<<<<<< HEAD
         setCurrentPage(1);
         setSelectedProduct(lista.length > 0 ? lista[0] : null);
 
+=======
+
+        setCurrentPage(1); // Reinicia la paginación al hacer una búsqueda nueva
+
+
+        // 7) Siempre tomar el primer resultado
+        if (lista.length > 0) {
+          setSelectedProduct(lista[0]);
+        } else {
+          setSelectedProduct(null);
+        }
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
       } catch (error) {
         console.error('Error al obtener datos:', error);
         setData([]);
         setSelectedProduct(null);
       }
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
     fetchData();
   }, [filters, isSearching, searchMode]);
@@ -390,6 +420,7 @@ const MerchandiseQuery = () => {
       {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
         <Link
+<<<<<<< HEAD
           to={tienePermiso("inventario:registrar") ? "/inventory-registration" : "#"}
           className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("inventario:registrar") ? styles.disabledTab : ""}`}
           onClick={(e) => {
@@ -429,6 +460,27 @@ const MerchandiseQuery = () => {
         >
           Eliminar Inventario
         </Link>
+=======
+          to="/inventory-registration"
+          className={`${styles.tabButton} ${activeTab === 'registro' ? styles.active : ''}`}
+          onClick={() => handleTabClick('registro')}
+        >Registrar Inventario</Link>
+        <Link
+          to="/merchandise-query"
+          className={`${styles.tabButton} ${activeTab === 'consulta' ? styles.active : ''}`}
+          onClick={() => handleTabClick('consulta')}
+        >Consultar Inventario</Link>
+        <Link
+          to="/update-merchandise"
+          className={`${styles.tabButton} ${activeTab === 'actualizar' ? styles.active : ''}`}
+          onClick={() => handleTabClick('actualizar')}
+        >Actualizar Inventario</Link>
+        <Link
+          to="/delete-merchandise"
+          className={`${styles.tabButton} ${activeTab === 'eliminar' ? styles.active : ''}`}
+          onClick={() => handleTabClick('eliminar')}
+        >Eliminar Inventario</Link>
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
       </div>
 
       <div className={styles.container}>
@@ -436,8 +488,12 @@ const MerchandiseQuery = () => {
           Ingrese un dato en la casilla correspondiente para realizar la consulta
         </h2>
       </div>
+<<<<<<< HEAD
 
       {/*Etiqueta de paginación con total de registros y filas por página */}
+=======
+      {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
       <div className={styles.topTableRow}>
         <p className={styles.labelPagination}>
           Total registros: {data.length} | Filas por página: {rowsPerPage}
@@ -582,7 +638,38 @@ const MerchandiseQuery = () => {
           }
         </tbody>
       </table>
+      {/* Paginación Table */}
+      {isSearching && data.length > rowsPerPage && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            &#x276E; {/* flecha izquierda */}
+          </button>
 
+          {Array.from({ length: Math.ceil(data.length / rowsPerPage) }, (_, i) => i + 1).map(pageNum => (
+            <button
+              key={pageNum}
+              className={`${styles.pageNumber} ${currentPage === pageNum ? styles.activePage : ''}`}
+              onClick={() => setCurrentPage(pageNum)}
+            >
+              {pageNum}
+            </button>
+          ))}
+
+          <button
+            className={styles.circleButton}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(data.length / rowsPerPage)))}
+            disabled={currentPage === Math.ceil(data.length / rowsPerPage)}
+          >
+            &#x276F; {/* flecha derecha */}
+          </button>
+        </div>
+      )}
+
+<<<<<<< HEAD
       {/* Paginación Table */}
       {
         isSearching && data.length > rowsPerPage && (
@@ -612,6 +699,17 @@ const MerchandiseQuery = () => {
             >
               &#x276F; {/* flecha derecha */}
             </button>
+=======
+      {/* Modal de imagen */}
+      {modalImage && (
+        <div className={styles.modal} onClick={closeModalImage}>
+          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+            {modalImage.startsWith('data:image')
+              ? <img src={modalImage} alt="Producto" className={styles.modalImage} />
+              : <p>Imagen no disponible</p>
+            }
+            <button className={styles.closeButton} onClick={closeModalImage}>Cerrar X</button>
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
           </div>
         )
       }
@@ -632,6 +730,7 @@ const MerchandiseQuery = () => {
       }
 
       {/* Modal búsqueda avanzada */}
+<<<<<<< HEAD
       {
         isAdvancedSearchOpen && (
           <div className={styles['advanced-search-modal']} onClick={closeAdvancedSearchModal}>
@@ -689,6 +788,30 @@ const MerchandiseQuery = () => {
                 />
               </form>
             </div>
+=======
+      {isAdvancedSearchOpen && (
+        <div className={styles['advanced-search-modal']} onClick={closeAdvancedSearchModal}>
+          <div className={styles['modalContent-advance']} onClick={e => e.stopPropagation()}>
+            <h3>Búsqueda Avanzada</h3>
+            <div className={styles['advanced-search-modal-controls']}>
+              <button onClick={handleClear} className={styles['advanced-search-clear-button']}>
+                Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
+              </button>
+              <button onClick={closeAdvancedSearchModal} className={styles['close-button']}>X</button>
+            </div>
+            <form className="advance-form">
+              <label htmlFor="nit">NIT</label>
+              <input name="nitProveedor" value={filters.nitProveedor} onChange={handleInputChange} placeholder="Buscar por NIT" style={{ fontStyle: 'italic' }} />
+              <label htmlFor="proveedor">Proveedor</label>
+              <input name="nombreProveedor" value={filters.nombreProveedor} onChange={handleInputChange} placeholder="Buscar por nombre" style={{ fontStyle: 'italic' }} />
+              <label htmlFor="existencia">Existencias</label>
+              <input name="cantidad" value={filters.cantidad} onChange={handleInputChange} placeholder="Buscar por existencias" style={{ fontStyle: 'italic' }} />
+              <label htmlFor="valorUnitario">Valor Unitario</label>
+              <input name="valorUnitarioProducto" value={filters.valorUnitarioProducto} onChange={handleInputChange} placeholder="Buscar por valor unitario" style={{ fontStyle: 'italic' }} />
+              <label htmlFor="valorTotal">Valor Total</label>
+              <input name="valorTotalProducto" value={filters.valorTotalProducto} onChange={handleInputChange} placeholder="Buscar por valor total" style={{ fontStyle: 'italic' }} />
+            </form>
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
           </div>
         )
       }
@@ -866,6 +989,7 @@ const MerchandiseQuery = () => {
 
       {/* Botones de acción */}
       <div className={styles.actionButtons}>
+<<<<<<< HEAD
         <button
           onClick={registrarBusquedaTrazabilidad}
           className={styles.advancedSearchButton}
@@ -874,6 +998,10 @@ const MerchandiseQuery = () => {
           }}
         >
           Registrar Consulta <ManageSearchOutlinedIcon style={{ marginLeft: 8 }} />
+=======
+        <button onClick={openAdvancedSearchModal} className={styles.advancedSearchButton}>
+          Buscar <SearchIcon style={{ marginLeft: 8 }} />
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         </button>
 
         {tienePermiso("inventario:verMovimientos") && (

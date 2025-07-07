@@ -143,7 +143,11 @@
         /* Centra horizontalmente el contenido */
         table-layout: auto;
         /* Ajuste dinámico del ancho de las columnas */
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         /* Reducir tamaño de la letra en la tabla */
     }
 
@@ -266,6 +270,7 @@
         /* Tamaño del texto en celdas */
     }
 
+<<<<<<< HEAD
     .alertaInventarioMinimo {
         background-color: #fd1414;
         color: white;
@@ -276,6 +281,8 @@
     }
 
 
+=======
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     .modalImage {
         max-width: 100%;
         height: auto;
@@ -595,6 +602,7 @@
         gap: 0.6rem;
         margin-top: -55px;
         flex-wrap: wrap;
+<<<<<<< HEAD
         z-index: 1000;
     }
 
@@ -607,12 +615,24 @@
         color: #fff;
         border: 2px solid #ffffff;
         /* borde opcional */
+=======
+      }
+      
+      .circleButton {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #333233; /* cambiar según tu diseño */
+        color: #fff;
+        border: 2px solid #ffffff; /* borde opcional */
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         font-size: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
+<<<<<<< HEAD
     }
 
     .circleButton:disabled {
@@ -621,6 +641,16 @@
     }
 
     .pageNumber {
+=======
+      }
+      
+      .circleButton:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      
+      .pageNumber {
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -630,6 +660,7 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
+<<<<<<< HEAD
     }
 
     .pageNumber:hover {
@@ -644,10 +675,26 @@
     }
 
     .topTableRow {
+=======
+      }
+      
+      .pageNumber:hover {
+        background-color: #565557;
+      }
+      
+      .activePage {
+        background-color: #565557; /* relleno activo */
+        color: #fff;
+        border: none;
+      }
+      
+      .topTableRow {
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         display: flex;
         margin-left: 80.5%;
         margin-top: -53px;
         margin-bottom: 0px;
+<<<<<<< HEAD
     }
 
     .labelPagination p {
@@ -886,3 +933,12 @@
         font-size: 0.7rem;
         text-align: left;
     }
+=======
+      }
+      
+      .labelPagination p{
+        color: #333233;
+        font-size: 0.8rem;
+        text-align: right;
+      }
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61

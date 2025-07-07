@@ -4,193 +4,274 @@
         flex-direction: column;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
-        min-height: 100vh; /* Asegura que el body ocupe toda la altura sin afectar el header */
-    }
-    
-    /* Contenedor principal con scroll */
-    .scroll-container {
-        overflow-y: scroll; /* Barra de desplazamiento vertical */
-        min-height: calc(100vh - 80px); /* Asegura que el contenedor ocupe toda la altura restante después de los botones */
-        padding: 0 20px; /* Espacio lateral para dar margen a todo el contenido */
-    }
-    
-    /* Scrollbar para navegadores basados en Webkit (Chrome, Safari, Brave) */
-    .scroll-container::-webkit-scrollbar {
-        width: 12px; /* Ancho del scrollbar */
-    }
-    
-    .scroll-container::-webkit-scrollbar-track {
-        background: #333233 !important; /* Color del fondo del scrollbar */
-    }
-    
-    .scroll-container::-webkit-scrollbar-thumb {
-        background-color: #565557 !important; /* Color del thumb */
-        border-radius: 10px !important; /* Bordes redondeados */
-    }
-    
-    .scroll-container::-webkit-scrollbar-thumb:hover {
-        background: #555 !important; /* Color del thumb al hacer hover */
-    }
-    
-    /* Scrollbar para Firefox */
-    .scroll-container {
-        scrollbar-color: #565557 #333233; /* Color del thumb y de la pista */
-        scrollbar-width: thin; /* Ancho del scrollbar */
+        min-height: 100vh;
+        /* Asegura que el body ocupe toda la altura sin afectar el header */
     }
 
-    .container{
-        color: #333233; /* Color del texto */
-        flex: 1;
-        margin: 20px auto; /* Centra el contenedor */
-        max-width: 900px; /* Ancho máximo del contenedor */
-        padding: 30px 20px; /* Espacio interno */
-        padding-bottom: 0px; /* Espacio interno inferior */
+    /* Contenedor principal con scroll */
+    .scroll-container {
+        overflow-y: scroll;
+        /* Barra de desplazamiento vertical */
+        min-height: calc(100vh - 80px);
+        /* Asegura que el contenedor ocupe toda la altura restante después de los botones */
+        padding: 0 20px;
+        /* Espacio lateral para dar margen a todo el contenido */
     }
-    
+
+    /* Scrollbar para navegadores basados en Webkit (Chrome, Safari, Brave) */
+    .scroll-container::-webkit-scrollbar {
+        width: 12px;
+        /* Ancho del scrollbar */
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+        background: #333233 !important;
+        /* Color del fondo del scrollbar */
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+        background-color: #565557 !important;
+        /* Color del thumb */
+        border-radius: 10px !important;
+        /* Bordes redondeados */
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb:hover {
+        background: #555 !important;
+        /* Color del thumb al hacer hover */
+    }
+
+    /* Scrollbar para Firefox */
+    .scroll-container {
+        scrollbar-color: #565557 #333233;
+        /* Color del thumb y de la pista */
+        scrollbar-width: thin;
+        /* Ancho del scrollbar */
+    }
+
+    .container {
+        color: #333233;
+        /* Color del texto */
+        flex: 1;
+        margin: 20px auto;
+        /* Centra el contenedor */
+        max-width: 900px;
+        /* Ancho máximo del contenedor */
+        padding: 30px 20px;
+        /* Espacio interno */
+        padding-bottom: 0px;
+        /* Espacio interno inferior */
+    }
+
     /* Título de la tabla */
     .title {
         font-size: 1.1rem;
         margin-bottom: 20px;
         margin-left: 10px;
-        margin-top: -30px; /* Ajusta el margen superior para que no se superponga con el header */
+        margin-top: -30px;
+        /* Ajusta el margen superior para que no se superponga con el header */
         text-align: left;
     }
-    
+
     /* Estilo para las pestañas de navegación */
     .tabs {
         display: flex;
         flex: 1;
-        justify-content: center; /* Centrar pestañas horizontalmente */
+        justify-content: center;
+        /* Centrar pestañas horizontalmente */
         margin-bottom: 20px;
     }
-    
+
     /* Enlace de pestaña con efectos */
     .tabButton {
         align-items: center;
-        background-color: #333233; /* Color de fondo */
+        background-color: #333233;
+        /* Color de fondo */
         border: none;
-        border-radius: 1px 25px 1px 1px; /* Bordes personalizados */
+        border-radius: 1px 25px 1px 1px;
+        /* Bordes personalizados */
         color: white;
         cursor: pointer;
         padding: 10px 20px;
-        text-align: center; /* Centrar texto */
-        text-decoration: none; /* Sin subrayado */
-        transition: background-color 0.3s ease, color 0.3s ease; /* Transiciones */
-        width: 180px; /* Ancho fijo para todas las pestañas */
+        text-align: center;
+        /* Centrar texto */
+        text-decoration: none;
+        /* Sin subrayado */
+        transition: background-color 0.3s ease, color 0.3s ease;
+        /* Transiciones */
+        width: 180px;
+        /* Ancho fijo para todas las pestañas */
     }
-    
+
     .tabButton.active {
-        background-color: #565557; /* Fondo para pestaña activa */
-        color: white; /* Texto blanco */
-        font-weight: bold; /* Negrita */
+        background-color: #565557;
+        /* Fondo para pestaña activa */
+        color: white;
+        /* Texto blanco */
+        font-weight: bold;
+        /* Negrita */
     }
-    
+
     .tabButton:hover {
-        background-color: #565557; /* Fondo al pasar el cursor */
+        background-color: #565557;
+        /* Fondo al pasar el cursor */
         color: white;
     }
-    
+
     /* Asegurar enlaces limpios */
     .tabs a {
         text-decoration: none;
         color: #ffffff;
     }
-    
+
+    .disabledTab {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+
     /* Tabla principal */
     .table {
-        width: 95%; /* Ocupa el ancho completo del contenedor */
-        max-width: 1920px; /* Limita el ancho máximo de la tabla */
-        margin: 0 auto; /* Centra la tabla horizontalmente */
-        margin-bottom: 60px; /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/  
-        border-collapse: collapse; /* Evita doble borde entre celdas */
-        text-align: center; /* Centra horizontalmente el contenido */
-        table-layout: auto; /* Ajuste dinámico del ancho de las columnas */
-        font-size: 0.85rem; /* Reducir tamaño de la letra en la tabla */
+        width: 95%;
+        /* Ocupa el ancho completo del contenedor */
+        max-width: 1920px;
+        /* Limita el ancho máximo de la tabla */
+        margin: 0 auto;
+        /* Centra la tabla horizontalmente */
+        margin-bottom: 60px;
+        /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/
+        border-collapse: collapse;
+        /* Evita doble borde entre celdas */
+        text-align: center;
+        /* Centra horizontalmente el contenido */
+        table-layout: auto;
+        /* Ajuste dinámico del ancho de las columnas */
+        font-size: 0.85rem;
+        /* Reducir tamaño de la letra en la tabla */
     }
-    
+
     /* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
     .table-wrapper {
         display: block;
-        max-height: calc(100vh - 120px); /* Ajusta la altura de la tabla para que el encabezado quede visible */
-        overflow-y: auto; /* Permite el desplazamiento solo en el cuerpo de la tabla */
+        max-height: calc(100vh - 120px);
+        /* Ajusta la altura de la tabla para que el encabezado quede visible */
+        overflow-y: auto;
+        /* Permite el desplazamiento solo en el cuerpo de la tabla */
     }
-    
+
     /* Aseguramos que el encabezado se quede fijo al hacer scroll */
     .table thead {
         position: sticky;
-        top: 0; /* Hace que el encabezado quede pegado al top */
-        background-color: #333233; /* Fondo para el encabezado */
+        top: 0;
+        /* Hace que el encabezado quede pegado al top */
+        background-color: #333233;
+        /* Fondo para el encabezado */
         color: #ffffff;
-        font-size: 0.8rem; /* Tamaño del texto en encabezado */;
-        z-index: 1; /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
+        font-size: 0.8rem;
+        /* Tamaño del texto en encabezado */
+        ;
+        z-index: 1;
+        /* Asegura que el encabezado se quede sobre las filas al hacer scroll */
     }
-    
+
     /* Celdas del encabezado y cuerpo de la tabla */
-    th, td {
-        border: 1px solid #ccc; /* Bordes grises claros */
-        padding: 6px; /* Reducido el espaciado interno */
-        vertical-align: middle; /* Centrar verticalmente el contenido */
-        padding: 8px; /* Añade algo de padding a las celdas del encabezado */ 
+    th,
+    td {
+        border: 1px solid #ccc;
+        /* Bordes grises claros */
+        padding: 6px;
+        /* Reducido el espaciado interno */
+        vertical-align: middle;
+        /* Centrar verticalmente el contenido */
+        padding: 8px;
+        /* Añade algo de padding a las celdas del encabezado */
     }
-    
+
     /* Inputs dentro del encabezado */
     th input {
-        width: 90%; /* Tamaño adaptable a la celda */
-        padding: 3px; /* Reducir el espaciado interno del input */
-        font-size: 0.85rem; /* Tamaño más pequeño del texto en los inputs */
-        height: 26px; /* Altura más delgada para los inputs */
-        border: 1px solid #ccc; /* Borde sutil */
-        border-radius: 3px; /* Bordes ligeramente redondeados */
+        width: 90%;
+        /* Tamaño adaptable a la celda */
+        padding: 3px;
+        /* Reducir el espaciado interno del input */
+        font-size: 0.85rem;
+        /* Tamaño más pequeño del texto en los inputs */
+        height: 26px;
+        /* Altura más delgada para los inputs */
+        border: 1px solid #ccc;
+        /* Borde sutil */
+        border-radius: 3px;
+        /* Bordes ligeramente redondeados */
     }
-    
+
     /* Estilo para checkboxes */
-    th input[type="checkbox"], td input[type="checkbox"] {
-        width: 16px; /* Reducir tamaño del checkbox */
-        height: 16px; /* Reducir tamaño del checkbox */
-        cursor: pointer; /* Cambiar el cursor a puntero por defecto */
+    th input[type="checkbox"],
+    td input[type="checkbox"] {
+        width: 16px;
+        /* Reducir tamaño del checkbox */
+        height: 16px;
+        /* Reducir tamaño del checkbox */
+        cursor: pointer;
+        /* Cambiar el cursor a puntero por defecto */
     }
-    
+
     /* Solo aplicar cursor: not-allowed cuando el checkbox esté deshabilitado */
     /* Quitar estilo predeterminado del checkbox y personalizarlo */
-    th input[type="checkbox"]:disabled, td input[type="checkbox"]:disabled {
-        -webkit-appearance: none;  /* Para Webkit (Chrome, Safari, etc.) */
-        -moz-appearance: none;     /* Para Firefox */
-        appearance: none;          /* Para otros navegadores */
+    th input[type="checkbox"]:disabled,
+    td input[type="checkbox"]:disabled {
+        -webkit-appearance: none;
+        /* Para Webkit (Chrome, Safari, etc.) */
+        -moz-appearance: none;
+        /* Para Firefox */
+        appearance: none;
+        /* Para otros navegadores */
         width: 16px;
         height: 16px;
-        background-color: #565557; /* Color de fondo cuando está deshabilitado */
-        border: 2px solid #ccc;    /* Borde gris claro */
-        border-radius: 4px;        /* Bordes redondeados */
-        cursor: not-allowed;      /* Cursor prohibido */
+        background-color: #565557;
+        /* Color de fondo cuando está deshabilitado */
+        border: 2px solid #ccc;
+        /* Borde gris claro */
+        border-radius: 4px;
+        /* Bordes redondeados */
+        cursor: not-allowed;
+        /* Cursor prohibido */
     }
-    
+
     /* Inputs deshabilitados en las celdas */
     th input[disabled] {
-        background-color: #565557; /* Fondo gris claro */
-        color: #FFFFFF; /* Texto gris */
-        border: 1px solid #ccc; /* Borde sutil */
+        background-color: #565557;
+        /* Fondo gris claro */
+        color: #FFFFFF;
+        /* Texto gris */
+        border: 1px solid #ccc;
+        /* Borde sutil */
     }
-    
+
     /* Filas del cuerpo de la tabla */
     tbody tr {
-        background-color: #fff; /* Fondo blanco por defecto */
+        background-color: #fff;
+        /* Fondo blanco por defecto */
     }
-    
+
     tbody tr:hover {
-        background-color: #f7f7f7; /* Fondo al pasar el cursor */
+        background-color: #f7f7f7;
+        /* Fondo al pasar el cursor */
     }
-    
+
     /* Texto en las celdas del cuerpo */
     tbody td {
-        font-size: 0.8rem; /* Reducir tamaño del texto en celdas */
+        font-size: 0.8rem;
+        /* Reducir tamaño del texto en celdas */
     }
-    
+
     /* Ajuste dinámico del ancho de inputs */
     tbody td input {
-        width: 90%; /* Inputs se ajustan al ancho de la celda */
-        height: 26px; /* Altura delgada de los inputs */
+        width: 90%;
+        /* Inputs se ajustan al ancho de la celda */
+        height: 26px;
+        /* Altura delgada de los inputs */
     }
-    
+
     /* Modal Overlay */
     .modal {
         position: fixed;
@@ -198,13 +279,15 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Fondo oscuro semi-transparente */
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 3500; /* Asegura que esté encima de otros elementos */
+        z-index: 3500;
+        /* Asegura que esté encima de otros elementos */
     }
-    
+
     /* Modal Content */
     .modalContent {
         position: relative;
@@ -217,7 +300,7 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     /* Inputs dentro del formulario */
     .advance-form input {
         padding: 10px;
@@ -228,20 +311,20 @@
         width: 100%;
         box-sizing: border-box;
     }
-    
+
     /* Placeholder de los inputs */
     .advance-form input::placeholder {
         color: #888;
     }
-    
+
     /* Controles de los botones dentro del modal */
     .advanced-search-modal-controls {
         display: flex;
         justify-content: space-between;
         margin-bottom: 20px;
     }
-    
-    
+
+
     /* estilos para los botones de Acción */
     /* Estilo para el contenedor de los botones */
     .actionButtons {
@@ -251,14 +334,14 @@
         justify-content: flex-end;
         position: fixed;
         bottom: 90px;
-        right: 321px;      
+        right: 321px;
         padding: 10px;
         border-radius: 8px;
         z-index: 3000;
-      }
-    
+    }
+
     /* Estilos generales para los botones */
-    .clearButton, 
+    .clearButton,
     .exitButton {
         align-items: center;
         border: none;
@@ -275,45 +358,55 @@
         text-align: center;
         width: 120px !important;
     }
-    
+
     /* Estilos para el botón de Limpiar */
     .clearButton {
-        background-color: #333233; /* Color principal */
+        background-color: #333233;
+        /* Color principal */
     }
-    
+
     /* Estilo cuando el botón de Limpiar está en foco (por ejemplo, después de hacer clic) */
     .clearButton:focus {
         outline: none;
-        background-color: #333233; /* Vuelve al color principal */
+        background-color: #333233;
+        /* Vuelve al color principal */
         box-shadow: none;
     }
-    
+
     /* Active: Efecto al presionar el botón */
     .clearButton:active {
-        background-color: #565557; /* Color al presionar */
+        background-color: #565557;
+        /* Color al presionar */
     }
-    
+
     /* Estilos para el botón de Salir */
     .exitButton {
-        background-color: #565557; /* Color principal */
+        background-color: #565557;
+        /* Color principal */
     }
-    
+
     .exitButton:focus {
         outline: none;
-        background-color: #565557; /* Vuelve al color principal */
+        background-color: #565557;
+        /* Vuelve al color principal */
         box-shadow: none;
     }
-    
+
     /* Active: Efecto al presionar el botón */
     .exitButton:active {
-        background-color: #333233; /* Color al presionar */
+        background-color: #333233;
+        /* Color al presionar */
     }
-    
+
     /* Estilos para los iconos dentro de los botones */
     .button svg {
         margin-left: 0;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     /* Estilos para los botones de paginación */
     .pagination {
         display: flex;
@@ -322,6 +415,7 @@
         gap: 0.6rem;
         margin-top: -55px;
         flex-wrap: wrap;
+<<<<<<< HEAD
       }
       
       .circleButton {
@@ -331,12 +425,26 @@
         background-color: #333233; /* cambiar según tu diseño */
         color: #fff;
         border: 2px solid #ffffff; /* borde opcional */
+=======
+    }
+
+    .circleButton {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #333233;
+        /* cambiar según tu diseño */
+        color: #fff;
+        border: 2px solid #ffffff;
+        /* borde opcional */
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         font-size: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
+<<<<<<< HEAD
       }
       
       .circleButton:disabled {
@@ -345,6 +453,16 @@
       }
       
       .pageNumber {
+=======
+    }
+
+    .circleButton:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .pageNumber {
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -354,6 +472,7 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
+<<<<<<< HEAD
       }
       
       .pageNumber:hover {
@@ -367,10 +486,27 @@
       }
 
       .topTableRow {
+=======
+    }
+
+    .pageNumber:hover {
+        background-color: #565557;
+    }
+
+    .activePage {
+        background-color: #565557;
+        /* relleno activo */
+        color: #fff;
+        border: none;
+    }
+
+    .topTableRow {
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         display: flex;
         margin-left: 80.5%;
         margin-top: -53px;
         margin-bottom: 0px;
+<<<<<<< HEAD
       }
     
       .labelPagination p{
@@ -378,3 +514,12 @@
         font-size: 0.8rem;
         text-align: right;
       }
+=======
+    }
+
+    .labelPagination p {
+        color: #333233;
+        font-size: 0.8rem;
+        text-align: right;
+    }
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61

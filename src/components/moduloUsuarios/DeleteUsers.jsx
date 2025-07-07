@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import Header from "../Header";
 import styles from "../../styles/deleteusers.module.css";
 import { Link } from "react-router-dom";
@@ -10,10 +11,26 @@ import axios from "axios"; // Importa Axios para realizar peticiones HTTP
 
 // Crear instancia de Axios con la base URL de la API
 const api = axios.create({ baseURL: "http://localhost:8080/api" });
+=======
+import { usePermisos } from "../../components/admin/PermisosContext";
+import { useCallback } from 'react';
+import { Link } from "react-router-dom";
+import Header from "../Header";
+import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import useInactivityLogout from "../../useInactivityLogout"
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import styles from "../../styles/deleteusers.module.css";
+import api from "../../api"; // Importa la instancia de API configurada
+
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
 // Componente principal para eliminar usuarios
 const DeleteUsers = () => {
 
+<<<<<<< HEAD
   // Estados para manejar pestañas, datos, filtros, selección y carga
   const [activeTab, setActiveTab] = useState("eliminar"); // Pestaña activa
   const [data, setData] = useState([]); // Datos filtrados para mostrar en la tabla
@@ -75,11 +92,84 @@ const DeleteUsers = () => {
       return;
     }
 
+=======
+  useInactivityLogout(); // Hook para manejar el logout por inactividad
+  useTokenAutoLogout();  // Hook para expiración de token
+
+  // Estados para manejar pestañas, datos, filtros, selección y carga
+  const [activeTab, setActiveTab] = useState("eliminar"); // Pestaña activa
+  const [data, setData] = useState([]); // Datos filtrados para mostrar en la tabla
+  const [fullEmployeeList, setFullEmployeeList] = useState([]); // Lista completa de empleados desde el backend
+  const [filters, setFilters] = useState({ numeroDocumento: "" }); // Filtros de búsqueda
+
+  // Campos mostrados en los inputs deshabilitados al seleccionar un emepleado
+  const [disabledInputs, setDisabledInputs] = useState({
+    tipoDocumento: "",
+    nombreUsuario: "",
+    rol: "",
+    nombresCompletos: "",
+    telefono: "",
+    direccion: "",
+    contactoEmergencia: "",
+    telefonoContacto: "",
+  });
+
+
+  // Estados para manejar la confirmación de eliminación, búsqueda y selección de empleados
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 5;
+
+  const { tienePermiso } = usePermisos();
+
+  // Cargar usuarios desde la API
+  const fetchEmployees = useCallback(async () => {
+    try {
+      const response = await api.get("/empleados");
+      console.log("Datos recibidos:", response.data);
+      setFullEmployeeList(response.data);
+    } catch (error) {
+      console.error("Error al cargar los usuarios:", error);
+    }
+  }, []);
+
+  // Cargar empleados Inmediatamente  al montar el componente
+  useEffect(() => {
+    fetchEmployees();
+  }, [fetchEmployees]);
+
+  // Filtrar empleados por número de documento
+  useEffect(() => {
+    const hasActiveFilters = filters.numeroDocumento.trim() !== ""; // Verificar si hay filtros activos
+
+    // Si no hay filtro, limpiar los datos y los campos visibles
+    if (!hasActiveFilters) {
+      setData([]);
+      setDisabledInputs({
+        tipoDocumento: "",
+        nombreUsuario: "",
+        rol: "",
+        nombresCompletos: "",
+        telefono: "",
+        direccion: "",
+        contactoEmergencia: "",
+        telefonoContacto: "",
+      }); // Vaciar todos los campos
+      return;
+    }
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     // Filtrar empleados que coincidan con el número de documento
     const filtered = fullEmployeeList.filter((item) =>
       item.numeroDocumento.toString().includes(filters.numeroDocumento)
     );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage); // Paginación de resultados
     setData(itemsToShow); // Guardar datos filtrados
 
@@ -176,6 +266,10 @@ const DeleteUsers = () => {
     setIsDeleteConfirmationOpen(true);
   };
 
+<<<<<<< HEAD
+=======
+  // Cerrar el modal de confirmación
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
   const closeDeleteConfirmationModal = () => {
     setIsDeleteConfirmationOpen(false);
   };
@@ -257,6 +351,7 @@ const DeleteUsers = () => {
         showHelp={true}
       />
 
+<<<<<<< HEAD
       {/* Pestañas de navegación entre vistas del módulo de usuarios */}
       <div className={styles.tabs}>
         <Link
@@ -264,33 +359,71 @@ const DeleteUsers = () => {
           className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""
             }`}
           onClick={() => handleTabClick("registro")}
+=======
+      {/* Pestañas debajo del header */}
+      <div className={styles.tabs}>
+        <Link
+          to={tienePermiso("usuario:registrar") ? "/users-registration" : "#"}
+          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("usuario:registrar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:registrar")) e.preventDefault();
+            else handleTabClick("registro");
+          }}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         >
           Registrar Usuarios
         </Link>
 
         <Link
+<<<<<<< HEAD
           to="/users-query"
           className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""
             }`}
           onClick={() => handleTabClick("consulta")}
+=======
+          to={tienePermiso("usuario:consultar") ? "/users-query" : "#"}
+          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("usuario:consultar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:consultar")) e.preventDefault();
+            else handleTabClick("consulta");
+          }}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         >
           Consultar Usuarios
         </Link>
 
         <Link
+<<<<<<< HEAD
           to="/update-users"
           className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""
             }`}
           onClick={() => handleTabClick("actualizar")}
+=======
+          to={tienePermiso("usuario:editar") ? "/update-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""} ${!tienePermiso("usuario:editar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:editar")) e.preventDefault();
+            else handleTabClick("actualizar");
+          }}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         >
           Actualizar Usuarios
         </Link>
 
         <Link
+<<<<<<< HEAD
           to="/delete-users"
           className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""
             }`}
           onClick={() => handleTabClick("eliminar")}
+=======
+          to={tienePermiso("usuario:eliminar") ? "/delete-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""} ${!tienePermiso("usuario:eliminar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:eliminar")) e.preventDefault();
+            else handleTabClick("eliminar");
+          }}
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         >
           Eliminar Usuarios
         </Link>
@@ -424,6 +557,10 @@ const DeleteUsers = () => {
             </th>
           </tr>
         </thead>
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         <tbody>
           {/* Renderizado de filas si hay resultados */}
           {isSearching ? (
