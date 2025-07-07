@@ -41,13 +41,18 @@ body {
     /* Ancho del scrollbar */
 }
 
-.container{
-    color: #333233; /* Color del texto */
+.container {
+    color: #333233;
+    /* Color del texto */
     flex: 1;
-    margin: 20px auto; /* Centra el contenedor */
-    max-width: 900px; /* Ancho máximo del contenedor */
-    padding: 30px 20px; /* Espacio interno */
-    padding-bottom: 0px; /* Espacio interno inferior */
+    margin: 20px auto;
+    /* Centra el contenedor */
+    max-width: 900px;
+    /* Ancho máximo del contenedor */
+    padding: 30px 20px;
+    /* Espacio interno */
+    padding-bottom: 0px;
+    /* Espacio interno inferior */
 }
 
 /* Título de la tabla */
@@ -55,7 +60,8 @@ body {
     font-size: 1.1rem;
     margin-bottom: 20px;
     margin-left: 10px;
-    margin-top: -30px; /* Ajusta el margen superior para que no se superponga con el header */
+    margin-top: -30px;
+    /* Ajusta el margen superior para que no se superponga con el header */
     text-align: left;
 }
 
@@ -99,16 +105,31 @@ body {
     color: #ffffff;
 }
 
+.disabledTab {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
 /* Tabla principal */
 .table {
-    width: 95%; /* Ocupa el ancho completo del contenedor */
-    max-width: 1920px; /* Limita el ancho máximo de la tabla */
-    margin: 0 auto; /* Centra la tabla horizontalmente */
-    margin-bottom: 60px; /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/  
-    border-collapse: collapse; /* Evita doble borde entre celdas */
-    text-align: center; /* Centra horizontalmente el contenido */
-    table-layout: auto; /* Ajuste dinámico del ancho de las columnas */
-    font-size: 0.85rem; /* Reducir tamaño de la letra en la tabla */
+    width: 95%;
+    /* Ocupa el ancho completo del contenedor */
+    max-width: 1920px;
+    /* Limita el ancho máximo de la tabla */
+    margin: 0 auto;
+    /* Centra la tabla horizontalmente */
+    margin-bottom: 60px;
+    /*espacio en la parte inferior para evitar que la tabla se solape con los botones*/
+    border-collapse: collapse;
+    /* Evita doble borde entre celdas */
+    text-align: center;
+    /* Centra horizontalmente el contenido */
+    table-layout: auto;
+    /* Ajuste dinámico del ancho de las columnas */
+    font-size: 0.85rem;
+    /* Reducir tamaño de la letra en la tabla */
 }
 
 /* Cambios importantes para que el encabezado sea fijo y solo el cuerpo sea desplazable */
@@ -307,11 +328,11 @@ tbody td input {
     justify-content: flex-end;
     position: fixed;
     bottom: 90px;
-    right: 321px;      
+    right: 321px;
     padding: 10px;
     border-radius: 8px;
     z-index: 3000;
-  }
+}
 
 /* Estilos generales para los botones */
 .clearButton,
@@ -388,7 +409,7 @@ tbody td input {
 }
 
 /* Estilos para el botón de Salir */
-.exitButton{
+.exitButton {
     background-color: #565557;
     /* Color principal */
 }
@@ -419,29 +440,31 @@ tbody td input {
     gap: 0.6rem;
     margin-top: -55px;
     flex-wrap: wrap;
-  }
-  
-  .circleButton {
+}
+
+.circleButton {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #333233; /* cambiar según tu diseño */
+    background-color: #333233;
+    /* cambiar según tu diseño */
     color: #fff;
-    border: 2px solid #ffffff; /* borde opcional */
+    border: 2px solid #ffffff;
+    /* borde opcional */
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  
-  .circleButton:disabled {
+}
+
+.circleButton:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
-  
-  .pageNumber {
+}
+
+.pageNumber {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -451,30 +474,28 @@ tbody td input {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-  }
-  
-  .pageNumber:hover {
+}
+
+.pageNumber:hover {
     background-color: #565557;
-  }
-  
-  .activePage {
-    background-color: #565557; /* relleno activo */
+}
+
+.activePage {
+    background-color: #565557;
+    /* relleno activo */
     color: #fff;
     border: none;
-  }
+}
 
-  .topTableRow {
+.topTableRow {
     display: flex;
     margin-left: 80.5%;
     margin-top: -53px;
     margin-bottom: 0px;
-  }
+}
 
-  .labelPagination p{
+.labelPagination p {
     color: #333233;
     font-size: 0.8rem;
     text-align: right;
-  }
-
-
-
+}
