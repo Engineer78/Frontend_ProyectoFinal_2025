@@ -474,12 +474,8 @@ const InventoryRegistration = () => {
                                     disabled={estaDeshabilitado}
 
                                 />
-<<<<<<< HEAD
                                 <label htmlFor="fileInput" className={styles.customFileInput} disabled={estaDeshabilitado}
                                 >
-=======
-                                <label htmlFor="fileInput" className={styles.customFileInput}>
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                                     Cargar Imagen <UploadFileIcon style={{ marginLeft: 8 }} />
                                 </label>
                             </div>

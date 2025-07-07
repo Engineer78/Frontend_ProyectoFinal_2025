@@ -9,14 +9,11 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-<<<<<<< HEAD
-=======
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import useInactivityLogout from "../../useInactivityLogout";
 import useTokenAutoLogout from "../../useTokenAutoLogout";
 import styles from "../../styles/UpdateUsers.module.css";
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 import {
     listarPerfiles,
     listarRoles,
@@ -26,13 +23,8 @@ import {
     actualizarRol,
     actualizarTipoDocumento,
     actualizarEmpleadoPorDocumento
-<<<<<<< HEAD
-} from "../../api"; // Asegúrate de que la ruta sea correcta
-import { buscarEmpleadoPorDocumento } from "../../api";
-=======
 } from "../../api"; // Importar las funciones de la API 
 
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
 // Componente para actualizar usuarios
 const UpdateUsers = () => {
@@ -56,39 +48,6 @@ const UpdateUsers = () => {
     const [rolType, setRolType] = useState("");
     const [originalUserID, setOriginalUserID] = useState("");
 
-<<<<<<< HEAD
-    const [activeTab, setActiveTab] = useState("registro");
-
-    // Estados de modal Perfil
-    const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
-    const [perfilNombre, setPerfilNombre] = useState("");
-    const [perfilDescripcion, setPerfilDescripcion] = useState("");
-    const [caracteresRestantesPerfil, setCaracteresRestantesPerfil] = useState(255); // Limite de caracteres
-    const [perfilFiltro, setPerfilFiltro] = useState("");
-    const [perfilSeleccionado, setPerfilSeleccionado] = useState("");
-    const [perfilIdSeleccionado, setPerfilIdSeleccionado] = useState(null);
-    const [perfiles, setPerfiles] = useState([]);
-
-    // Estados de modal Rol
-    const [isRolModalOpen, setRolModalOpen] = useState(false);
-    const [rolNombre, setRolNombre] = useState("");
-    const [rolDescripcion, setRolDescripcion] = useState("");
-    const [caracteresRestantesRol, setCaracteresRestantesRol] = useState(255); // Limite de caracteres
-    const [rolFiltro, setRolFiltro] = useState("");
-    const [roles, setRoles] = useState([]);
-    const [rolIdSeleccionado, setRolIdSeleccionado] = useState(null);
-
-
-    // Estados de modal tipo de documento
-    const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
-    const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
-    const [nombreTipoDocumento, setNombreTipoDocumento] = useState("");
-    const [tipoDocumentoIdSeleccionado, setTipoDocumentoIdSeleccionado] = useState(null);
-    const [documentoFiltro, setDocumentoFiltro] = useState("");
-
-
-
-=======
     // Estados de modal Perfil
     const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
     const [perfilNombre, setPerfilNombre] = useState("");
@@ -126,24 +85,17 @@ const UpdateUsers = () => {
     // Estado para manejar la pestaña activa
     const [activeTab, setActiveTab] = useState("registro");
 
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
     };
 
-<<<<<<< HEAD
-=======
     // Función para abrir el modal de rol
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     const handleOpenModalRol = () => {
         setRolModalOpen(true);
     };
 
-<<<<<<< HEAD
-=======
     // Función para abrir el modal de tipo de documento
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     const handleOpenModalTipoDocumento = () => {
         setModalTipoDocumentoOpen(true);
     };
@@ -166,10 +118,7 @@ const UpdateUsers = () => {
         try {
             const response = await listarTiposDocumento();
             setDocumentTypes(response.data);
-<<<<<<< HEAD
-=======
             console.log('📄 Document types cargados:', response.data);
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         } catch (error) {
             console.error("Error al cargar tipos de documento:", error);
         }
@@ -195,8 +144,6 @@ const UpdateUsers = () => {
         }
     };
 
-<<<<<<< HEAD
-=======
     // Efecto para verificar si el tipo de documento seleccionado existe en la lista
     useEffect(() => {
         if (documentTypes.length > 0 && documentType) {
@@ -209,7 +156,6 @@ const UpdateUsers = () => {
     }, [documentTypes, documentType]);
 
 
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     // Función para buscar un empleado por su número de documento
     // y cargar los datos en el formulario.
     const handleSearch = async () => {
@@ -241,19 +187,11 @@ const UpdateUsers = () => {
             setUserAddress(empleado.direccionResidencia || "");
             setUserEmergencyContact(empleado.contactoEmergencia || "");
             setUserContactPhone(empleado.telefonoContacto || "");
-<<<<<<< HEAD
-            setDocumentType(empleado.idtipoDocumento?.toString() || "");
-            setRolType(empleado.idRol?.toString() || "");
-
-            // Relacionar selects
-            setDocumentType(empleado.idtipoDocumento); // ID
-=======
             setDocumentType(empleado.idTipoDocumento?.toString() || "");
             setRolType(empleado.idRol?.toString() || "");
 
             // Relacionar selects
             setDocumentType(empleado.idTipoDocumento); // ID
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
             setRolType(empleado.idRol); // ID
 
             alert("✅ Usuario encontrado. Ahora puedes actualizarlo.");
@@ -521,10 +459,7 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
-<<<<<<< HEAD
-=======
     // Hook para manejar permisos de usuario
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     useEffect(() => {
         setActiveTab('actualizar');
     }, []);
@@ -604,11 +539,8 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
-<<<<<<< HEAD
-=======
                                 title="Debe conteber números y/o letras, no debe contener puntos ni comas, ni apóstrofo"
                                 style={{ fontStyle: 'italic' }}
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                             />
 
                             <button
@@ -750,11 +682,7 @@ const UpdateUsers = () => {
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
                                             {documentTypes.map((tipo) => (
-<<<<<<< HEAD
-                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento}>
-=======
                                                 <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento.toString()}>
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                                                     {tipo.nombre} - ({tipo.codigo})
                                                 </option>
                                             ))}
@@ -781,28 +709,6 @@ const UpdateUsers = () => {
                                     </div>
                                 </div>
                             </div>
-<<<<<<< HEAD
-                            {/* Botones Abrir Modales */}
-                            <div className={styles.formGroupButtos}>
-                                <button
-                                    className={styles.createButton}
-                                    onClick={() => handleOpenModalTipoDocumento(true)}
-                                >
-                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
-                                </button>
-                                <button type="button"
-                                    className={styles.createButton}
-                                    onClick={handleOpenModalPerfil}
-                                >
-                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
-                                </button>
-                                <button type="button"
-                                    className={styles.createButton}
-                                    onClick={handleOpenModalRol}
-                                >
-                                    Roles<AddIcon style={{ marginLeft: 8 }} />
-                                </button>
-=======
 
                             {/* Botones Abrir Modales */}
                             <div className={styles.formGroupButtos}>
@@ -834,7 +740,6 @@ const UpdateUsers = () => {
                                         Roles<AddIcon style={{ marginLeft: 8 }} />
                                     </button>
                                 )}
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                             </div>
                         </form>
                     </div>
@@ -860,12 +765,6 @@ const UpdateUsers = () => {
             {isModalTipoDocumentoOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-<<<<<<< HEAD
-                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
-                            <CloseIcon />
-                        </button>
-                        <h2 style={{ textAlign: "center" }}>Actualizar Tipo de Documento</h2>
-=======
                         <button className={styles.modalCloseButton}
                             onClick={() => {
                                 setModalTipoDocumentoOpen(false);
@@ -875,7 +774,6 @@ const UpdateUsers = () => {
                             <CloseIcon />
                         </button>
                         <h2 style={{ textAlign: "center", marginBottom: '1rem' }}>Actualizar Tipo de Documento</h2>
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarDocumento" className={styles.labelModal}>Buscar tipo de documento</label>
@@ -936,33 +834,23 @@ const UpdateUsers = () => {
                             <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
                                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                             </button>
-<<<<<<< HEAD
-                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
-=======
                             <button className={styles.modalButtonExit}
                                 onClick={() => {
                                     setModalTipoDocumentoOpen(false);
                                     handleClearTipoDocumento();
                                 }}
                             >
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                                 Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                             </button>
                         </div>
                     </div>
                 </div>
             )}
-<<<<<<< HEAD
-=======
 
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
             {/* Modal Actualizar Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-<<<<<<< HEAD
-                        <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
-=======
                         <button className={styles.modalCloseButton}
                             onClick={() => {
                                 setPerfilModalOpen(false);
@@ -970,7 +858,6 @@ const UpdateUsers = () => {
 
                             }}
                         >
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                             <CloseIcon />
                         </button>
 
@@ -1046,16 +933,12 @@ const UpdateUsers = () => {
                                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.modalButtonExit}
-<<<<<<< HEAD
-                                onClick={() => setPerfilModalOpen(false)}>
-=======
                                 onClick={() => {
                                     setPerfilModalOpen(false);
                                     handleClearPerfil();
 
                                 }}
                             >
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                                 Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                             </button>
                         </div>
@@ -1067,16 +950,12 @@ const UpdateUsers = () => {
             {isRolModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-<<<<<<< HEAD
-                        <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
-=======
                         <button className={styles.modalCloseButton}
                             onClick={() => {
                                 setRolModalOpen(false);
                                 handleClearRol();
                             }}
                         >
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                             <CloseIcon />
                         </button>
 
@@ -1172,15 +1051,11 @@ const UpdateUsers = () => {
                                     Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                                 </button>
                                 <button className={styles.modalButtonExit}
-<<<<<<< HEAD
-                                    onClick={() => setRolModalOpen(false)}>
-=======
                                     onClick={() => {
                                         setRolModalOpen(false);
                                         handleClearRol();
                                     }}
                                 >
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
                                     Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                                 </button>
                             </div>

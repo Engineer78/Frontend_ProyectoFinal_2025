@@ -440,17 +440,6 @@ tbody td input {
     gap: 0.6rem;
     margin-top: -55px;
     flex-wrap: wrap;
-<<<<<<< HEAD
-  }
-  
-  .circleButton {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #333233; /* cambiar según tu diseño */
-    color: #fff;
-    border: 2px solid #ffffff; /* borde opcional */
-=======
 }
 
 .circleButton {
@@ -462,63 +451,18 @@ tbody td input {
     color: #fff;
     border: 2px solid #ffffff;
     /* borde opcional */
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
-<<<<<<< HEAD
-  }
-  
-  .circleButton:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-  
-  .pageNumber {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .pageNumber:hover {
-    background-color: #565557;
-  }
-  
-  .activePage {
-    background-color: #565557; /* relleno activo */
-    color: #fff;
-    border: none;
-  }
-
-  .topTableRow {
-    display: flex;
-    margin-left: 80.5%;
-    margin-top: -53px;
-    margin-bottom: 0px;
-  }
-
-  .labelPagination p{
-    color: #333233;
-    font-size: 0.8rem;
-    text-align: right;
-  }
-=======
 }
 
 .circleButton:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
 
 .pageNumber {
     width: 40px;

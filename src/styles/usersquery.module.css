@@ -402,11 +402,7 @@
     .button svg {
         margin-left: 0;
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
     /* Estilos para los botones de paginación */
     .pagination {
         display: flex;
@@ -415,17 +411,6 @@
         gap: 0.6rem;
         margin-top: -55px;
         flex-wrap: wrap;
-<<<<<<< HEAD
-      }
-      
-      .circleButton {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #333233; /* cambiar según tu diseño */
-        color: #fff;
-        border: 2px solid #ffffff; /* borde opcional */
-=======
     }
 
     .circleButton {
@@ -437,23 +422,12 @@
         color: #fff;
         border: 2px solid #ffffff;
         /* borde opcional */
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         font-size: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
-<<<<<<< HEAD
-      }
-      
-      .circleButton:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
-      
-      .pageNumber {
-=======
     }
 
     .circleButton:disabled {
@@ -462,7 +436,6 @@
     }
 
     .pageNumber {
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -472,21 +445,6 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
-<<<<<<< HEAD
-      }
-      
-      .pageNumber:hover {
-        background-color: #565557;
-      }
-      
-      .activePage {
-        background-color: #565557; /* relleno activo */
-        color: #fff;
-        border: none;
-      }
-
-      .topTableRow {
-=======
     }
 
     .pageNumber:hover {
@@ -501,20 +459,10 @@
     }
 
     .topTableRow {
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
         display: flex;
         margin-left: 80.5%;
         margin-top: -53px;
         margin-bottom: 0px;
-<<<<<<< HEAD
-      }
-    
-      .labelPagination p{
-        color: #333233;
-        font-size: 0.8rem;
-        text-align: right;
-      }
-=======
     }
 
     .labelPagination p {
@@ -522,4 +470,3 @@
         font-size: 0.8rem;
         text-align: right;
     }
->>>>>>> cd3f5be33869ab9d53e3e670a21974ec3fbc8b61
