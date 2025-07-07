@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
-import Header from "../Header";
-import styles from "../../styles/deleteusers.module.css";
+import { usePermisos } from "../../components/admin/PermisosContext";
+import { useCallback } from 'react';
 import { Link } from "react-router-dom";
+import Header from "../Header";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useCallback } from 'react';
-import axios from "axios"; // Importa Axios para realizar peticiones HTTP
+import useInactivityLogout from "../../useInactivityLogout"
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import styles from "../../styles/deleteusers.module.css";
+import api from "../../api"; // Importa la instancia de API configurada
 
-// Crear instancia de Axios con la base URL de la API
-const api = axios.create({ baseURL: "http://localhost:8080/api" });
+
 
 // Componente principal para eliminar usuarios
 const DeleteUsers = () => {
+
+  useInactivityLogout(); // Hook para manejar el logout por inactividad
+  useTokenAutoLogout();  // Hook para expiración de token
 
   // Estados para manejar pestañas, datos, filtros, selección y carga
   const [activeTab, setActiveTab] = useState("eliminar"); // Pestaña activa
@@ -32,12 +37,15 @@ const DeleteUsers = () => {
     telefonoContacto: "",
   });
 
-  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
-    useState(false); // Modal de confirmación
-  const [isSearching, setIsSearching] = useState(false); // Estado de búsqueda activa
-  const [selectedItems, setSelectedItems] = useState([]); // Empleado seleccionado para eliminar
+
+  // Estados para manejar la confirmación de eliminación, búsqueda y selección de empleados
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
+
+  const { tienePermiso } = usePermisos();
 
   // Cargar usuarios desde la API
   const fetchEmployees = useCallback(async () => {
@@ -79,6 +87,7 @@ const DeleteUsers = () => {
     const filtered = fullEmployeeList.filter((item) =>
       item.numeroDocumento.toString().includes(filters.numeroDocumento)
     );
+
 
     const itemsToShow = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage); // Paginación de resultados
     setData(itemsToShow); // Guardar datos filtrados
@@ -176,6 +185,7 @@ const DeleteUsers = () => {
     setIsDeleteConfirmationOpen(true);
   };
 
+  // Cerrar el modal de confirmación
   const closeDeleteConfirmationModal = () => {
     setIsDeleteConfirmationOpen(false);
   };
@@ -257,40 +267,48 @@ const DeleteUsers = () => {
         showHelp={true}
       />
 
-      {/* Pestañas de navegación entre vistas del módulo de usuarios */}
+      {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
         <Link
-          to="/users-registration"
-          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("registro")}
+          to={tienePermiso("usuario:registrar") ? "/users-registration" : "#"}
+          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("usuario:registrar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:registrar")) e.preventDefault();
+            else handleTabClick("registro");
+          }}
         >
           Registrar Usuarios
         </Link>
 
         <Link
-          to="/users-query"
-          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("consulta")}
+          to={tienePermiso("usuario:consultar") ? "/users-query" : "#"}
+          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("usuario:consultar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:consultar")) e.preventDefault();
+            else handleTabClick("consulta");
+          }}
         >
           Consultar Usuarios
         </Link>
 
         <Link
-          to="/update-users"
-          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("actualizar")}
+          to={tienePermiso("usuario:editar") ? "/update-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""} ${!tienePermiso("usuario:editar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:editar")) e.preventDefault();
+            else handleTabClick("actualizar");
+          }}
         >
           Actualizar Usuarios
         </Link>
 
         <Link
-          to="/delete-users"
-          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("eliminar")}
+          to={tienePermiso("usuario:eliminar") ? "/delete-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""} ${!tienePermiso("usuario:eliminar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:eliminar")) e.preventDefault();
+            else handleTabClick("eliminar");
+          }}
         >
           Eliminar Usuarios
         </Link>
@@ -424,6 +442,7 @@ const DeleteUsers = () => {
             </th>
           </tr>
         </thead>
+
         <tbody>
           {/* Renderizado de filas si hay resultados */}
           {isSearching ? (

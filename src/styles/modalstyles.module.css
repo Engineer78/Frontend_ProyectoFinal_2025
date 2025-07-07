@@ -1,0 +1,382 @@
+/* Modales Permisos*/
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo oscuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+/* Contenedor principal del modal */
+.modalContent {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Espaciado uniforme */
+  max-width: 380px;
+  padding: 2rem;
+  position: relative;
+  width: 90%;
+}
+
+/* Cierre del modal */
+.modalCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #FD7E14;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-weight: bold;
+  border-radius: 15%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 12px;
+}
+
+.modalCloseButton:hover {
+  background-color: #e06c10;
+}
+
+/* Estilo de los grupos de formulario */
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Estilo de los labels */
+.labelModal {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.8rem;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  line-height: 0.7;
+  font-weight: bold;
+}
+
+/* Estilo de los botones */
+.modalButtonGroup {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.modalButtonSave,
+.modalButtonExport,
+.modalButtonImport,
+.modalClearButton,
+.modalButtonExit {
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #333233;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  gap: 2px;
+  height: 38px !important;
+  justify-content: center;
+  padding: 8px 15px;
+  text-align: center;
+  min-width: 120px !important;
+  transition: background-color 0.3s ease;
+}
+
+.modalButtonExit {
+  background-color: #565557;
+}
+
+.modalButtonSave:hover,
+.modalButtonExport:hover,
+.modalButtonImport:hover,
+.modalClearButton:hover,
+.modalButtonExit:hover {
+  background-color: #444;
+}
+
+/* Estilos para los iconos dentro de los botones */
+.modalButtonSave svg,
+.modalClearButton svg,
+.modalButtonExport svg,
+.modalButtonImport svg,
+.modalButtonExit svg {
+  margin-left: 0;
+}
+
+.title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin: -4px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+}
+
+.formGroup label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 1px;
+  opacity: 0.7;
+  position: relative;
+  margin-top: -10px;
+  z-index: 2;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 6px;
+  /* sube el bloque */
+}
+
+.select {
+  /* espacio para la flecha */
+  appearance: none;
+  background-color: #565557;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.8rem;
+  height: 38px !important;
+  -moz-appearance: none;
+  padding: 10px;
+  padding-right: 40px;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+/* Contenedor para flecha personalizada */
+.selectWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+}
+
+/* Icono flecha ▼ personalizado */
+.selectWrapper::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.select:focus {
+  outline: none;
+  background-color: #333233;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Estilos para la lista de permisos */
+.permisoListContainer {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-top: 4px;
+}
+
+.permisoItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  min-height: 40px;
+}
+
+.permisoItem input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: #565557;
+  width: 16px;
+  height: 16px;
+}
+
+.permisoTexto {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.permisoTexto strong {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.permisoItem .permisoTexto p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Estilos para el modal de cambio de contraseña */
+
+/* Estilo de los grupos de formulario */
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Estilo de los labels */
+.labelModal {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.8rem;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  line-height: 0.7;
+  font-weight: bold;
+}
+
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.passwordInputWrapper input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-style: italic;
+  font-size: 1rem;
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.togglePasswordIcon {
+  color: #959596;
+  cursor: pointer;
+  font-size: 0.8rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 48%;
+  /* Obliga a cebtrar el ícono verticalmente */
+  transform: translateY(-50%);
+  /* Centra el ícono verticalmente */
+}
+
+/* Estilos para el modal de solo información del usuario común */
+.modalContent p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+/* Modal acerca de */
+.modalContentAbout {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  max-height: 90vh;
+  padding: 24px 32px;
+   position: relative;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.modalFormGroupAbout{
+  margin-bottom: 14px;
+}
+
+.modalTitleCenter {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.modalHeaderInfo {
+  text-align: center;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.modalHeaderInfo p {
+  margin: 4px 0;
+  /* reduce el espaciado vertical entre líneas */
+}
+
+.instructorGrid {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+
+.instructorGrid li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.instructorGrid>div {
+  flex: 1 1 48%;
+  min-width: 300px;
+}
+
+.instructorGrid h3 {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.modalButtonGroupAbout {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+}
+
+.moodalText p{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}

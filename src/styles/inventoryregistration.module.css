@@ -117,6 +117,13 @@ body {
   /* Asegura que el color del texto se herede del contenedor */
 }
 
+.disabledTab {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 /* Estilo del contenedor de los formularios */
 .formContainer {
   display: flex;

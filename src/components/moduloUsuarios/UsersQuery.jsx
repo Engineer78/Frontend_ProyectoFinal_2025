@@ -1,27 +1,30 @@
 import { useState, useEffect } from "react";
-import Header from "../Header";
-import styles from "../../styles/usersquery.module.css";
+import { usePermisos } from "../../components/admin/PermisosContext";
 import { Link } from "react-router-dom";
+import Header from "../Header";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import axios from "axios";
+import useInactivityLogout from "../../useInactivityLogout";
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import styles from "../../styles/usersquery.module.css";
+import api from "../../api"; // Importar la instancia de API 
 
-// Crear instancia de Axios con la URL base del backend para facilitar las solicitudes HTTP
-const api = axios.create({
-  baseURL: 'http://localhost:8080/api'
-});
 
-// Declarar el componente UsersQuery como función flecha para mayor consistencia con el estilo del proyecto
+// Componente UsersQuery
+// Este componente permite consultar usuarios registrados en el sistema
 const UsersQuery = () => {
 
-  // 1) Definición de estados principales del componente
-  //    - activeTab: controla la pestaña activa
+  useInactivityLogout(); // Llamar al hook para manejar el logout por inactividad
+  useTokenAutoLogout();  // Hook para expiración de token
+
+  // Definición de estados principales del componente
+  // activeTab: controla la pestaña activa
   const [activeTab, setActiveTab] = useState("consulta");
 
-  //    - isSearching: indica si se está realizando una búsqueda
+  // isSearching: indica si se está realizando una búsqueda
   const [isSearching, setIsSearching] = useState(false);
 
-  //    - filters: contiene los filtros de búsqueda de usuarios
+  // filters: contiene los filtros de búsqueda de usuarios
   const [filters, setFilters] = useState({
     numeroDocumento: '',
     nombreTipoDocumento: '',
@@ -36,23 +39,25 @@ const UsersQuery = () => {
     telefonoContacto: '',
   });
 
-  //    - data: almacena los resultados de la búsqueda
+  const { tienePermiso } = usePermisos();
+
+  // data: almacena los resultados de la búsqueda
   const [data, setData] = useState([]);
 
-  //    - selectedUser: usuario seleccionado actualmente
+  // selectedUser: usuario seleccionado actualmente
   const [selectedUser, setSelectedUser] = useState(null);
 
-  //    - currentPage: controla la página actual de la tabla
-  //    - rowsPerPage: número de filas por página
+  // currentPage: controla la página actual de la tabla
+  // rowsPerPage: número de filas por página
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
-  // 2) Función para cambiar entre pestañas
+  // Función para cambiar entre pestañas
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  // 3) Efecto combinado para manejar la búsqueda dinámica y la selección de usuarios
+  // Efecto combinado para manejar la búsqueda dinámica y la selección de usuarios
   useEffect(() => {
     console.log('Ejecutando fetchData con filtros:', filters);
 
@@ -173,7 +178,7 @@ const UsersQuery = () => {
     fetchData();
   }, [filters, isSearching]);
 
-  // 4) Handlers
+  // Handlers
   // Actualiza los filtros de búsqueda mientras el usuario escribe
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -206,8 +211,7 @@ const UsersQuery = () => {
     setSelectedUser(null);
   };
 
-  // Renderiza la vista principal del módulo de consulta de usuarios:
-  // Incluye el header reutilizable, pestañas de navegación, tabla con filtros,
+  // Renderiza el componente
   return (
     <div className={styles.scrollContainer}>
       {/*Reutilizando el componenete Header.jsx de forma dinamica mediante routes-Dom.js*/}
@@ -217,41 +221,54 @@ const UsersQuery = () => {
         showLogo={true}
         showHelp={true}
       />
+
       {/* Pestañas debajo del header */}
       <div className={styles.tabs}>
         <Link
-          to="/users-registration"
-          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("registro")}
+          to={tienePermiso("usuario:registrar") ? "/users-registration" : "#"}
+          className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("usuario:registrar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:registrar")) e.preventDefault();
+            else handleTabClick("registro");
+          }}
         >
           Registrar Usuarios
         </Link>
+
         <Link
-          to="/users-query"
-          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("consulta")}
+          to={tienePermiso("usuario:consultar") ? "/users-query" : "#"}
+          className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("usuario:consultar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:consultar")) e.preventDefault();
+            else handleTabClick("consulta");
+          }}
         >
           Consultar Usuarios
         </Link>
+
         <Link
-          to="/update-users"
-          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("actualizar")}
+          to={tienePermiso("usuario:editar") ? "/update-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""} ${!tienePermiso("usuario:editar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:editar")) e.preventDefault();
+            else handleTabClick("actualizar");
+          }}
         >
           Actualizar Usuarios
         </Link>
+
         <Link
-          to="/delete-users"
-          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""
-            }`}
-          onClick={() => handleTabClick("eliminar")}
+          to={tienePermiso("usuario:eliminar") ? "/delete-users" : "#"}
+          className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""} ${!tienePermiso("usuario:eliminar") ? styles.disabledTab : ""}`}
+          onClick={(e) => {
+            if (!tienePermiso("usuario:eliminar")) e.preventDefault();
+            else handleTabClick("eliminar");
+          }}
         >
           Eliminar Usuarios
         </Link>
       </div>
+
       {/* Contenido dependiendo de la pestaña activa */}
       <div className={styles.container}>
         <h2 className={styles.title}>
@@ -259,12 +276,14 @@ const UsersQuery = () => {
           consulta
         </h2>
       </div>
+
       {/*  {/* Etiqueta de paginación con total de registros y filas por página */}
       <div className={styles.topTableRow}>
         <p className={styles.labelPagination}>
           Total registros: {data.length} | Filas por página {rowsPerPage}
         </p>
       </div>
+
       {/* Tabla de consulta de usuarios */}
       <table className={styles.table}>
         <thead>
@@ -375,6 +394,8 @@ const UsersQuery = () => {
           </tr>
         </thead>
         <tbody>
+
+          {/* Muestra los resultados de la búsqueda o un mensaje si no hay resultados */}
           {isSearching ? (
             data.length > 0 ? (
               data
@@ -414,6 +435,7 @@ const UsersQuery = () => {
             </tr>
           )}
         </tbody>
+
       </table>
       {/* Paginación Table */}
       {isSearching && data.length > rowsPerPage && (

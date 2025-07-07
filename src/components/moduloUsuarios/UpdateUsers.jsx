@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { buscarEmpleadoPorDocumento } from "../../api";
+import { usePermisos } from "../../components/admin/PermisosContext";
 import Header from "../Header";
-import styles from "../../styles/UpdateUsers.module.css";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import useInactivityLogout from "../../useInactivityLogout";
+import useTokenAutoLogout from "../../useTokenAutoLogout";
+import styles from "../../styles/UpdateUsers.module.css";
 import {
     listarPerfiles,
     listarRoles,
@@ -17,10 +23,14 @@ import {
     actualizarRol,
     actualizarTipoDocumento,
     actualizarEmpleadoPorDocumento
-} from "../../api"; // Asegúrate de que la ruta sea correcta
-import { buscarEmpleadoPorDocumento } from "../../api";
+} from "../../api"; // Importar las funciones de la API 
 
+
+// Componente para actualizar usuarios
 const UpdateUsers = () => {
+
+    useInactivityLogout(); // Hook para manejar el logout por inactividad
+    useTokenAutoLogout();  // Hook para expiración de token
 
     // Se definen los estados para los campos del formulario
     const [userID, setUserID] = useState("");
@@ -36,8 +46,7 @@ const UpdateUsers = () => {
     const [documentType, setDocumentType] = useState(""); //almacena el código del tipo de documento
     const [documentTypes, setDocumentTypes] = useState([]); //almacena el nombre del tipo de documento
     const [rolType, setRolType] = useState("");
-
-    const [activeTab, setActiveTab] = useState("registro");
+    const [originalUserID, setOriginalUserID] = useState("");
 
     // Estados de modal Perfil
     const [isPerfilModalOpen, setPerfilModalOpen] = useState(false);
@@ -58,7 +67,6 @@ const UpdateUsers = () => {
     const [roles, setRoles] = useState([]);
     const [rolIdSeleccionado, setRolIdSeleccionado] = useState(null);
 
-
     // Estados de modal tipo de documento
     const [isModalTipoDocumentoOpen, setModalTipoDocumentoOpen] = useState(false);
     const [codigoTipoDocumento, setCodigoTipoDocumento] = useState("");
@@ -66,17 +74,28 @@ const UpdateUsers = () => {
     const [tipoDocumentoIdSeleccionado, setTipoDocumentoIdSeleccionado] = useState(null);
     const [documentoFiltro, setDocumentoFiltro] = useState("");
 
+    // Estados para mostrar tooltip y manejar visibilidad de contraseña
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [mostrarContrasena, setMostrarContrasena] = useState(false);
+    const [contrasena, setContrasena] = useState("");
 
+    // Hook para manejar permisos de usuario
+    const { tienePermiso } = usePermisos();
+
+    // Estado para manejar la pestaña activa
+    const [activeTab, setActiveTab] = useState("registro");
 
     // Se define la función para abrir los modales de crear perfil, rol y tipo documento
     const handleOpenModalPerfil = () => {
         setPerfilModalOpen(true);
     };
 
+    // Función para abrir el modal de rol
     const handleOpenModalRol = () => {
         setRolModalOpen(true);
     };
 
+    // Función para abrir el modal de tipo de documento
     const handleOpenModalTipoDocumento = () => {
         setModalTipoDocumentoOpen(true);
     };
@@ -99,6 +118,7 @@ const UpdateUsers = () => {
         try {
             const response = await listarTiposDocumento();
             setDocumentTypes(response.data);
+            console.log('📄 Document types cargados:', response.data);
         } catch (error) {
             console.error("Error al cargar tipos de documento:", error);
         }
@@ -124,6 +144,18 @@ const UpdateUsers = () => {
         }
     };
 
+    // Efecto para verificar si el tipo de documento seleccionado existe en la lista
+    useEffect(() => {
+        if (documentTypes.length > 0 && documentType) {
+            const existe = documentTypes.some(doc => doc.idTipoDocumento === parseInt(documentType));
+            if (!existe) {
+                // Si no existe en la lista, resetea
+                setDocumentType('');
+            }
+        }
+    }, [documentTypes, documentType]);
+
+
     // Función para buscar un empleado por su número de documento
     // y cargar los datos en el formulario.
     const handleSearch = async () => {
@@ -145,6 +177,7 @@ const UpdateUsers = () => {
 
             // Rellenar campos
             setUserID(empleado.numeroDocumento || "");
+            setOriginalUserID(empleado.numeroDocumento); // <-- Aquí se guarda el documento actual
             setUserNames(empleado.nombres || "");
             setUserLastName(empleado.apellidoPaterno || "");
             setUserSecondLastName(empleado.apellidoMaterno || "");
@@ -154,11 +187,11 @@ const UpdateUsers = () => {
             setUserAddress(empleado.direccionResidencia || "");
             setUserEmergencyContact(empleado.contactoEmergencia || "");
             setUserContactPhone(empleado.telefonoContacto || "");
-            setDocumentType(empleado.idtipoDocumento?.toString() || "");
+            setDocumentType(empleado.idTipoDocumento?.toString() || "");
             setRolType(empleado.idRol?.toString() || "");
 
             // Relacionar selects
-            setDocumentType(empleado.idtipoDocumento); // ID
+            setDocumentType(empleado.idTipoDocumento); // ID
             setRolType(empleado.idRol); // ID
 
             alert("✅ Usuario encontrado. Ahora puedes actualizarlo.");
@@ -203,9 +236,10 @@ const UpdateUsers = () => {
 
         // Validar duplicado de alias (correo) en otro usuario
         const aliasRepetido = empleados.data.find(
-            (emp) => emp.nombreUsuario === userAlias && emp.numeroDocumento !== userID
+            (emp) => emp.nombreUsuario === userAlias && emp.numeroDocumento !== originalUserID
         );
 
+        // Validar duplicado de número de documento
         if (documentoRepetido) {
             alert("⚠️ Ya existe un usuario con ese número de documento.");
             return;
@@ -236,7 +270,7 @@ const UpdateUsers = () => {
                 idtipoDocumento: parseInt(documentType)
             };
 
-            const response = await actualizarEmpleadoPorDocumento(userID, updatedEmpleado);
+            const response = await actualizarEmpleadoPorDocumento(originalUserID, updatedEmpleado);
 
             if (response.status === 200) {
                 alert("✅ Usuario actualizado exitosamente.");
@@ -425,13 +459,12 @@ const UpdateUsers = () => {
         setRolType("");
     };
 
+    // Hook para manejar permisos de usuario
     useEffect(() => {
         setActiveTab('actualizar');
     }, []);
 
-    // Componente para actualizar productos del inventario.
-    // Incluye navegación entre pestañas, formulario de búsqueda y edición de producto,
-    // carga de imagen, y botones para guardar, limpiar o salir.
+    // Renderizar el componente
     return (
         <div className={styles.containerPrincipal}>
             {/* Encabezado del módulo */}
@@ -442,40 +475,54 @@ const UpdateUsers = () => {
                 showHelp={true}
             />
 
+            {/* Pestañas debajo del header */}
             <div className={styles.tabs}>
                 <Link
-                    to="/users-registration"
-                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("registro")}
+                    to={tienePermiso("usuario:registrar") ? "/users-registration" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "registro" ? styles.active : ""} ${!tienePermiso("usuario:registrar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("usuario:registrar")) e.preventDefault();
+                        else handleTabClick("registro");
+                    }}
                 >
                     Registrar Usuarios
                 </Link>
 
                 <Link
-                    to="/users-query"
-                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("consulta")}
+                    to={tienePermiso("usuario:consultar") ? "/users-query" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "consulta" ? styles.active : ""} ${!tienePermiso("usuario:consultar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("usuario:consultar")) e.preventDefault();
+                        else handleTabClick("consulta");
+                    }}
                 >
                     Consultar Usuarios
                 </Link>
 
                 <Link
-                    to="/update-users"
-                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("actualizar")}
+                    to={tienePermiso("usuario:editar") ? "/update-users" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "actualizar" ? styles.active : ""} ${!tienePermiso("usuario:editar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("usuario:editar")) e.preventDefault();
+                        else handleTabClick("actualizar");
+                    }}
                 >
                     Actualizar Usuarios
                 </Link>
 
                 <Link
-                    to="/delete-users"
-                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""}`}
-                    onClick={() => handleTabClick("eliminar")}
+                    to={tienePermiso("usuario:eliminar") ? "/delete-users" : "#"}
+                    className={`${styles.tabButton} ${activeTab === "eliminar" ? styles.active : ""} ${!tienePermiso("usuario:eliminar") ? styles.disabledTab : ""}`}
+                    onClick={(e) => {
+                        if (!tienePermiso("usuario:eliminar")) e.preventDefault();
+                        else handleTabClick("eliminar");
+                    }}
                 >
                     Eliminar Usuarios
                 </Link>
             </div>
 
+            {/* Contenido del formulario de actualización de usuarios */}
             {activeTab === "actualizar" && (
                 <div className={styles.container}>
                     <h2 className={styles.title}>
@@ -492,6 +539,8 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserID(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Debe conteber números y/o letras, no debe contener puntos ni comas, ni apóstrofo"
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <button
@@ -509,6 +558,7 @@ const UpdateUsers = () => {
                                 value={userName}
                                 onChange={(e) => setUserNames(e.target.value)}
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Primer Apellido:</label>
@@ -519,6 +569,7 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserLastName(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Segundo Apellido :</label>
@@ -529,6 +580,7 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserSecondLastName(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Nombre de Usuario:</label>
@@ -539,17 +591,35 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserAlias(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Debe ingresar un correo electrónico válido (Ej: nombre@dominio.com)"
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Contraseña:</label>
-                            <input
-                                type="text"
-                                placeholder="Contraseña (Obligatorio)"
-                                value={userPassword}
-                                onChange={(e) => setUserPassword(e.target.value)}
-                                required
-                                className={styles.input}
-                            />
+                            <div className={styles.passwordInputWrapperUser}>
+                                <input
+                                    type={mostrarContrasena ? "text" : "password"}
+                                    value={contrasena}
+                                    onFocus={() => setShowTooltip(true)}
+                                    onBlur={() => setShowTooltip(false)}
+                                    onChange={(e) => setContrasena(e.target.value)}
+                                    placeholder="Contraseña (Obligatorio)"
+                                    className={styles.input}
+                                    style={{ fontStyle: 'italic' }}
+                                />
+                                <span
+                                    className={styles.togglePasswordIconUser}
+                                    onClick={() => setMostrarContrasena(!mostrarContrasena)}
+                                >
+                                    {mostrarContrasena ? <VisibilityOff /> : <Visibility />}
+                                </span>
+
+                                {showTooltip && (
+                                    <div className={styles.tooltipPassword}>
+                                        Debe tener entre 8 y 16 caracteres, incluir mayúsculas, minúsculas, números y caracteres especiales.
+                                    </div>
+                                )}
+                            </div>
 
                             <label className={styles.inputLabel}>Teléfono Móvil:</label>
                             <input
@@ -559,6 +629,8 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserPhone(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Ingrese un número de celular colombiano sin el código de país. Debe contener exactamente 10 dígitos numéricos."
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Dirección de Residencia:</label>
@@ -569,6 +641,7 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserAddress(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Contacto de Emergencia:</label>
@@ -579,6 +652,7 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserEmergencyContact(e.target.value)}
                                 required
                                 className={styles.input}
+                                style={{ fontStyle: 'italic' }}
                             />
 
                             <label className={styles.inputLabel}>Teléfono de Contacto:</label>
@@ -589,15 +663,18 @@ const UpdateUsers = () => {
                                 onChange={(e) => setUserContactPhone(e.target.value)}
                                 required
                                 className={styles.input}
+                                title="Ingrese un número de celular colombiano sin el código de país. Debe contener exactamente 10 dígitos numéricos."
+                                style={{ fontStyle: 'italic' }}
                             />
                         </form>
 
-                        <form className={styles.formRight}>
+                        <form className={styles.formRight} noValidate>
                             <div className={styles.selectGroup}>
                                 <div className={styles.formGroup}>
                                     <label className={styles.inputLabel}>Tipo de Documento</label>
                                     <div className={styles.selectWrapper}>
-                                        <select id="tipoDocumento"
+                                        <select
+                                            id="tipoDocumento"
                                             className={styles.select}
                                             value={documentType}
                                             onChange={(e) => setDocumentType(e.target.value)}
@@ -605,7 +682,7 @@ const UpdateUsers = () => {
                                         >
                                             <option value=""> Seleccione un Tipo de Documento </option>
                                             {documentTypes.map((tipo) => (
-                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento}>
+                                                <option key={tipo.idTipoDocumento} value={tipo.idTipoDocumento.toString()}>
                                                     {tipo.nombre} - ({tipo.codigo})
                                                 </option>
                                             ))}
@@ -632,26 +709,37 @@ const UpdateUsers = () => {
                                     </div>
                                 </div>
                             </div>
+
                             {/* Botones Abrir Modales */}
                             <div className={styles.formGroupButtos}>
-                                <button
-                                    className={styles.createButton}
-                                    onClick={() => handleOpenModalTipoDocumento(true)}
-                                >
-                                    D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
-                                </button>
-                                <button type="button"
-                                    className={styles.createButton}
-                                    onClick={handleOpenModalPerfil}
-                                >
-                                    Perfil <AddIcon style={{ marginLeft: 8 }} />
-                                </button>
-                                <button type="button"
-                                    className={styles.createButton}
-                                    onClick={handleOpenModalRol}
-                                >
-                                    Roles<AddIcon style={{ marginLeft: 8 }} />
-                                </button>
+                                {tienePermiso("tipoDocumento:crear") && (
+
+                                    <button
+                                        type="button"
+                                        className={styles.createButton}
+                                        onClick={() => handleOpenModalTipoDocumento(true)}
+                                    >
+                                        D.N.I&#8203;<AddIcon style={{ marginLeft: 8 }} />
+                                    </button>
+                                )}
+
+                                {tienePermiso("perfil:crear") && (
+                                    <button type="button"
+                                        className={styles.createButton}
+                                        onClick={handleOpenModalPerfil}
+                                    >
+                                        Perfil <AddIcon style={{ marginLeft: 8 }} />
+                                    </button>
+                                )}
+
+                                {tienePermiso("rol:crear") && (
+                                    <button type="button"
+                                        className={styles.createButton}
+                                        onClick={handleOpenModalRol}
+                                    >
+                                        Roles<AddIcon style={{ marginLeft: 8 }} />
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </div>
@@ -677,10 +765,15 @@ const UpdateUsers = () => {
             {isModalTipoDocumentoOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-                        <button className={styles.modalCloseButton} onClick={() => setModalTipoDocumentoOpen(false)}>
+                        <button className={styles.modalCloseButton}
+                            onClick={() => {
+                                setModalTipoDocumentoOpen(false);
+                                handleClearTipoDocumento();
+                            }}
+                        >
                             <CloseIcon />
                         </button>
-                        <h2 style={{ textAlign: "center" }}>Actualizar Tipo de Documento</h2>
+                        <h2 style={{ textAlign: "center", marginBottom: '1rem' }}>Actualizar Tipo de Documento</h2>
 
                         <div className={styles.modalFormGroup}>
                             <label htmlFor="BuscarDocumento" className={styles.labelModal}>Buscar tipo de documento</label>
@@ -741,18 +834,30 @@ const UpdateUsers = () => {
                             <button className={styles.clearButtonModal} onClick={handleClearTipoDocumento}>
                                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                             </button>
-                            <button className={styles.modalButtonExit} onClick={() => setModalTipoDocumentoOpen(false)}>
+                            <button className={styles.modalButtonExit}
+                                onClick={() => {
+                                    setModalTipoDocumentoOpen(false);
+                                    handleClearTipoDocumento();
+                                }}
+                            >
                                 Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                             </button>
                         </div>
                     </div>
                 </div>
             )}
+
             {/* Modal Actualizar Perfil */}
             {isPerfilModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-                        <button className={styles.modalCloseButton} onClick={() => setPerfilModalOpen(false)}>
+                        <button className={styles.modalCloseButton}
+                            onClick={() => {
+                                setPerfilModalOpen(false);
+                                handleClearPerfil();
+
+                            }}
+                        >
                             <CloseIcon />
                         </button>
 
@@ -828,7 +933,12 @@ const UpdateUsers = () => {
                                 Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                             </button>
                             <button className={styles.modalButtonExit}
-                                onClick={() => setPerfilModalOpen(false)}>
+                                onClick={() => {
+                                    setPerfilModalOpen(false);
+                                    handleClearPerfil();
+
+                                }}
+                            >
                                 Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                             </button>
                         </div>
@@ -840,7 +950,12 @@ const UpdateUsers = () => {
             {isRolModalOpen && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
-                        <button className={styles.modalCloseButton} onClick={() => setRolModalOpen(false)}>
+                        <button className={styles.modalCloseButton}
+                            onClick={() => {
+                                setRolModalOpen(false);
+                                handleClearRol();
+                            }}
+                        >
                             <CloseIcon />
                         </button>
 
@@ -936,7 +1051,11 @@ const UpdateUsers = () => {
                                     Limpiar <CleaningServicesIcon style={{ marginLeft: 8 }} />
                                 </button>
                                 <button className={styles.modalButtonExit}
-                                    onClick={() => setRolModalOpen(false)}>
+                                    onClick={() => {
+                                        setRolModalOpen(false);
+                                        handleClearRol();
+                                    }}
+                                >
                                     Salir <ExitToAppIcon style={{ marginLeft: 8 }} />
                                 </button>
                             </div>
