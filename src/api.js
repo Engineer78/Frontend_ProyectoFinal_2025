@@ -5,11 +5,24 @@ const api = axios.create({
   baseURL: 'http://localhost:8080/api', // Cambiar si tu API tiene otra URL base
 });
 
+// ⬇️ Interceptor para agregar el token JWT automáticamente
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Asegúrate de que lo guardas como 'token'
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Exportar la instancia para usarla en toda la app
+export default api;
+
 // ==================== Módulo Inventario ====================
 
-// ----------------------
-// **Endpoints para Categorías**
-// ----------------------
+// ---- Categorías ----
 
 // Obtener categoría por nombre
 export const getCategoriaPorNombre = (nombre) => api.get(`/categorias/nombre/${nombre}`);
@@ -27,9 +40,8 @@ export const actualizarCategoria = (id, datosActualizados) =>
 // Eliminar una categoría
 export const eliminarCategoria = (id) => api.delete(`/categorias/${id}`);
 
-// ----------------------
-// **Endpoints para Proveedores**
-// ----------------------
+
+// ---- Proveedores ----
 
 // Obtener proveedor por nit
 export const getProveedorPorNit = (nit) => api.get(`/proveedores/nit/${nit}`);
@@ -50,9 +62,8 @@ export const actualizarProveedor = (id, datosActualizados) =>
 // Eliminar un proveedor
 export const eliminarProveedor = (id) => api.delete(`/proveedores/${id}`);
 
-// ----------------------
-// **Endpoints para Productos**
-// ----------------------
+
+// ---- Productos ----
 
 // Obtener producto por código
 export const getProductoPorCodigo = (codigo) => api.get(`/productos/codigo/${codigo}`);
@@ -93,6 +104,7 @@ export const actualizarPerfil = (id, perfilData) => api.put(`/perfiles/${id}`, p
 // Eliminar perfil
 export const eliminarPerfil = (id) => api.delete(`/perfiles/${id}`);
 
+
 // ---- Roles ----
 
 // Listar todos los roles
@@ -112,6 +124,7 @@ export const actualizarRol = (id, rolData) => api.put(`/roles/${id}`, rolData);
 
 // Eliminar rol
 export const eliminarRol = (id) => api.delete(`/roles/${id}`);
+
 
 // ---- Tipo de Documento ----
 
@@ -135,6 +148,7 @@ export const eliminarTipoDocumento = (id) => api.delete(`/tipo-documento/${id}`)
 // Crear nuevo usuario
 export const crearUsuario = (usuarioData) => api.post('/usuarios', usuarioData);
 
+
 // ---- Empleados ----
 
 // Listar empleados
@@ -145,6 +159,9 @@ export const buscarEmpleadoPorId = (id) => api.get(`/empleados/${id}`);
 
 // Buscar empleado por número de documento
 export const buscarEmpleadoPorDocumento = (numeroDocumento) => api.get(`/empleados/documento/${numeroDocumento}`);
+
+// Buscar empleados por nombre
+export const buscarEmpleadosPorNombre = (nombre) => api.get(`/empleados/buscar/${nombre}`);
 
 // Crear nuevo empleado
 export const crearEmpleado = (empleadoData) => api.post('/empleados', empleadoData);
@@ -157,3 +174,78 @@ export const actualizarEmpleadoPorDocumento = (numeroDocumento, empleadoData) =>
 
 // Eliminar empleado por ID
 export const eliminarEmpleado = (id) => api.delete(`/empleados/${id}`);
+
+
+// ==================== Autenticación ====================
+
+// Login de usuario (devuelve JWT)
+export const loginUsuario = (credenciales) => api.post('/auth/login', credenciales);
+
+
+// ==================== Cambiar Contraseña del usuario logueado ====================
+
+export const cambiarContrasena = (datos, token) => {
+  return api.put("/usuarios/cambiar-contrasena", datos, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+
+// ==================== Movimiento de Inventario (Trazabilidad) ====================
+
+// Listar todos los movimientos
+export const listarMovimientos = () => api.get('/movimientos');
+
+// Filtrar movimientos por entidad afectada (Producto, Empleado, etc.)
+export const filtrarMovimientosPorEntidad = (entidad) => api.get(`/movimientos/entidad/${entidad}`);
+
+// Filtrar por tipo de acción
+export const filtrarMovimientosPorAccion = (accion) => api.get(`/movimientos/accion/${accion}`);
+
+// Filtrar por usuario responsable
+export const filtrarMovimientosPorUsuario = (usuario) => api.get(`/movimientos/usuario/${usuario}`);
+
+
+// ==================== Permisos ====================
+
+// Listar todos los permisos
+export const listarPermisos = () => api.get('/permisos');
+
+// Crear nuevo permiso
+export const crearPermiso = (permisoData) => api.post('/permisos', permisoData);
+
+// Eliminar permiso
+export const eliminarPermiso = (id) => api.delete(`/permisos/${id}`);
+
+// ==================== RolPermiso ====================
+
+// Asociar permiso a un rol
+export const asignarPermisoARol = (rolPermisoData) => api.post('/rol-permiso', rolPermisoData);
+
+// Eliminar una relación rol-permiso
+export const eliminarRolPermiso = (idRol, idPermiso) =>
+  api.delete(`/rol-permiso/rol/${idRol}/permiso/${idPermiso}`);
+
+
+// ---- Permisos de usuario ----
+
+// Listar permisos por rol
+export const actualizarPermisosPorRol = (idRol, idsPermisos) =>
+  api.put(`/rol-permiso/actualizar-permisos/${idRol}`, idsPermisos);
+
+
+// ==================== Gestionar base de datos ====================
+
+// Exportar una copia de seguridad (responde con un archivo .sql)
+export const exportarBackup = () =>
+  api.get('/backup/exportar', { responseType: 'blob' }); // blob para recibir archivo
+
+// Importar una copia de seguridad desde archivo .sql
+export const importarBackup = (formData) =>
+  api.post('/backup/importar', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });

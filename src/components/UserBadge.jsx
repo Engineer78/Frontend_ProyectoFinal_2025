@@ -1,27 +1,28 @@
-import React from 'react'
-import '../styles/userBadge.css'; // Asegúrate de que la ruta sea correcta
 import { getLoggedUserData } from '../authUtils.js';
 import { obtenerIniciales } from '../obtenerIniciales';
 
+
+// Este componente muestra una insignia de usuario con su nombre completo,
+// rol y las iniciales del usuario.
 const UserBadge = () => {
 
-    // Simulación de usuario logueado (en el futuro vendrá del backend o localStorage)
-    const { rol, nombres, apellidoPaterno } = getLoggedUserData();
+  const { rol, nombres, apellidoPaterno } = getLoggedUserData();
 
-    const nombreCompleto = `${nombres} ${apellidoPaterno}`;
-    const iniciales = obtenerIniciales(nombres, apellidoPaterno);
+  const nombreCompleto = `${nombres} ${apellidoPaterno}`;
+  const iniciales = obtenerIniciales(nombres, apellidoPaterno);
 
-    return (
-        <div className="user-badge">
-            <div className="user-info">
-                <strong>{nombreCompleto}</strong>
-                <p>{rol}</p>
-            </div>
-            <div className="user-initials">
-                {iniciales}
-            </div>
-        </div>
-    )
-}
+  // Renderizar el componente
+  return (
+    <div className="user-badge">
+      <div className="user-info">
+        <strong>{nombreCompleto}</strong>
+        <p>{rol}</p>
+      </div>
+      <div className="user-initials">
+        {iniciales}
+      </div>
+    </div>
+  );
+};
 
 export default UserBadge
