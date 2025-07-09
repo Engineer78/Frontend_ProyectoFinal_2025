@@ -77,7 +77,7 @@ const UpdateUsers = () => {
     // Estados para mostrar tooltip y manejar visibilidad de contraseña
     const [showTooltip, setShowTooltip] = useState(false);
     const [mostrarContrasena, setMostrarContrasena] = useState(false);
-    const [contrasena, setContrasena] = useState("");
+;
 
     // Hook para manejar permisos de usuario
     const { tienePermiso } = usePermisos();
@@ -599,10 +599,10 @@ const UpdateUsers = () => {
                             <div className={styles.passwordInputWrapperUser}>
                                 <input
                                     type={mostrarContrasena ? "text" : "password"}
-                                    value={contrasena}
+                                    value={userPassword}
                                     onFocus={() => setShowTooltip(true)}
                                     onBlur={() => setShowTooltip(false)}
-                                    onChange={(e) => setContrasena(e.target.value)}
+                                    onChange={(e) => setUserPassword(e.target.value)}
                                     placeholder="Contraseña (Obligatorio)"
                                     className={styles.input}
                                     style={{ fontStyle: 'italic' }}
